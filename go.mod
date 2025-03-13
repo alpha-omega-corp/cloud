@@ -1,3 +1,3 @@
-module github.com/alpha-omega-corp/cloud
+module cloud
 
 go 1.23
