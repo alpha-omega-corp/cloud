@@ -1,0 +1,8 @@
+build:
+	docker build --tag {{ .Org }}/{{ .Name }}:{{ .Tag }} .
+
+tag:
+	docker tag {{ .Org }}/{{ .Name }}:{{ .Tag }} ghcr.io/{{ .Org }}/{{ .Name }}:{{ .Tag }}
+
+push:
+	docker push ghcr.io/{{ .Org }}/{{ .Name }}:{{ .Tag }}

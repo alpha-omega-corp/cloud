@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+package docker;
+
+option go_package = "github.com/alpha-omega-corp/docker-svc/proto";
+
+service DockerService {
+  rpc GetImage(GetImageRequest) returns (GetImageResponse) {}
+  rpc StoreImage(StoreImageRequest) returns (StoreImageResponse) {}
+  rpc BuildImage(BuildImageRequest) returns (BuildImageResponse) {}
+}
+
+message GetImageRequest {
+  string name = 1;
+}
+
+message GetImageResponse {
+  int64 status = 1;
+  bytes dockerfile = 2;
+  optional Image image = 3;
+}
+
+message StoreImageRequest {
+  string name = 1;
+  bytes content = 2;
+}
+
+message StoreImageResponse {
+  int64 status = 1;
+}
+
+message BuildImageRequest {
+  string name = 1;
+}
+
+message BuildImageResponse {
+  int64 status = 1;
+}
+
+message Image {
+  string id = 1;
+  string name = 2;
+  repeated string tags = 3;
+  int64 size = 4;
+  int64 created = 5;
+}

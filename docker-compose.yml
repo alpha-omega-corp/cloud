@@ -1,0 +1,31 @@
+services:
+
+  api-gateway:
+    image: api-gateway
+    ports:
+      - "3000:3000"
+
+  user-db:
+    image: postgres
+    ports:
+      - "5440:5432"
+    environment:
+      - POSTGRES_PASSWORD=user
+      - POSTGRES_USER=user
+      - POSTGRES_DB=user
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  docker-db:
+    image: postgres
+    ports:
+      - "5441:5432"
+    environment:
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_USER=docker
+      - POSTGRES_DB=docker
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:

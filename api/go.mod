@@ -1,4 +1,4 @@
-module github.com/alpha-omega-corp/cloud/api-gateway
+module github.com/alpha-omega-corp/cloud/api
 
 go 1.23.7
 

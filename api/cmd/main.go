@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/alpha-omega-corp/cloud/api-gateway/pkg/user"
+	"github.com/alpha-omega-corp/cloud/api/pkg/user"
 	"github.com/alpha-omega-corp/services/config"
 	"github.com/alpha-omega-corp/services/httputils"
 	"github.com/uptrace/bunrouter"
