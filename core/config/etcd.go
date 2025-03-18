@@ -26,7 +26,7 @@ func NewHandler() Handler {
 
 func (m *handler) Read(key string, format string) (err error) {
 	m.handle()
-	err = m.viper.AddRemoteProvider("etcd3", "http://127.0.0.1:2379", key)
+	err = m.viper.AddRemoteProvider("etcd3", "http://0.0.0.0:2379", key)
 	if err != nil {
 		return
 	}
