@@ -6,7 +6,6 @@ import (
 )
 
 func RegisterClient(svc Client, r *bunrouter.Router) Client {
-
 	r.POST("/login", svc.Login)
 	r.POST("/register", svc.Register)
 	r.GET("/roles", svc.GetRoles)

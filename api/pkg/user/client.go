@@ -2,8 +2,8 @@ package user
 
 import (
 	"fmt"
-	"github.com/alpha-omega-corp/services/types"
-	"github.com/alpha-omega-corp/user-svc/proto"
+	"github.com/alpha-omega-corp/cloud/app/user/pkg/proto"
+	"github.com/alpha-omega-corp/cloud/core/types"
 	"github.com/uptrace/bunrouter"
 	"google.golang.org/grpc"
 	"net/http"

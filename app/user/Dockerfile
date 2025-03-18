@@ -7,16 +7,16 @@ RUN go mod download
 
 COPY . .
 
-RUN CGO_ENABLED=0 GOOS=linux go build -o /api-gateway cmd/main.go
+RUN CGO_ENABLED=0 GOOS=linux go build -o /app-user cmd/main.go
 
 FROM gcr.io/distroless/base-debian11 AS build-release-stage
 
 WORKDIR /
 
-COPY --from=build-stage /api-gateway /home/nonroot/api-gateway
+COPY --from=build-stage /app-user /home/nonroot/app-user
 
 EXPOSE 3000
 
 USER nonroot:nonroot
 
-CMD ["/home/nonroot/api-gateway"]
+CMD ["/home/nonroot/app-user"]

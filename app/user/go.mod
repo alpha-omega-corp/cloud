@@ -5,7 +5,6 @@ go 1.23.0
 toolchain go1.23.7
 
 require (
-	github.com/alpha-omega-corp/cloud/core v0.0.0-00010101000000-000000000000
 	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/spf13/viper v1.19.0
 	github.com/uptrace/bun v1.2.11
@@ -16,13 +15,12 @@ require (
 	google.golang.org/protobuf v1.36.5
 )
 
-replace github.com/alpha-omega-corp/cloud/core => ../../core
-
 require (
 	cloud.google.com/go v0.112.1 // indirect
 	cloud.google.com/go/compute/metadata v0.6.0 // indirect
 	cloud.google.com/go/firestore v1.15.0 // indirect
 	cloud.google.com/go/longrunning v0.5.5 // indirect
+	github.com/alpha-omega-corp/cloud/core v0.0.0-20250315123251-24458dbb4bb6 // indirect
 	github.com/armon/go-metrics v0.4.1 // indirect
 	github.com/coreos/go-semver v0.3.0 // indirect
 	github.com/coreos/go-systemd/v22 v22.3.2 // indirect

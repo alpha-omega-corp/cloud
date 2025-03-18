@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 	"github.com/alpha-omega-corp/cloud/api/pkg/user"
-	"github.com/alpha-omega-corp/services/config"
-	"github.com/alpha-omega-corp/services/httputils"
+	"github.com/alpha-omega-corp/cloud/core/config"
+	"github.com/alpha-omega-corp/cloud/core/httputils"
 	"github.com/uptrace/bunrouter"
 	"github.com/uptrace/bunrouter/extra/reqlog"
 	"log"

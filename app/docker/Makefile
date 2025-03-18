@@ -1,8 +1,8 @@
 server:
-	go run cmd/main.go
+	go run cmd/main.go -modfile local.mod
 
 build:
-	docker build --tag api-gateway:multistage -f Dockerfile .
+	docker build --tag app-docker:multistage -f Dockerfile .
 
 run:
-	docker run --publish 3000:3000 --name api-gateway api-gateway:multistage
+	docker run --publish 3000:3000 --name app-docker app-docker:multistage

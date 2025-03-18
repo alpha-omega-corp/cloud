@@ -5,7 +5,6 @@ go 1.23.0
 toolchain go1.23.7
 
 require (
-	github.com/alpha-omega-corp/cloud/core v0.0.0-00010101000000-000000000000
 	github.com/docker/docker v28.0.1+incompatible
 	github.com/spf13/viper v1.19.0
 	github.com/uptrace/bun v1.2.11
@@ -14,8 +13,6 @@ require (
 	google.golang.org/protobuf v1.36.4
 )
 
-replace github.com/alpha-omega-corp/cloud/core => ../../core
-
 require (
 	cloud.google.com/go v0.112.1 // indirect
 	cloud.google.com/go/compute/metadata v0.6.0 // indirect
@@ -23,6 +20,7 @@ require (
 	cloud.google.com/go/longrunning v0.5.5 // indirect
 	github.com/Azure/go-ansiterm v0.0.0-20230124172434-306776ec8161 // indirect
 	github.com/Microsoft/go-winio v0.4.14 // indirect
+	github.com/alpha-omega-corp/cloud/core v0.0.0-20250315123251-24458dbb4bb6 // indirect
 	github.com/armon/go-metrics v0.4.1 // indirect
 	github.com/containerd/log v0.1.0 // indirect
 	github.com/coreos/go-semver v0.3.0 // indirect

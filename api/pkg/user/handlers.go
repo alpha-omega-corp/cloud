@@ -3,7 +3,7 @@ package user
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/alpha-omega-corp/user-svc/proto"
+	"github.com/alpha-omega-corp/cloud/app/user/pkg/proto"
 	"github.com/uptrace/bunrouter"
 	"net/http"
 	"strconv"
