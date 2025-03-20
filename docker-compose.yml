@@ -5,15 +5,12 @@ networks:
 
 services:
   etcd:
-    image: 'bitnami/etcd:latest'
-    environment:
-      - ALLOW_NONE_AUTHENTICATION=yes
-      - ETCD_ADVERTISE_CLIENT_URLS=http://etcd:2379
+    image: gcr.io/etcd-development/etcd
     ports:
       - "2379:2379"
       - "2380:2380"
-    networks:
-      - app-tier
+    volumes:
+      - etcd_data:/etcd_data
 
   api-gateway:
     image: api-gateway:multistage
@@ -24,8 +21,6 @@ services:
 
   app-user:
     image: app-user:multistage
-    depends_on:
-      - etcd
     ports:
       - "5051:5051"
   user-db:
@@ -41,8 +36,6 @@ services:
 
   app-docker:
     image: app-docker:multistage
-    depends_on:
-      - etcd
     ports:
       - "5052:5052"
   docker-db:

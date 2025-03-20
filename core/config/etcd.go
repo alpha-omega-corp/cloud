@@ -16,17 +16,19 @@ type handler struct {
 	Handler
 
 	viper *viper.Viper
+	host  string
 }
 
-func NewHandler() Handler {
+func NewHandler(host string) Handler {
 	return &handler{
 		viper: nil,
+		host:  host,
 	}
 }
 
 func (m *handler) Read(key string, format string) (err error) {
 	m.handle()
-	err = m.viper.AddRemoteProvider("etcd3", "http://etcd:2379", key)
+	err = m.viper.AddRemoteProvider("etcd3", m.host, key)
 	if err != nil {
 		return
 	}

@@ -17,12 +17,12 @@ github.com/alecthomas/template v0.0.0-20160405071501-a0175ee3bccc/go.mod h1:LOuy
 github.com/alecthomas/template v0.0.0-20190718012654-fb15b899a751/go.mod h1:LOuyumcjzFXgccqObfd/Ljyb9UuFJ6TxHnclSeseNhc=
 github.com/alecthomas/units v0.0.0-20151022065526-2efee857e7cf/go.mod h1:ybxpYRFXyAe+OPACYpWeL0wqObRcbAqCMya13uyzqw0=
 github.com/alecthomas/units v0.0.0-20190717042225-c3de453c63f4/go.mod h1:ybxpYRFXyAe+OPACYpWeL0wqObRcbAqCMya13uyzqw0=
-github.com/alpha-omega-corp/cloud/app/user v0.0.0-20250315123251-24458dbb4bb6 h1:OGP0SFDhHjTEB5w1ZrhVLfvEyvSLf+K9MnQiIWO4+CY=
-github.com/alpha-omega-corp/cloud/app/user v0.0.0-20250315123251-24458dbb4bb6/go.mod h1:Nuhb41rjHGfukdW2ozQ1gB1p09iYt/9msi56C5iopCk=
 github.com/alpha-omega-corp/cloud/app/user v0.0.0-20250318134022-87cbfaf19387 h1:bSstAm7TcH2xMhnOhO9WHFEVa6E9HJIE3DiMGEWZe6o=
 github.com/alpha-omega-corp/cloud/app/user v0.0.0-20250318134022-87cbfaf19387/go.mod h1:31ZgCS1dZHBniylbIdY7e7KJYmKPPGRNBoheUsHLSk0=
-github.com/alpha-omega-corp/cloud/core v0.0.0-20250318134022-87cbfaf19387 h1:H6p5MwOMBAlsYCaDlkqZRS8o7ESp35RgbCnijlVECfs=
-github.com/alpha-omega-corp/cloud/core v0.0.0-20250318134022-87cbfaf19387/go.mod h1:aTVaBM7MMOMcLOLrbcHE6hX6n+g9lQSc4GtMrF4DLKE=
+github.com/alpha-omega-corp/cloud/app/user v0.0.0-20250318134616-eb67e9104a61 h1:ji63IguQzZtDqQNspDpT2DXM1OZnJkLVSLQA57pVUPI=
+github.com/alpha-omega-corp/cloud/app/user v0.0.0-20250318134616-eb67e9104a61/go.mod h1:31ZgCS1dZHBniylbIdY7e7KJYmKPPGRNBoheUsHLSk0=
+github.com/alpha-omega-corp/cloud/core v0.0.0-20250318134616-eb67e9104a61 h1:54cbyEQUnMuD1xcHQELKKXo8txBoi3Pi3HulS0vF9xA=
+github.com/alpha-omega-corp/cloud/core v0.0.0-20250318134616-eb67e9104a61/go.mod h1:aTVaBM7MMOMcLOLrbcHE6hX6n+g9lQSc4GtMrF4DLKE=
 github.com/armon/circbuf v0.0.0-20150827004946-bbbad097214e/go.mod h1:3U/XgcO3hCbHZ8TKRvWD2dDTCfh9M9ya+I9JpbB7O8o=
 github.com/armon/go-metrics v0.0.0-20180917152333-f0300d1749da/go.mod h1:Q73ZrmVTwzkszR9V5SSuryQ31EELlFMUz1kKyl939pY=
 github.com/armon/go-metrics v0.4.1 h1:hR91U9KYmb6bLBYLQjyM+3j+rcd/UhE+G78SFnF8gJA=

@@ -3,8 +3,8 @@ module github.com/alpha-omega-corp/cloud/api
 go 1.23.7
 
 require (
-	github.com/alpha-omega-corp/cloud/app/user v0.0.0-20250318134022-87cbfaf19387
-	github.com/alpha-omega-corp/cloud/core v0.0.0-20250318134022-87cbfaf19387
+	github.com/alpha-omega-corp/cloud/app/user v0.0.0-20250318134616-eb67e9104a61
+	github.com/alpha-omega-corp/cloud/core v0.0.0-20250318134616-eb67e9104a61
 	github.com/spf13/viper/remote v1.20.0
 	github.com/uptrace/bunrouter v1.0.22
 	github.com/uptrace/bunrouter/extra/reqlog v1.0.22
