@@ -4,7 +4,7 @@ import (
 	"context"
 	"github.com/alpha-omega-corp/cloud/app/docker/pkg/handlers"
 	proto2 "github.com/alpha-omega-corp/cloud/app/docker/pkg/proto"
-	st "github.com/alpha-omega-corp/cloud/core/types"
+	"github.com/alpha-omega-corp/cloud/core/types"
 	"github.com/docker/docker/client"
 	"github.com/uptrace/bun"
 )
@@ -14,7 +14,7 @@ type Server struct {
 	imageService handlers.ImageService
 }
 
-func NewServer(config st.Config, client *client.Client, db *bun.DB) *Server {
+func NewServer(config types.Config, client *client.Client, db *bun.DB) *Server {
 	return &Server{
 		imageService: handlers.NewImageService(config, client, db),
 	}

@@ -1,2 +1,2 @@
-organization=alpha-omega-corp
-build_path=/home/nanstis/GolandProjects/cloud/app/docker/builds/
+url: localhost:50052
+dsn: postgres://docker:docker@localhost:5433/docker

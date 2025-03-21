@@ -5,7 +5,7 @@ go 1.23.0
 toolchain go1.23.7
 
 require (
-	github.com/alpha-omega-corp/cloud/core v0.0.0-20250320112201-850bc5013057
+	github.com/alpha-omega-corp/cloud/core v0.0.0-20250321162114-67f14b9d5246
 	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/spf13/viper/remote v1.20.0
 	github.com/uptrace/bun v1.2.11
@@ -15,7 +15,6 @@ require (
 	google.golang.org/grpc v1.71.0
 	google.golang.org/protobuf v1.36.5
 )
-
 
 require (
 	cloud.google.com/go v0.116.0 // indirect

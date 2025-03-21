@@ -60,7 +60,7 @@ func (h *templateHandler) CreateDockerBuild(name string, tag string) (*bytes.Buf
 	if err := h.template.ExecuteTemplate(buf, "makefile.template", &types.CreateDockerBuildDto{
 		Name: name,
 		Tag:  tag,
-		Org:  h.config.Viper.GetString("organization"),
+		Org:  h.config.Env.GetString("organization"),
 	}); err != nil {
 		return nil, err
 	}

@@ -22,7 +22,7 @@ func main() {
 			reqlog.WithVerbose(true),
 		)))
 
-	envUser, err := config.NewHandler().Environment("user")
+	envUser, err := config.NewHandler("172.17.0.2:2379").Environment("user")
 	if err != nil {
 		fmt.Println(err.Error())
 	} else {

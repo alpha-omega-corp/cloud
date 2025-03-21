@@ -83,7 +83,7 @@ func (h *containerHandler) GetLogs(containerId string, ctx context.Context) (io.
 func (h *containerHandler) PullImage(imgName string, ctx context.Context) error {
 	authConfig := registry.AuthConfig{
 		Username: "packages",
-		Password: h.config.Viper.GetString("token"),
+		Password: h.config.Env.GetString("token"),
 	}
 
 	encodedJSON, err := json.Marshal(authConfig)
@@ -129,5 +129,5 @@ func (h *containerHandler) CreateFrom(ctx context.Context, path string, name str
 }
 
 func (h *containerHandler) imageName(path string) string {
-	return h.config.Viper.GetString("registry") + "/" + h.config.Viper.GetString("name") + "/" + strings.Replace(path, "/", ":", 1)
+	return h.config.Env.GetString("registry") + "/" + h.config.Env.GetString("name") + "/" + strings.Replace(path, "/", ":", 1)
 }

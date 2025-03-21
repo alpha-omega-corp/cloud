@@ -3,11 +3,12 @@ module github.com/alpha-omega-corp/cloud/api
 go 1.23.7
 
 require (
-	github.com/alpha-omega-corp/cloud/app/user v0.0.0-20250318134616-eb67e9104a61
-	github.com/alpha-omega-corp/cloud/core v0.0.0-20250318134616-eb67e9104a61
+	github.com/alpha-omega-corp/cloud/app/user v0.0.0-20250320112201-850bc5013057
+	github.com/alpha-omega-corp/cloud/core v0.0.0-20250320112201-850bc5013057
 	github.com/spf13/viper/remote v1.20.0
-	github.com/uptrace/bunrouter v1.0.22
-	github.com/uptrace/bunrouter/extra/reqlog v1.0.22
+	github.com/uptrace/bunrouter v1.0.23
+	github.com/uptrace/bunrouter/extra/reqlog v1.0.23
+	go.etcd.io/etcd/client/v3 v3.5.15
 	google.golang.org/grpc v1.71.0
 )
 
@@ -66,14 +67,13 @@ require (
 	go.etcd.io/etcd/api/v3 v3.5.15 // indirect
 	go.etcd.io/etcd/client/pkg/v3 v3.5.15 // indirect
 	go.etcd.io/etcd/client/v2 v2.305.15 // indirect
-	go.etcd.io/etcd/client/v3 v3.5.15 // indirect
 	go.opencensus.io v0.24.0 // indirect
 	go.opentelemetry.io/auto/sdk v1.1.0 // indirect
 	go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc v0.54.0 // indirect
 	go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp v0.54.0 // indirect
-	go.opentelemetry.io/otel v1.34.0 // indirect
-	go.opentelemetry.io/otel/metric v1.34.0 // indirect
-	go.opentelemetry.io/otel/trace v1.34.0 // indirect
+	go.opentelemetry.io/otel v1.35.0 // indirect
+	go.opentelemetry.io/otel/metric v1.35.0 // indirect
+	go.opentelemetry.io/otel/trace v1.35.0 // indirect
 	go.uber.org/atomic v1.11.0 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
 	go.uber.org/zap v1.21.0 // indirect

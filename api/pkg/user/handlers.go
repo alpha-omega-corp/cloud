@@ -262,7 +262,7 @@ func AssignUserHandler(w http.ResponseWriter, req bunrouter.Request, s proto.Use
 func GetTestHandler(w http.ResponseWriter, req bunrouter.Request, s proto.UserServiceClient) error {
 	fmt.Println(req.Body)
 	config := clientv3.Config{
-		Endpoints:   []string{"172.17.0.2:2379"},
+		Endpoints:   []string{"etcd:2380"},
 		DialTimeout: 5 * time.Second,
 	}
 

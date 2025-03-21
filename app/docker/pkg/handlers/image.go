@@ -50,7 +50,7 @@ func (s *imageService) GetImage(ctx context.Context, req *proto.GetImageRequest)
 	}
 
 	images, err := s.client.ImageList(ctx, image.ListOptions{
-		Filters: filters.NewArgs(filters.Arg("reference", s.config.Viper.GetString("organization")+"/"+req.Name)),
+		Filters: filters.NewArgs(filters.Arg("reference", s.config.Env.GetString("organization")+"/"+req.Name)),
 	})
 	if err != nil {
 		return nil, err
@@ -107,7 +107,7 @@ func (s *imageService) StoreImage(ctx context.Context, req *proto.StoreImageRequ
 }
 
 func (s *imageService) BuildImage(ctx context.Context, req *proto.BuildImageRequest) (*proto.BuildImageResponse, error) {
-	path := s.config.Viper.GetString("build_path") + req.Name
+	path := s.config.Env.GetString("build_path") + req.Name
 	tag := "latest"
 
 	makeFile, err := s.template.CreateDockerBuild(req.Name, tag)
