@@ -1,0 +1,3 @@
+name: user-svc
+url: localhost:50051
+dsn: postgres://user:user@localhost:5432/user

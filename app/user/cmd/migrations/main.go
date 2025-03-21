@@ -14,9 +14,7 @@ import (
 )
 
 func main() {
-	cHandler := config.NewHandler()
-
-	env, err := cHandler.Environment("user")
+	env, err := config.NewHandler("172.17.0.2:2379").Environment("docker")
 	if err != nil {
 		panic(err)
 	}

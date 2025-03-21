@@ -1,6 +1,8 @@
 package main
 
 import (
+	"context"
+	"embed"
 	"github.com/alpha-omega-corp/cloud/app/user/pkg"
 	"github.com/alpha-omega-corp/cloud/app/user/pkg/models"
 	"github.com/alpha-omega-corp/cloud/app/user/pkg/proto"
@@ -13,20 +15,25 @@ import (
 	"google.golang.org/grpc"
 )
 
+var (
+	//go:embed config
+	embedFS embed.FS
+)
+
 func main() {
-	cHandler := config.NewHandler()
-	env, err := cHandler.Environment("user")
+	configHandler := config.NewHandler(embedFS.ReadFile("config/config.yaml"))
+	cfg, err := configHandler.LoadAs(context.Background(), "user")
 	if err != nil {
 		panic(err)
 	}
 
-	dbHandler := database.NewHandler(env.Host.Dsn)
+	dbHandler := database.NewHandler(cfg.Dsn)
 	dbHandler.Database().RegisterModel(
 		(*models.UserToRole)(nil),
 	)
 
-	if err := srv.NewGRPC(env.Host.Url, dbHandler, func(db *bun.DB, grpc *grpc.Server) {
-		auth := utils.NewAuthWrapper(env.Config.Viper.GetString("secret"))
+	if err := srv.NewGRPC(cfg.Url, dbHandler, func(db *bun.DB, grpc *grpc.Server) {
+		auth := utils.NewAuthWrapper(cfg.Env.GetString("secret"))
 		proto.RegisterUserServiceServer(grpc, pkg.NewServer(db, auth))
 	}); err != nil {
 		panic(err)
