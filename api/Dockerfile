@@ -19,4 +19,4 @@ EXPOSE 3000
 
 USER nonroot:nonroot
 
-CMD ["/home/nonroot/api-gateway"]
+CMD ["/home/nonroot/api-gateway", "-env", "etcd"]

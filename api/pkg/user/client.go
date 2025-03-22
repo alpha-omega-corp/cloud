@@ -32,7 +32,7 @@ type userClient struct {
 	client proto.UserServiceClient
 }
 
-func NewClient(c types.ConfigHost) Client {
+func NewClient(c types.Config) Client {
 	conn, err := grpc.Dial(c.Url, grpc.WithInsecure())
 
 	if err != nil {

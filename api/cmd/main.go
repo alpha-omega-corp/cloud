@@ -16,17 +16,19 @@ import (
 )
 
 func main() {
+	configHandler := config.NewHandler(nil, nil)
+
 	router := bunrouter.New(
 		bunrouter.WithMiddleware(reqlog.NewMiddleware(
 			reqlog.WithEnabled(true),
 			reqlog.WithVerbose(true),
 		)))
 
-	envUser, err := config.NewHandler("172.17.0.2:2379").Environment("user")
+	envUser, err := configHandler.GetConfig("user")
 	if err != nil {
 		fmt.Println(err.Error())
 	} else {
-		svcUser := user.NewClient(envUser.Host)
+		svcUser := user.NewClient(envUser)
 		user.RegisterClient(svcUser, router)
 	}
 
