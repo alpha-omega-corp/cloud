@@ -3,16 +3,14 @@ module github.com/alpha-omega-corp/cloud/api
 go 1.23.7
 
 require (
-	github.com/alpha-omega-corp/cloud/app/user v0.0.0-20250321162527-77e1aadae9ab
-	github.com/alpha-omega-corp/cloud/core v0.0.0-20250321162527-77e1aadae9ab
+	github.com/alpha-omega-corp/cloud/app/user v0.0.0-20250322122254-c3751fd62629
+	github.com/alpha-omega-corp/cloud/core v0.0.0-20250322122254-c3751fd62629
 	github.com/spf13/viper/remote v1.20.0
 	github.com/uptrace/bunrouter v1.0.23
 	github.com/uptrace/bunrouter/extra/reqlog v1.0.23
 	go.etcd.io/etcd/client/v3 v3.5.15
 	google.golang.org/grpc v1.71.0
 )
-
-replace github.com/alpha-omega-corp/cloud/core => ../core
 
 require (
 	cloud.google.com/go v0.116.0 // indirect

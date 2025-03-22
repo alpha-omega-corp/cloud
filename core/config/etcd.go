@@ -12,6 +12,7 @@ import (
 type Handler interface {
 	LoadAs(ctx context.Context, name string) (config types.Config, err error)
 	Read(key string, format string) (err error)
+	GetConfig(name string) (config types.Config, err error)
 }
 
 type handler struct {
@@ -21,7 +22,6 @@ type handler struct {
 	etcd          *clientv3.Client
 	initialConfig []byte
 	host          string
-	name          string
 }
 
 func NewHandler(initialConfig []byte, err error) Handler {
@@ -41,26 +41,24 @@ func NewHandler(initialConfig []byte, err error) Handler {
 	}
 
 	return &handler{
-		viper:         nil,
 		etcd:          etcd,
+		viper:         viper.New(),
 		initialConfig: initialConfig,
 		host:          host,
 	}
 }
 
 func (m *handler) LoadAs(ctx context.Context, name string) (config types.Config, err error) {
-	m.name = name
 	_, err = m.etcd.Put(ctx, "config_"+name, string(m.initialConfig))
-	environment, err := m.config()
+	environment, err := m.GetConfig(name)
 	if err != nil {
 		return
 	}
 
-	return *environment, nil
+	return environment, nil
 }
 
 func (m *handler) Read(key string, format string) (err error) {
-	m.handle()
 	err = m.viper.AddRemoteProvider("etcd3", "http://"+m.host, key)
 	if err != nil {
 		return
@@ -72,21 +70,21 @@ func (m *handler) Read(key string, format string) (err error) {
 	return
 }
 
-func (m *handler) config() (config *types.Config, err error) {
+func (m *handler) GetConfig(name string) (config types.Config, err error) {
 	var cfg types.Config
-	err = m.Read("config_"+m.name, "yaml")
+
+	err = m.Read("config_"+name, "yaml")
+	if err != nil {
+		return
+	}
+
 	err = m.viper.Unmarshal(&cfg)
 	if err != nil {
 		return
 	}
 
 	cfg.Env = m.viper
-	config = &cfg
+	config = cfg
 
-	return
-}
-
-func (m *handler) handle() {
-	m.viper = viper.New()
 	return
 }

@@ -1,23 +1,28 @@
 networks:
-  app-tier:
+  app:
     driver: bridge
 
 
 services:
-
   api-gateway:
     image: api-gateway:multistage
     ports:
       - "3000:3000"
+    networks:
+      - app
 
   app-user:
     image: app-user:multistage
     ports:
       - "5051:5051"
+    networks:
+      - app
   user-db:
     image: postgres
     ports:
       - "5440:5432"
+    networks:
+      - app
     environment:
       - POSTGRES_PASSWORD=user
       - POSTGRES_USER=user
@@ -29,10 +34,14 @@ services:
     image: app-docker:multistage
     ports:
       - "5052:5052"
+    networks:
+      - app
   docker-db:
     image: postgres
     ports:
       - "5441:5432"
+    networks:
+      - app
     environment:
       - POSTGRES_PASSWORD=docker
       - POSTGRES_USER=docker
