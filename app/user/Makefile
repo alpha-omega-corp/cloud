@@ -18,4 +18,4 @@ build:
 	docker build --tag app-user:multistage -f Dockerfile .
 
 run:
-	docker run --publish 3000:3000 --name app-user app-user:multistage
+	docker run --publish 50051:50051 --name app-user app-user:multistage

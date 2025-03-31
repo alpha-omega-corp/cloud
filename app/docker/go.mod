@@ -14,6 +14,8 @@ require (
 	google.golang.org/protobuf v1.36.4
 )
 
+replace github.com/alpha-omega-corp/cloud/core => ../../core
+
 require (
 	cloud.google.com/go v0.116.0 // indirect
 	cloud.google.com/go/auth v0.13.0 // indirect

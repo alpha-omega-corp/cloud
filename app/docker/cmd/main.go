@@ -20,11 +20,7 @@ var (
 )
 
 func main() {
-	configHandler := config.NewHandler(embedFS.ReadFile("config/config.yaml"))
-	cfg, err := configHandler.LoadAs(context.Background(), "docker")
-	if err != nil {
-		panic(err)
-	}
+	cfg := config.NewHandler(embedFS.ReadFile(config.GetConfigPath())).LoadAs(context.Background(), "docker")
 
 	dbHandler := database.NewHandler(cfg.Dsn)
 	dbHandler.Database().RegisterModel(

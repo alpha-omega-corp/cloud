@@ -1,0 +1,7 @@
+url: localhost:50051
+kvs: etcd:2380
+dsn: postgres://user:user@user-db-1:5440/user
+
+###
+
+secret: secret

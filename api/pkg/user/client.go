@@ -33,7 +33,7 @@ type userClient struct {
 }
 
 func NewClient(c types.Config) Client {
-	conn, err := grpc.Dial(c.Url, grpc.WithInsecure())
+	conn, err := grpc.Dial("app-user:50051", grpc.WithInsecure())
 
 	if err != nil {
 		fmt.Println("Could not connect:", err)

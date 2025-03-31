@@ -1,6 +1,7 @@
 package config
 
 import (
+	"bytes"
 	"context"
 	"github.com/alpha-omega-corp/cloud/core/types"
 	"github.com/spf13/viper"
@@ -10,9 +11,10 @@ import (
 )
 
 type Handler interface {
-	LoadAs(ctx context.Context, name string) (config types.Config, err error)
-	Read(key string, format string) (err error)
+	Init(initialConfig []byte, err error) Handler
+	LoadAs(ctx context.Context, name string) (config types.Config)
 	GetConfig(name string) (config types.Config, err error)
+	Read(key string, format string) (err error)
 }
 
 type handler struct {
@@ -24,12 +26,17 @@ type handler struct {
 	host          string
 }
 
-func NewHandler(initialConfig []byte, err error) Handler {
+func NewHandler(file []byte) Handler {
+	v := viper.New()
+
+	v.SetConfigType("yaml")
+	err := v.ReadConfig(bytes.NewBuffer(file))
 	if err != nil {
 		panic(err)
 	}
 
-	host := GetEnv() + ":2380"
+	host := v.GetString("kvs")
+
 	config := clientv3.Config{
 		Endpoints:   []string{host},
 		DialTimeout: 5 * time.Second,
@@ -41,33 +48,22 @@ func NewHandler(initialConfig []byte, err error) Handler {
 	}
 
 	return &handler{
-		etcd:          etcd,
-		viper:         viper.New(),
-		initialConfig: initialConfig,
 		host:          host,
+		etcd:          etcd,
+		initialConfig: file,
+		viper:         viper.New(),
 	}
 }
 
-func (m *handler) LoadAs(ctx context.Context, name string) (config types.Config, err error) {
-	_, err = m.etcd.Put(ctx, "config_"+name, string(m.initialConfig))
-	environment, err := m.GetConfig(name)
+func (m *handler) LoadAs(ctx context.Context, name string) (config types.Config) {
+	_, err := m.etcd.Put(ctx, "config_"+name, string(m.initialConfig))
+
+	cfg, err := m.GetConfig(name)
 	if err != nil {
-		return
+		panic(err)
 	}
 
-	return environment, nil
-}
-
-func (m *handler) Read(key string, format string) (err error) {
-	err = m.viper.AddRemoteProvider("etcd3", "http://"+m.host, key)
-	if err != nil {
-		return
-	}
-
-	m.viper.SetConfigType(format)
-	err = m.viper.ReadRemoteConfig()
-
-	return
+	return cfg
 }
 
 func (m *handler) GetConfig(name string) (config types.Config, err error) {
@@ -85,6 +81,18 @@ func (m *handler) GetConfig(name string) (config types.Config, err error) {
 
 	cfg.Env = m.viper
 	config = cfg
+
+	return
+}
+
+func (m *handler) Read(key string, format string) (err error) {
+	err = m.viper.AddRemoteProvider("etcd3", "http://"+m.host, key)
+	if err != nil {
+		return
+	}
+
+	m.viper.SetConfigType(format)
+	err = m.viper.ReadRemoteConfig()
 
 	return
 }
