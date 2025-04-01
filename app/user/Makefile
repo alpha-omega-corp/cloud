@@ -1,5 +1,8 @@
 server:
-	go run cmd/main.go -modfile local.mod
+	go run cmd/main.go server
+
+migration:
+	go run cmd/migrations/main.go db migration
 
 protoc:
 	protoc --go_out=. \
@@ -7,12 +10,6 @@ protoc:
         --go-grpc_out=. \
         --go-grpc_opt=paths=source_relative \
         proto/*.proto
-
-db_init:
-	go run cmd/migrations/main.go db init
-
-db_reset:
-	go run cmd/migrations/main.go db reset
 
 build:
 	docker build --tag app-user:multistage -f Dockerfile .

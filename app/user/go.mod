@@ -5,7 +5,6 @@ go 1.23.0
 toolchain go1.23.7
 
 require (
-	github.com/alpha-omega-corp/cloud/app/docker v0.0.0-20250331203240-7c6f77be88fb
 	github.com/alpha-omega-corp/cloud/core v0.0.0-20250322135421-e063b6904396
 	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/spf13/viper/remote v1.20.0
