@@ -20,15 +20,14 @@ var (
 
 func main() {
 	core.NewApp(embedFS, "user").
-		WithModels([]interface{}{
+		Start(func(config *types.Config, db *bun.DB, grpc *grpc.Server) {
+			auth := utils.NewAuthWrapper(config.Env.GetString("secret"))
+			proto.RegisterUserServiceServer(grpc, pkg.NewServer(db, auth))
+		}, []interface{}{
 			(*models.UserToRole)(nil),
 			(*models.User)(nil),
 			(*models.Role)(nil),
 			(*models.Service)(nil),
 			(*models.Permission)(nil),
-		}...).
-		Start(func(config types.Config, db *bun.DB, grpc *grpc.Server) {
-			auth := utils.NewAuthWrapper(config.Env.GetString("secret"))
-			proto.RegisterUserServiceServer(grpc, pkg.NewServer(db, auth))
-		})
+		}...)
 }

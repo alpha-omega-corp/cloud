@@ -5,7 +5,7 @@ go 1.23.0
 toolchain go1.23.7
 
 require (
-	github.com/alpha-omega-corp/cloud/core v0.0.0-20250322135421-e063b6904396
+	github.com/alpha-omega-corp/cloud/core v0.0.0-20250401145101-75ce8bdc84b2
 	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/spf13/viper/remote v1.20.0
 	github.com/uptrace/bun v1.2.11
@@ -78,6 +78,7 @@ require (
 	github.com/uptrace/bun/dialect/pgdialect v1.2.11 // indirect
 	github.com/uptrace/bun/driver/pgdriver v1.2.11 // indirect
 	github.com/uptrace/bun/extra/bundebug v1.2.11 // indirect
+	github.com/urfave/cli/v3 v3.1.1 // indirect
 	github.com/vmihailenco/msgpack/v5 v5.4.1 // indirect
 	github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect
 	github.com/xrash/smetrics v0.0.0-20240521201337-686a1a2994c1 // indirect
