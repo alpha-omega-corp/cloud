@@ -1,21 +1,12 @@
 package config
 
-import (
-	"flag"
-	"fmt"
-)
-
 var Environment = map[string]string{
 	"local":  "local",
 	"docker": "docker",
 }
 
-func GetConfigPath() string {
-	cmd := flag.String("env", "local", "")
-	flag.Parse()
-	fmt.Printf("enivonrment : \"%v\"\n", *cmd)
-
-	path := "config/config." + Environment[*cmd] + ".yaml"
+func GetConfigPath(env string) string {
+	path := "config/config." + Environment[env] + ".yaml"
 
 	return path
 }

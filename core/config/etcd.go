@@ -3,6 +3,7 @@ package config
 import (
 	"bytes"
 	"context"
+	"fmt"
 	"github.com/alpha-omega-corp/cloud/core/types"
 	"github.com/spf13/viper"
 	_ "github.com/spf13/viper/remote"
@@ -12,7 +13,7 @@ import (
 
 type Handler interface {
 	Init(initialConfig []byte, err error) Handler
-	LoadAs(ctx context.Context, name string) (config types.Config)
+	LoadAs(ctx context.Context, name string) (config *types.Config)
 	GetConfig(name string) (config types.Config, err error)
 	Read(key string, format string) (err error)
 }
@@ -37,6 +38,8 @@ func NewHandler(file []byte) Handler {
 
 	host := v.GetString("kvs")
 
+	fmt.Printf("config host > %s\n", host)
+
 	config := clientv3.Config{
 		Endpoints:   []string{host},
 		DialTimeout: 5 * time.Second,
@@ -55,15 +58,18 @@ func NewHandler(file []byte) Handler {
 	}
 }
 
-func (m *handler) LoadAs(ctx context.Context, name string) (config types.Config) {
+func (m *handler) LoadAs(ctx context.Context, name string) (config *types.Config) {
 	_, err := m.etcd.Put(ctx, "config_"+name, string(m.initialConfig))
+	if err != nil {
+		panic(err)
+	}
 
 	cfg, err := m.GetConfig(name)
 	if err != nil {
 		panic(err)
 	}
 
-	return cfg
+	return &cfg
 }
 
 func (m *handler) GetConfig(name string) (config types.Config, err error) {
