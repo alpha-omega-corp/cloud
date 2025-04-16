@@ -38,7 +38,6 @@ func (app *App) Start(init func(config *types.Config, db *bun.DB, grpc *grpc.Ser
 	app.dbModels = append(app.dbModels, models...)
 
 	appCli := &cli.Command{
-		Name:  "app",
 		Usage: "cloud application cli",
 		Commands: []*cli.Command{
 			app.startCommand(init),
@@ -52,7 +51,7 @@ func (app *App) Start(init func(config *types.Config, db *bun.DB, grpc *grpc.Ser
 }
 
 func (app *App) startCommand(init func(config *types.Config, db *bun.DB, grpc *grpc.Server)) *cli.Command {
-	return app.createCommand("start", func(ctx context.Context, cmd *cli.Command) {
+	return app.createCommand("app", "start", func(ctx context.Context, cmd *cli.Command) {
 		if err := srv.NewGRPC(app.config.Url, app.dbHandler, func(db *bun.DB, grpc *grpc.Server) {
 			init(app.config, db, grpc)
 			fmt.Printf("server start success\n")
@@ -63,7 +62,7 @@ func (app *App) startCommand(init func(config *types.Config, db *bun.DB, grpc *g
 }
 
 func (app *App) migrateCommand() *cli.Command {
-	return app.createCommand("migration", func(ctx context.Context, cmd *cli.Command) {
+	return app.createCommand("db", "migration", func(ctx context.Context, cmd *cli.Command) {
 		db := app.dbHandler.Database()
 
 		migrator := migrate.NewMigrator(db, migrate.NewMigrations())
@@ -93,9 +92,10 @@ func (app *App) loadConfig(env string) {
 	app.dbHandler = database.NewHandler(app.config.Dsn)
 }
 
-func (app *App) createCommand(name string, action func(ctx context.Context, cmd *cli.Command)) *cli.Command {
+func (app *App) createCommand(category string, name string, action func(ctx context.Context, cmd *cli.Command)) *cli.Command {
 	return &cli.Command{
-		Name: name,
+		Name:     name,
+		Category: category,
 		Flags: []cli.Flag{
 			&cli.StringFlag{
 				Name:    "env",
