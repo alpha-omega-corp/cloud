@@ -1,0 +1,2 @@
+url: localhost:3000
+kvs: etcd:2380

@@ -2,10 +2,12 @@ FROM golang:1.23 AS build-stage
 
 WORKDIR /app
 
-COPY go.mod go.sum ./
-RUN go mod download
-
 COPY . .
+COPY docker.mod ./go.mod
+COPY go.sum ./
+
+RUN go get -u ./...
+RUN go mod download
 
 RUN CGO_ENABLED=0 GOOS=linux go build -o /api-gateway cmd/main.go
 
@@ -19,4 +21,4 @@ EXPOSE 3000
 
 USER nonroot:nonroot
 
-CMD ["/home/nonroot/api-gateway", "-env", "etcd"]
+CMD ["/home/nonroot/api-gateway", "server", "-e", "docker"]

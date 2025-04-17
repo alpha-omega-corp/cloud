@@ -10,10 +10,6 @@ require (
 	google.golang.org/grpc v1.71.1
 )
 
-replace github.com/alpha-omega-corp/cloud/core => ../core
-
-replace github.com/alpha-omega-corp/cloud/app/user => ../app/user
-
 require (
 	cloud.google.com/go v0.120.1 // indirect
 	cloud.google.com/go/auth v0.16.0 // indirect
