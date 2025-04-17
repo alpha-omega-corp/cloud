@@ -3,14 +3,14 @@ module github.com/alpha-omega-corp/cloud/api
 go 1.23.7
 
 require (
-	github.com/alpha-omega-corp/cloud/app/user v0.0.0-20250416083653-226055f41f2c
+	github.com/alpha-omega-corp/cloud/app/user v0.0.0-20250417092532-b3dd695df123
+	github.com/alpha-omega-corp/cloud/core v0.0.0-20250417092532-b3dd695df123
 	github.com/spf13/viper/remote v1.20.1
 	github.com/uptrace/bunrouter v1.0.23
 	go.etcd.io/etcd/client/v3 v3.5.21
 	google.golang.org/grpc v1.71.1
 )
 
-replace github.com/alpha-omega-corp/cloud/core => ../core
 
 replace github.com/alpha-omega-corp/cloud/app/user => ../app/user
 
@@ -21,7 +21,6 @@ require (
 	cloud.google.com/go/compute/metadata v0.6.0 // indirect
 	cloud.google.com/go/firestore v1.18.0 // indirect
 	cloud.google.com/go/longrunning v0.6.7 // indirect
-	github.com/alpha-omega-corp/cloud/core v0.0.0-20250416083653-226055f41f2c // indirect
 	github.com/armon/go-metrics v0.4.1 // indirect
 	github.com/coreos/go-semver v0.3.1 // indirect
 	github.com/coreos/go-systemd/v22 v22.5.0 // indirect
@@ -56,7 +55,7 @@ require (
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/nats-io/nats.go v1.41.1 // indirect
-	github.com/nats-io/nkeys v0.4.10 // indirect
+	github.com/nats-io/nkeys v0.4.11 // indirect
 	github.com/nats-io/nuid v1.0.1 // indirect
 	github.com/pelletier/go-toml/v2 v2.2.4 // indirect
 	github.com/pkg/errors v0.9.1 // indirect

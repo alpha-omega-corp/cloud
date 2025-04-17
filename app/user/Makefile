@@ -1,8 +1,10 @@
 server:
-	go run cmd/main.go server
+	go run cmd/main.go start
 
 migration:
-	go run cmd/migrations/main.go db migration
+	go run cmd/migrations/main.go migration
+
+##
 
 protoc:
 	protoc --go_out=. \
@@ -15,4 +17,7 @@ build:
 	docker build --tag app-user:multistage -f Dockerfile .
 
 run:
-	docker run --publish 50051:50051 --name app-user app-user:multistage
+	docker run --network=cloud --name app-user --publish 50051:50051 app-user:multistage
+
+start:
+	docker start app-user

@@ -22,4 +22,4 @@ EXPOSE 50051
 
 USER nonroot:nonroot
 
-CMD ["/home/nonroot/app-user", "start", "-e", "docker"]
+CMD ["/home/nonroot/app-user", "server", "-e", "docker"]

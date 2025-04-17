@@ -12,4 +12,7 @@ run:
 start:
 	docker start api-gateway
 
+update:
+	go get -modfile docker.mod -u ./...
+
 
