@@ -75,6 +75,8 @@ require (
 	github.com/uptrace/bun/dialect/pgdialect v1.2.11 // indirect
 	github.com/uptrace/bun/driver/pgdriver v1.2.11 // indirect
 	github.com/uptrace/bun/extra/bundebug v1.2.11 // indirect
+	github.com/uptrace/bunrouter v1.0.23 // indirect
+	github.com/uptrace/bunrouter/extra/reqlog v1.0.23 // indirect
 	github.com/urfave/cli/v3 v3.1.1 // indirect
 	github.com/vmihailenco/msgpack/v5 v5.4.1 // indirect
 	github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect

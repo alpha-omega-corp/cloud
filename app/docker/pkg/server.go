@@ -14,7 +14,7 @@ type Server struct {
 	imageService handlers.ImageService
 }
 
-func NewServer(config types.Config, client *client.Client, db *bun.DB) *Server {
+func NewServer(config *types.Config, client *client.Client, db *bun.DB) *Server {
 	return &Server{
 		imageService: handlers.NewImageService(config, client, db),
 	}

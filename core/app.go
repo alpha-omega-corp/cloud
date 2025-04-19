@@ -32,7 +32,7 @@ type App struct {
 
 	config        *types.Config
 	configFS      embed.FS
-	ConfigHandler *config.Handler
+	configHandler *config.Handler
 }
 
 func NewApp(efs embed.FS, name string) *App {
@@ -44,64 +44,37 @@ func NewApp(efs embed.FS, name string) *App {
 	}
 }
 
-func (app *App) CreateApi(init func(router *bunrouter.Router, configHandler config.Handler)) {
+func (app *App) CreateApi(init func(router *bunrouter.Router, configHandler *config.Handler)) os.Signal {
 	appCli := &cli.Command{
 		Usage: "cloud application cli",
 		Commands: []*cli.Command{
-			app.createCommand("app", "server", func(ctx context.Context, cmd *cli.Command) {
-				router := bunrouter.New(
-					bunrouter.WithMiddleware(reqlog.NewMiddleware(
-						reqlog.WithEnabled(true),
-						reqlog.WithVerbose(true),
-					)))
-
-				// Create clients
-				init(router, *app.ConfigHandler)
-
-				// Listen and serve
-				var handler http.Handler
-				handler = httputils.ExitOnPanicHandler{Next: router}
-
-				httpSrv := &http.Server{
-					Addr:         "0.0.0.0:3000",
-					ReadTimeout:  60 * time.Second,
-					WriteTimeout: 60 * time.Second,
-					IdleTimeout:  60 * time.Second,
-					Handler:      handler,
-				}
-
-				go func() {
-					if err := httpSrv.ListenAndServe(); err != nil && err.Error() != "http: Server closed" {
-						log.Printf("ListenAndServe failed: %s", err)
-					}
-				}()
-
-				fmt.Printf("listening on http://%s\n", httpSrv.Addr)
-
-				// Create keyboard listener
-				ch := make(chan os.Signal, 3)
-				signal.Notify(
-					ch,
-					syscall.SIGINT,
-					syscall.SIGQUIT,
-					syscall.SIGTERM,
-				)
-			}),
+			app.newHttpCommand(init),
 		},
 	}
 
 	if err := appCli.Run(context.Background(), os.Args); err != nil {
 		log.Fatalf("app start error: %v\n", err)
 	}
+
+	// Create keyboard listener
+	ch := make(chan os.Signal, 3)
+	signal.Notify(
+		ch,
+		syscall.SIGINT,
+		syscall.SIGQUIT,
+		syscall.SIGTERM,
+	)
+
+	return <-ch
 }
 
-func (app *App) CreateServer(init func(config *types.Config, db *bun.DB, grpc *grpc.Server), models ...any) {
+func (app *App) CreateApp(init func(config *types.Config, db *bun.DB, grpc *grpc.Server), models ...any) {
 	app.dbModels = append(app.dbModels, models...)
 
 	appCli := &cli.Command{
 		Usage: "cloud application cli",
 		Commands: []*cli.Command{
-			app.serverCommand(init),
+			app.newGrpcCommand(init),
 			app.migrateCommand(),
 		},
 	}
@@ -111,14 +84,47 @@ func (app *App) CreateServer(init func(config *types.Config, db *bun.DB, grpc *g
 	}
 }
 
-func (app *App) serverCommand(init func(config *types.Config, db *bun.DB, grpc *grpc.Server)) *cli.Command {
+func (app *App) newGrpcCommand(init func(config *types.Config, db *bun.DB, grpc *grpc.Server)) *cli.Command {
 	return app.createCommand("app", "server", func(ctx context.Context, cmd *cli.Command) {
-		if err := srv.NewGRPC(app.config.Url, app.dbHandler, func(db *bun.DB, grpc *grpc.Server) {
+		if err := srv.NewGRPC(*app.config.Url, app.dbHandler, func(db *bun.DB, grpc *grpc.Server) {
 			init(app.config, db, grpc)
 			fmt.Printf("server start success\n")
 		}); err != nil {
 			panic(err)
 		}
+	})
+}
+
+func (app *App) newHttpCommand(init func(router *bunrouter.Router, configHandler *config.Handler)) *cli.Command {
+	return app.createCommand("app", "server", func(ctx context.Context, cmd *cli.Command) {
+		r := bunrouter.New(
+			bunrouter.WithMiddleware(reqlog.NewMiddleware(
+				reqlog.WithEnabled(true),
+				reqlog.WithVerbose(true),
+			)))
+
+		// Create clients
+		init(r, app.configHandler)
+
+		// Listen and serve
+		var handler http.Handler
+		handler = httputils.ExitOnPanicHandler{Next: r}
+
+		httpSrv := &http.Server{
+			Addr:         *app.config.Url,
+			ReadTimeout:  60 * time.Second,
+			WriteTimeout: 60 * time.Second,
+			IdleTimeout:  60 * time.Second,
+			Handler:      handler,
+		}
+
+		go func() {
+			if err := httpSrv.ListenAndServe(); err != nil && err.Error() != "http: Server closed" {
+				log.Printf("ListenAndServe failed: %s", err)
+			}
+		}()
+
+		fmt.Printf("listening on http://%s\n", httpSrv.Addr)
 	})
 }
 
@@ -143,13 +149,14 @@ func (app *App) migrateCommand() *cli.Command {
 	})
 }
 
-func (app *App) loadConfig(env string) {
+func (app *App) loadConfig(env string, name string) {
 	configFile, err := app.configFS.ReadFile(config.GetConfigPath(env))
 	if err != nil {
 		log.Fatalf("read config file error: %v\n", err)
 	}
 
-	app.config = config.NewHandler(configFile).LoadAs(context.Background(), app.name)
+	app.configHandler = config.NewHandler(configFile)
+	app.config = app.configHandler.LoadAs(context.Background(), name)
 }
 
 func (app *App) createCommand(category string, name string, action func(ctx context.Context, cmd *cli.Command)) *cli.Command {
@@ -166,10 +173,12 @@ func (app *App) createCommand(category string, name string, action func(ctx cont
 		},
 		Action: func(ctx context.Context, cmd *cli.Command) error {
 			env := cmd.String("env")
-			app.loadConfig(env)
+			app.loadConfig(env, app.name)
 
-			app.dbHandler = database.NewHandler(app.config.Dsn)
-			app.dbHandler.Database().RegisterModel(app.dbModels...)
+			if app.config.Dsn != nil {
+				app.dbHandler = database.NewHandler(*app.config.Dsn)
+				app.dbHandler.Database().RegisterModel(app.dbModels...)
+			}
 
 			action(ctx, cmd)
 

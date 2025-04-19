@@ -20,7 +20,7 @@ var (
 
 func main() {
 	core.NewApp(embedFS, "user").
-		CreateServer(func(config *types.Config, db *bun.DB, grpc *grpc.Server) {
+		CreateApp(func(config *types.Config, db *bun.DB, grpc *grpc.Server) {
 			auth := utils.NewAuthWrapper(config.Env.GetString("secret"))
 			proto.RegisterUserServiceServer(grpc, pkg.NewServer(db, auth))
 		}, []interface{}{

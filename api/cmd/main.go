@@ -2,6 +2,7 @@ package main
 
 import (
 	"embed"
+	"fmt"
 	"github.com/alpha-omega-corp/cloud/api/pkg/user"
 	"github.com/alpha-omega-corp/cloud/core"
 	"github.com/alpha-omega-corp/cloud/core/config"
@@ -16,13 +17,16 @@ var (
 
 func main() {
 	core.NewApp(embedFS, "gateway").
-		CreateApi(func(router *bunrouter.Router, configHandler config.Handler) {
+		CreateApi(func(router *bunrouter.Router, configHandler *config.Handler) {
 			configUser, err := configHandler.GetConfig("user")
 			if err != nil {
 				log.Fatal(err.Error())
 			}
 
+			fmt.Println(configUser)
+
 			svcUser := user.NewClient(configUser)
 			user.RegisterClient(svcUser, router)
 		})
+
 }

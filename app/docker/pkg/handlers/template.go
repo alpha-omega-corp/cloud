@@ -26,10 +26,10 @@ type TemplateHandler interface {
 type templateHandler struct {
 	TemplateHandler
 	template *template.Template
-	config   st.Config
+	config   *st.Config
 }
 
-func NewTemplateHandler(config st.Config) TemplateHandler {
+func NewTemplateHandler(config *st.Config) TemplateHandler {
 	fileSys := getFS()
 	tmpl, err := template.ParseFS(fileSys, "*.template")
 	if err != nil {

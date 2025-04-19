@@ -1,0 +1,8 @@
+url: localhost:50052
+kvs: localhost:2380
+dsn: postgres://docker:docker@localhost:5433/docker
+
+###
+
+organization: alpha-omega-corp
+build_path: /tmp/

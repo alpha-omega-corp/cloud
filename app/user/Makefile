@@ -1,5 +1,5 @@
 server:
-	go run cmd/main.go start
+	go run cmd/main.go server
 
 migration:
 	go run cmd/migrations/main.go migration

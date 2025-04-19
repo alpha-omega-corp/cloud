@@ -11,23 +11,14 @@ import (
 	"time"
 )
 
-type Handler interface {
-	Init(initialConfig []byte, err error) Handler
-	LoadAs(ctx context.Context, name string) (config *types.Config)
-	GetConfig(name string) (config types.Config, err error)
-	Read(key string, format string) (err error)
-}
-
-type handler struct {
-	Handler
-
+type Handler struct {
 	viper         *viper.Viper
 	etcd          *clientv3.Client
 	initialConfig []byte
 	host          string
 }
 
-func NewHandler(file []byte) Handler {
+func NewHandler(file []byte) *Handler {
 	v := viper.New()
 
 	v.SetConfigType("yaml")
@@ -50,7 +41,7 @@ func NewHandler(file []byte) Handler {
 		panic(err)
 	}
 
-	return &handler{
+	return &Handler{
 		host:          host,
 		etcd:          etcd,
 		initialConfig: file,
@@ -58,47 +49,49 @@ func NewHandler(file []byte) Handler {
 	}
 }
 
-func (m *handler) LoadAs(ctx context.Context, name string) (config *types.Config) {
-	_, err := m.etcd.Put(ctx, "config_"+name, string(m.initialConfig))
+func (h *Handler) LoadAs(ctx context.Context, name string) (config *types.Config) {
+	_, err := h.etcd.Put(ctx, "config_"+name, string(h.initialConfig))
 	if err != nil {
 		panic(err)
 	}
 
-	cfg, err := m.GetConfig(name)
+	cfg, err := h.GetConfig(name)
 	if err != nil {
 		panic(err)
 	}
 
-	return &cfg
+	return cfg
 }
 
-func (m *handler) GetConfig(name string) (config types.Config, err error) {
-	var cfg types.Config
+func (h *Handler) GetConfig(name string) (config *types.Config, err error) {
+	var cfg *types.Config
 
-	err = m.Read("config_"+name, "yaml")
+	err = h.Read("config_"+name, "yaml")
 	if err != nil {
-		return
+		return nil, err
 	}
 
-	err = m.viper.Unmarshal(&cfg)
+	err = h.viper.Unmarshal(&cfg)
 	if err != nil {
-		return
+		return nil, err
 	}
 
-	cfg.Env = m.viper
+	cfg.Env = h.viper
 	config = cfg
 
-	return
+	return config, nil
 }
 
-func (m *handler) Read(key string, format string) (err error) {
-	err = m.viper.AddRemoteProvider("etcd3", "http://"+m.host, key)
+func (h *Handler) Read(key string, format string) (err error) {
+	h.viper = viper.New()
+
+	err = h.viper.AddRemoteProvider("etcd3", "http://"+h.host, key)
 	if err != nil {
 		return
 	}
 
-	m.viper.SetConfigType(format)
-	err = m.viper.ReadRemoteConfig()
+	h.viper.SetConfigType(format)
+	err = h.viper.ReadRemoteConfig()
 
 	return
 }

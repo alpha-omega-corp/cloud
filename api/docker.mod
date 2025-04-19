@@ -3,8 +3,8 @@ module github.com/alpha-omega-corp/cloud/api
 go 1.23.7
 
 require (
-	github.com/alpha-omega-corp/cloud/app/user v0.0.0-20250417092532-b3dd695df123
-	github.com/alpha-omega-corp/cloud/core v0.0.0-20250417092532-b3dd695df123
+	github.com/alpha-omega-corp/cloud/app/user v0.0.0-20250417113413-b00681ffb311
+	github.com/alpha-omega-corp/cloud/core v0.0.0-20250417113413-b00681ffb311
 	github.com/spf13/viper/remote v1.20.1
 	github.com/uptrace/bunrouter v1.0.23
 	go.etcd.io/etcd/client/v3 v3.5.21
