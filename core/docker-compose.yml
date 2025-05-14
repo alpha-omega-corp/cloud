@@ -1,0 +1,35 @@
+networks:
+  core:
+    driver: bridge
+
+
+services:
+  db:
+    image: postgres
+    ports:
+      - "5430:5432"
+    environment:
+      - POSTGRES_PASSWORD=otel
+      - POSTGRES_USER=otel
+      - POSTGRES_DB=otel
+    networks:
+      - core
+
+  ch:
+    image: clickhouse
+    ports:
+      - "9000:9000"
+    environment:
+      - CLICKHOUSE_USER=uptrace
+      - CLICKHOUSE_PASSWORD=root
+      - CLICKHOUSE_DB=uptrace
+    networks:
+      - core
+
+  cache:
+    image: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - core
+

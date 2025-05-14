@@ -1,15 +1,12 @@
 package user
 
 import (
-	"context"
 	"encoding/json"
 	"fmt"
 	"github.com/alpha-omega-corp/cloud/app/user/pkg/proto"
 	"github.com/uptrace/bunrouter"
-	clientv3 "go.etcd.io/etcd/client/v3"
 	"net/http"
 	"strconv"
-	"time"
 )
 
 type LoginRequestBody struct {
@@ -60,7 +57,7 @@ func LoginHandler(w http.ResponseWriter, req bunrouter.Request, s proto.UserServ
 	})
 
 	if err != nil {
-		return err
+		w.WriteHeader(http.StatusUnauthorized)
 	}
 
 	return bunrouter.JSON(w, res)
@@ -142,7 +139,7 @@ func GetServices(w http.ResponseWriter, req bunrouter.Request, s proto.UserServi
 }
 
 func GetServicePermissionsHandler(w http.ResponseWriter, req bunrouter.Request, s proto.UserServiceClient) error {
-	serviceId, err := strconv.ParseInt(req.Params().ByName("serviceId"), 10, 64)
+	serviceId, err := strconv.ParseInt(req.Params().ByName("id"), 10, 64)
 	if err != nil {
 		return err
 	}
@@ -257,32 +254,4 @@ func AssignUserHandler(w http.ResponseWriter, req bunrouter.Request, s proto.Use
 	}
 
 	return bunrouter.JSON(w, res)
-}
-
-func GetTestHandler(w http.ResponseWriter, req bunrouter.Request, s proto.UserServiceClient) error {
-	fmt.Println(req.Body)
-	config := clientv3.Config{
-		Endpoints:   []string{"etcd:2380"},
-		DialTimeout: 5 * time.Second,
-	}
-
-	c, err := clientv3.New(config)
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	res, err := c.Put(context.Background(), "toto", "hello")
-	if err != nil {
-		fmt.Println(err)
-	}
-
-	fmt.Print(res)
-
-	r, err := c.Get(context.Background(), "toto")
-	fmt.Println(r.Kvs)
-
-	return bunrouter.JSON(w, &proto.UpdateUserRequest{
-		Id:   http.StatusOK,
-		Name: r.Kvs[0].String(),
-	})
 }

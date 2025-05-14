@@ -1,0 +1,215 @@
+syntax = "proto3";
+
+package github;
+option go_package = "github.com/alpha-omega-corp/cloud/app/github/pkg/proto";
+
+import package "github.com/alpha-omega-corp/cloud/app/github/pkg/proto";
+
+service GithubService {
+  rpc GetSecretContent(GetSecretContentRequest) returns (GetSecretContentResponse) {}
+  rpc GetSecrets(GetSecretsRequest) returns (GetSecretsResponse) {}
+  rpc CreateSecret(CreateSecretRequest) returns (CreateSecretResponse) {}
+  rpc DeleteSecret(DeleteSecretRequest) returns (DeleteSecretResponse) {}
+  rpc SyncEnvironment(SyncEnvironmentRequest) returns (SyncEnvironmentResponse) {}
+  rpc PushPackage(PushPackageRequest) returns (PushPackageResponse) {}
+  rpc ContainerPackage(ContainerPackageRequest) returns (ContainerPackageResponse) {}
+  rpc GetPackages(GetPackagesRequest) returns (GetPackagesResponse) {}
+  rpc GetPackage(GetPackageRequest) returns (GetPackageResponse) {}
+  rpc GetPackageTags(GetPackageTagsRequest) returns (GetPackageTagsResponse) {}
+  rpc GetPackageFile(GetPackageFileRequest) returns (GetPackageFileResponse) {}
+  rpc CreatePackage(CreatePackageRequest) returns (CreatePackageResponse) {}
+  rpc DeletePackage(DeletePackageRequest) returns (DeletePackageResponse) {}
+  rpc CreatePackageVersion(CreatePackageVersionRequest) returns (CreatePackageVersionResponse) {}
+  rpc DeletePackageVersion(DeletePackageVersionRequest) returns (DeletePackageVersionResponse) {}
+}
+
+message DeletePackageRequest {
+  string name = 1;
+}
+
+message DeletePackageResponse {
+  int64 status = 1;
+}
+
+message GetSecretContentRequest {
+  string name = 1;
+}
+
+message GetSecretContentResponse {
+  bytes content = 1;
+}
+
+message SyncEnvironmentRequest {}
+message SyncEnvironmentResponse {
+  int64 status = 1;
+}
+
+
+message DeleteSecretRequest {
+  string name = 1;
+}
+
+message DeleteSecretResponse {
+  int64 status = 1;
+}
+
+message CreateSecretRequest {
+  string name = 1;
+  bytes content = 2;
+}
+
+message CreateSecretResponse {
+  int64 status = 1;
+}
+
+message GetSecretsRequest {}
+message GetSecretsResponse {
+  repeated Secret secrets = 1;
+}
+
+message Secret {
+  string name = 1;
+  string createdAt = 2;
+  string updatedAt = 3;
+  string visibility = 4;
+}
+
+
+message Package {
+  string name = 1;
+  repeated File files = 2;
+  // #TODO
+  // repeated alphomega.docker.Container containers = 3;
+}
+
+message SimplePackage {
+  string type = 1;
+  int64 size = 2;
+  string name = 3;
+  string path = 4;
+  string sha = 5;
+  string gitUrl = 6;
+  string htmlUrl = 7;
+  string downloadUrl = 8;
+}
+
+message GitPackage {
+  int64 id = 1;
+  string name = 2;
+  string type = 3;
+  int64 version = 4;
+  string visibility = 5;
+  string url = 6;
+  string htmlUrl = 7;
+  int64 ownerId = 8;
+  string ownerName = 9;
+  string ownerNode = 10;
+  string ownerType = 11;
+}
+
+message File {
+  string name = 1;
+  bytes content = 2;
+}
+
+message PackageIdentifier {
+  string name = 1;
+  string tag = 2;
+}
+
+
+message GetPackageTagsRequest {
+  string name = 1;
+}
+
+message GetPackageTagsResponse {
+  repeated string tags = 1;
+}
+
+message PackageTag {
+  string name = 1;
+  string tag = 2;
+}
+
+message DeletePackageVersionRequest {
+  string name= 1;
+  string tag = 2;
+  optional int64 version = 3;
+}
+
+message DeletePackageVersionResponse {
+  int64 status = 1;
+}
+
+
+
+message CreatePackageVersionRequest {
+  string name = 1;
+  string tag = 2;
+  bytes content = 3;
+}
+
+message CreatePackageVersionResponse {
+  int64 status = 1;
+}
+
+message GetPackageFileRequest {
+  string name = 1;
+  string path = 2;
+}
+
+message GetPackageFileResponse {
+  bytes content = 1;
+}
+
+message GetPackageResponse {
+  repeated PackageVersion versions = 1;
+}
+
+message PackageVersion {
+  string repoName = 1;
+  string repoPath = 2;
+  string repoSha = 3;
+  string repoLink = 4;
+  optional int64 versionId = 5;
+  optional string versionSha = 6;
+  optional string versionLink = 7;
+}
+
+message ContainerPackageRequest {
+  int64 id = 1;
+  string name = 2;
+}
+
+message ContainerPackageResponse {
+  int64 status = 1;
+  int64 containerId = 2;
+}
+
+message PushPackageRequest {
+  string name = 1;
+  string tag = 2;
+  string versionSHA = 3;
+}
+
+message PushPackageResponse {
+  int64 status = 1;
+}
+
+message CreatePackageRequest {
+  string name = 1;
+}
+
+message CreatePackageResponse {
+  int64 status = 1;
+}
+
+message GetPackageRequest {
+  string name = 1;
+}
+
+message GetPackagesRequest {}
+
+message GetPackagesResponse {
+  repeated SimplePackage packages = 1;
+}

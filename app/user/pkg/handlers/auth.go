@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"context"
+	"errors"
 	"github.com/alpha-omega-corp/cloud/app/user/pkg/models"
 	"github.com/alpha-omega-corp/cloud/app/user/pkg/proto"
 	"github.com/alpha-omega-corp/cloud/app/user/pkg/utils"
@@ -45,30 +46,28 @@ func (s *authService) Register(ctx context.Context, req *proto.RegisterRequest) 
 
 func (s *authService) Login(ctx context.Context, req *proto.LoginRequest) (*proto.LoginResponse, error) {
 	var user models.User
-	err := s.db.
+
+	if err := s.db.
 		NewSelect().
 		Model(&user).
 		Where("email = ?", req.Email).
-		Scan(ctx, &user)
-
-	if err != nil {
+		Scan(ctx, &user); err != nil {
 		return nil, err
 	}
 
 	match := utils.CheckPasswordHash(req.Password, user.Password)
 
 	if !match {
-		return &proto.LoginResponse{
-			Status: http.StatusNotFound,
-			Error:  "User not found",
-		}, nil
+		return nil, errors.New("invalid")
 	}
 
-	token, _ := s.auth.GenerateToken(user)
+	token, err := s.auth.GenerateToken(user)
+	if err != nil {
+		return nil, err
+	}
 
 	return &proto.LoginResponse{
-		Status: http.StatusOK,
-		Token:  token,
+		Token: token,
 		User: &proto.User{
 			Id:    user.Id,
 			Email: user.Email,
@@ -78,25 +77,17 @@ func (s *authService) Login(ctx context.Context, req *proto.LoginRequest) (*prot
 
 func (s *authService) Validate(ctx context.Context, req *proto.ValidateRequest) (*proto.ValidateResponse, error) {
 	claims, err := s.auth.ValidateToken(req.Token)
-
 	if err != nil {
-		return &proto.ValidateResponse{
-			Status: http.StatusForbidden,
-			Error:  err.Error(),
-		}, nil
+		return nil, err
 	}
 
 	var user models.User
 	err = s.db.NewSelect().Model(&user).Where("email = ?", claims.Email).Scan(ctx, &user)
 	if err != nil {
-		return &proto.ValidateResponse{
-			Status: http.StatusForbidden,
-			Error:  "Invalid Credentials",
-		}, nil
+		return nil, err
 	}
 
 	return &proto.ValidateResponse{
-		Status: http.StatusOK,
 		User: &proto.User{
 			Id:    user.Id,
 			Email: user.Email,

@@ -7,7 +7,7 @@ import (
 	"github.com/alpha-omega-corp/cloud/app/user/pkg/proto"
 	"github.com/alpha-omega-corp/cloud/app/user/pkg/utils"
 	"github.com/alpha-omega-corp/cloud/core"
-	"github.com/alpha-omega-corp/cloud/core/types"
+	"github.com/alpha-omega-corp/cloud/core/config"
 	_ "github.com/spf13/viper/remote"
 	"github.com/uptrace/bun"
 	"google.golang.org/grpc"
@@ -20,7 +20,7 @@ var (
 
 func main() {
 	core.NewApp(embedFS, "user").
-		CreateApp(func(config *types.Config, db *bun.DB, grpc *grpc.Server) {
+		CreateApp(func(config *config.Config, db *bun.DB, grpc *grpc.Server) {
 			auth := utils.NewAuthWrapper(config.Env.GetString("secret"))
 			proto.RegisterUserServiceServer(grpc, pkg.NewServer(db, auth))
 		}, []interface{}{

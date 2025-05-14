@@ -11,8 +11,7 @@ protoc:
 		--go_opt=paths=source_relative \
         --go-grpc_out=. \
         --go-grpc_opt=paths=source_relative \
-        proto/*.proto
-
+        pkg/proto/*.proto
 
 build:
 	docker build --tag app-docker:multistage -f Dockerfile .

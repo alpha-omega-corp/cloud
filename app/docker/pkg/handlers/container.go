@@ -4,8 +4,7 @@ import (
 	"context"
 	"encoding/base64"
 	"encoding/json"
-	"github.com/alpha-omega-corp/cloud/core/types"
-	docker "github.com/docker/docker/api/types"
+	"github.com/alpha-omega-corp/cloud/core/config"
 	"github.com/docker/docker/api/types/container"
 	"github.com/docker/docker/api/types/filters"
 	"github.com/docker/docker/api/types/image"
@@ -17,45 +16,46 @@ import (
 	"strings"
 )
 
-type ContainerHandler interface {
-	CreateFrom(ctx context.Context, path string, name string) error
-	GetAll(ctx context.Context) ([]docker.Container, error)
-	GetAllFrom(ctx context.Context, path string) ([]docker.Container, error)
+type ContainerService interface {
+	CreateContainer(ctx context.Context, path string, name string) error
+	GetAll(ctx context.Context) ([]container.Summary, error)
+	GetAllByImage(ctx context.Context, path string) ([]container.Summary, error)
 	Start(ctx context.Context, cId string) error
 	Stop(ctx context.Context, cId string) error
 	Delete(ctx context.Context, cId string) error
 	GetLogs(containerId string, ctx context.Context) (io.ReadCloser, error)
+	GetTags(containerId string, ctx context.Context) ([]string, error)
 }
 
-type containerHandler struct {
-	ContainerHandler
+type containerService struct {
+	ContainerService
 
 	client *client.Client
-	config types.Config
+	config *config.Config
 }
 
-func NewContainerHandler(cli *client.Client, c types.Config) ContainerHandler {
-	return &containerHandler{
-		client: cli,
-		config: c,
+func NewContainerHandler(config *config.Config, client *client.Client) ContainerService {
+	return &containerService{
+		client: client,
+		config: config,
 	}
 }
 
-func (h *containerHandler) Start(ctx context.Context, cId string) error {
+func (h *containerService) Start(ctx context.Context, cId string) error {
 	return h.client.ContainerStart(ctx, cId, container.StartOptions{})
 }
 
-func (h *containerHandler) Stop(ctx context.Context, cId string) error {
+func (h *containerService) Stop(ctx context.Context, cId string) error {
 	return h.client.ContainerStop(ctx, cId, container.StopOptions{})
 }
 
-func (h *containerHandler) Delete(ctx context.Context, cId string) error {
+func (h *containerService) Delete(ctx context.Context, cId string) error {
 	return h.client.ContainerRemove(ctx, cId, container.RemoveOptions{
 		Force: true,
 	})
 }
 
-func (h *containerHandler) GetAll(ctx context.Context) ([]docker.Container, error) {
+func (h *containerService) GetAll(ctx context.Context) ([]container.Summary, error) {
 	containers, err := h.client.ContainerList(ctx, container.ListOptions{})
 	if err != nil {
 		return nil, err
@@ -64,7 +64,7 @@ func (h *containerHandler) GetAll(ctx context.Context) ([]docker.Container, erro
 	return containers, nil
 }
 
-func (h *containerHandler) GetLogs(containerId string, ctx context.Context) (io.ReadCloser, error) {
+func (h *containerService) GetLogs(containerId string, ctx context.Context) (io.ReadCloser, error) {
 	options := container.LogsOptions{
 		ShowStdout: true,
 		Timestamps: true,
@@ -80,7 +80,7 @@ func (h *containerHandler) GetLogs(containerId string, ctx context.Context) (io.
 	return logs, nil
 }
 
-func (h *containerHandler) PullImage(imgName string, ctx context.Context) error {
+func (h *containerService) PullImage(imgName string, ctx context.Context) error {
 	authConfig := registry.AuthConfig{
 		Username: "packages",
 		Password: h.config.Env.GetString("token"),
@@ -100,7 +100,7 @@ func (h *containerHandler) PullImage(imgName string, ctx context.Context) error 
 	return nil
 }
 
-func (h *containerHandler) GetAllFrom(ctx context.Context, path string) ([]docker.Container, error) {
+func (h *containerService) GetAllByImage(ctx context.Context, path string) ([]container.Summary, error) {
 	filter := filters.NewArgs(filters.KeyValuePair{Key: "ancestor", Value: h.imageName(path)})
 	return h.client.ContainerList(ctx, container.ListOptions{
 		All:     true,
@@ -108,7 +108,7 @@ func (h *containerHandler) GetAllFrom(ctx context.Context, path string) ([]docke
 	})
 }
 
-func (h *containerHandler) CreateFrom(ctx context.Context, path string, name string) error {
+func (h *containerService) CreateContainer(ctx context.Context, path string, name string) error {
 	imgName := h.imageName(path)
 	if err := h.PullImage(imgName, ctx); err != nil {
 		return err
@@ -128,6 +128,6 @@ func (h *containerHandler) CreateFrom(ctx context.Context, path string, name str
 	return nil
 }
 
-func (h *containerHandler) imageName(path string) string {
+func (h *containerService) imageName(path string) string {
 	return h.config.Env.GetString("registry") + "/" + h.config.Env.GetString("name") + "/" + strings.Replace(path, "/", ":", 1)
 }

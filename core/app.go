@@ -6,15 +6,16 @@ import (
 	"fmt"
 	"github.com/alpha-omega-corp/cloud/core/config"
 	"github.com/alpha-omega-corp/cloud/core/database"
-	"github.com/alpha-omega-corp/cloud/core/httputils"
-	srv "github.com/alpha-omega-corp/cloud/core/server"
-	"github.com/alpha-omega-corp/cloud/core/types"
+	"github.com/alpha-omega-corp/cloud/core/server"
 	"github.com/uptrace/bun"
 	"github.com/uptrace/bun/dbfixture"
 	"github.com/uptrace/bun/migrate"
 	"github.com/uptrace/bunrouter"
+	"github.com/uptrace/bunrouter/extra/bunrouterotel"
 	"github.com/uptrace/bunrouter/extra/reqlog"
+	"github.com/uptrace/uptrace-go/uptrace"
 	"github.com/urfave/cli/v3"
+	"go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp"
 	"google.golang.org/grpc"
 	"log"
 	"net/http"
@@ -30,15 +31,20 @@ type App struct {
 	dbHandler *database.Handler
 	dbModels  []any
 
-	config        *types.Config
-	configFS      embed.FS
+	fs            embed.FS
+	config        *config.Config
 	configHandler *config.Handler
+}
+
+type HttpResponse struct {
+	Status string `json:"status"`
+	Error  string `json:"error"`
 }
 
 func NewApp(efs embed.FS, name string) *App {
 	return &App{
 		name:      name,
-		configFS:  efs,
+		fs:        efs,
 		config:    nil,
 		dbHandler: nil,
 	}
@@ -68,7 +74,7 @@ func (app *App) CreateApi(init func(router *bunrouter.Router, configHandler *con
 	return <-ch
 }
 
-func (app *App) CreateApp(init func(config *types.Config, db *bun.DB, grpc *grpc.Server), models ...any) {
+func (app *App) CreateApp(init func(config *config.Config, db *bun.DB, grpc *grpc.Server), models ...any) {
 	app.dbModels = append(app.dbModels, models...)
 
 	appCli := &cli.Command{
@@ -84,9 +90,9 @@ func (app *App) CreateApp(init func(config *types.Config, db *bun.DB, grpc *grpc
 	}
 }
 
-func (app *App) newGrpcCommand(init func(config *types.Config, db *bun.DB, grpc *grpc.Server)) *cli.Command {
+func (app *App) newGrpcCommand(init func(config *config.Config, db *bun.DB, grpc *grpc.Server)) *cli.Command {
 	return app.createCommand("app", "server", func(ctx context.Context, cmd *cli.Command) {
-		if err := srv.NewGRPC(*app.config.Url, app.dbHandler, func(db *bun.DB, grpc *grpc.Server) {
+		if err := server.NewGRPC(*app.config.Url, app.dbHandler, func(db *bun.DB, grpc *grpc.Server) {
 			init(app.config, db, grpc)
 			fmt.Printf("server start success\n")
 		}); err != nil {
@@ -97,19 +103,27 @@ func (app *App) newGrpcCommand(init func(config *types.Config, db *bun.DB, grpc 
 
 func (app *App) newHttpCommand(init func(router *bunrouter.Router, configHandler *config.Handler)) *cli.Command {
 	return app.createCommand("app", "server", func(ctx context.Context, cmd *cli.Command) {
+		uptrace.ConfigureOpentelemetry(
+			uptrace.WithDSN("http://h7pTIsleXv3lLrvNlsYriQ@localhost:80?grpc=4316"),
+
+			uptrace.WithServiceName("cloud"),
+			uptrace.WithServiceVersion("v1.0.0"),
+			uptrace.WithDeploymentEnvironment("production"),
+		)
+
 		r := bunrouter.New(
 			bunrouter.WithMiddleware(reqlog.NewMiddleware(
 				reqlog.WithEnabled(true),
 				reqlog.WithVerbose(true),
+			)),
+			bunrouter.Use(bunrouterotel.NewMiddleware(
+				bunrouterotel.WithClientIP(),
 			)))
 
-		// Create clients
 		init(r, app.configHandler)
 
 		// Listen and serve
-		var handler http.Handler
-		handler = httputils.ExitOnPanicHandler{Next: r}
-
+		handler := otelhttp.NewHandler(r, "")
 		httpSrv := &http.Server{
 			Addr:         *app.config.Url,
 			ReadTimeout:  60 * time.Second,
@@ -150,7 +164,7 @@ func (app *App) migrateCommand() *cli.Command {
 }
 
 func (app *App) loadConfig(env string, name string) {
-	configFile, err := app.configFS.ReadFile(config.GetConfigPath(env))
+	configFile, err := app.fs.ReadFile(config.GetConfigPath(env))
 	if err != nil {
 		log.Fatalf("read config file error: %v\n", err)
 	}
@@ -168,7 +182,7 @@ func (app *App) createCommand(category string, name string, action func(ctx cont
 				Name:    "env",
 				Aliases: []string{"e"},
 				Value:   "local",
-				Usage:   "environment for configuration file",
+				Usage:   "environment to select configuration file",
 			},
 		},
 		Action: func(ctx context.Context, cmd *cli.Command) error {

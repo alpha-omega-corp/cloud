@@ -14,10 +14,10 @@ protoc:
         pkg/proto/*.proto
 
 build:
-	docker build --tag app-user:multistage -f Dockerfile .
+	docker build --tag app-github:multistage -f Dockerfile .
 
 run:
-	docker run --network=cloud --name app-user --publish 50051:50051 app-user:multistage
+	docker run --network=cloud --name app-github --publish 50053:50053 app-github:multistage
 
 start:
-	docker start app-user
+	docker start app-github

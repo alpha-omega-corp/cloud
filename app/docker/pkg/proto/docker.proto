@@ -1,13 +1,79 @@
 syntax = "proto3";
 
 package docker;
-
-option go_package = "github.com/alpha-omega-corp/docker-svc/proto";
+option go_package = "github.com/alpha-omega-corp/cloud/app/docker/pkg/proto";
 
 service DockerService {
+  rpc GetContainers(GetContainersRequest) returns (GetContainersResponse) {}
+  rpc CreateContainer(CreateContainerRequest) returns (CreateContainerResponse) {}
+  rpc DeleteContainer(DeleteContainerRequest) returns (DeleteContainerResponse) {}
+  rpc GetContainerLogs(GetContainerLogsRequest) returns (GetContainerLogsResponse) {}
+  rpc StartContainer(StartContainerRequest) returns (StartContainerResponse) {}
+  rpc StopContainer(StopContainerRequest) returns (StopContainerResponse) {}
   rpc GetImage(GetImageRequest) returns (GetImageResponse) {}
   rpc StoreImage(StoreImageRequest) returns (StoreImageResponse) {}
   rpc BuildImage(BuildImageRequest) returns (BuildImageResponse) {}
+}
+
+
+message GetContainersRequest {
+  string path = 1;
+}
+
+message GetContainersResponse {
+  repeated Container containers = 1;
+}
+
+message CreateContainerRequest {
+  string path = 1;
+  string name = 2;
+}
+
+message CreateContainerResponse {
+  int64 status = 1;
+}
+
+message StopContainerRequest {
+  string containerId = 1;
+}
+
+message StopContainerResponse {
+  int64 status = 1;
+}
+
+message StartContainerRequest {
+  string containerId = 1;
+}
+
+message StartContainerResponse {
+  int64 status = 1;
+}
+
+
+message DeleteContainerRequest {
+  string containerId = 1;
+}
+
+message DeleteContainerResponse {
+  int64 status = 1;
+}
+
+message GetContainerLogsRequest {
+  string containerId = 1;
+}
+
+message GetContainerLogsResponse {
+  string logs = 1;
+}
+
+message Container {
+  string id = 1;
+  string image = 2;
+  string status = 3;
+  string command = 4;
+  int64 created = 5;
+  string state = 6;
+  repeated string names = 7;
 }
 
 message GetImageRequest {

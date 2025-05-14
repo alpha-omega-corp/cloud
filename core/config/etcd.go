@@ -4,12 +4,19 @@ import (
 	"bytes"
 	"context"
 	"fmt"
-	"github.com/alpha-omega-corp/cloud/core/types"
 	"github.com/spf13/viper"
 	_ "github.com/spf13/viper/remote"
 	clientv3 "go.etcd.io/etcd/client/v3"
+	"google.golang.org/grpc/connectivity"
+	"log"
 	"time"
 )
+
+type Config struct {
+	Url *string `mapstruct:"url"`
+	Dsn *string `mapstruct:"dsn"`
+	Env *viper.Viper
+}
 
 type Handler struct {
 	viper         *viper.Viper
@@ -28,18 +35,29 @@ func NewHandler(file []byte) *Handler {
 	}
 
 	host := v.GetString("kvs")
-
 	fmt.Printf("config host > %s\n", host)
 
 	config := clientv3.Config{
 		Endpoints:   []string{host},
-		DialTimeout: 5 * time.Second,
+		DialTimeout: 1 * time.Second,
 	}
 
 	etcd, err := clientv3.New(config)
 	if err != nil {
 		panic(err)
 	}
+
+	cancelCtx, cancel := context.WithTimeout(context.Background(), config.DialTimeout)
+	defer cancel()
+
+	select {
+	case <-cancelCtx.Done():
+		if etcd.ActiveConnection().GetState() != connectivity.Ready {
+			log.Fatalf("etcd connection timeout")
+		}
+	}
+
+	fmt.Printf("etcd > %s\n", etcd.ActiveConnection().GetState())
 
 	return &Handler{
 		host:          host,
@@ -49,7 +67,7 @@ func NewHandler(file []byte) *Handler {
 	}
 }
 
-func (h *Handler) LoadAs(ctx context.Context, name string) (config *types.Config) {
+func (h *Handler) LoadAs(ctx context.Context, name string) (config *Config) {
 	_, err := h.etcd.Put(ctx, "config_"+name, string(h.initialConfig))
 	if err != nil {
 		panic(err)
@@ -63,8 +81,8 @@ func (h *Handler) LoadAs(ctx context.Context, name string) (config *types.Config
 	return cfg
 }
 
-func (h *Handler) GetConfig(name string) (config *types.Config, err error) {
-	var cfg *types.Config
+func (h *Handler) GetConfig(name string) (config *Config, err error) {
+	var cfg *Config
 
 	err = h.Read("config_"+name, "yaml")
 	if err != nil {

@@ -3,7 +3,7 @@ package user
 import (
 	"fmt"
 	"github.com/alpha-omega-corp/cloud/app/user/pkg/proto"
-	"github.com/alpha-omega-corp/cloud/core/types"
+	"github.com/alpha-omega-corp/cloud/core/config"
 	"github.com/uptrace/bunrouter"
 	"google.golang.org/grpc"
 	"net/http"
@@ -32,7 +32,7 @@ type userClient struct {
 	client proto.UserServiceClient
 }
 
-func NewClient(c *types.Config) Client {
+func NewClient(c *config.Config) Client {
 	conn, err := grpc.Dial(*c.Url, grpc.WithInsecure())
 
 	if err != nil {
@@ -42,9 +42,6 @@ func NewClient(c *types.Config) Client {
 	return &userClient{client: proto.NewUserServiceClient(conn)}
 }
 
-func (svc *userClient) Self() proto.UserServiceClient {
-	return svc.client
-}
 func (svc *userClient) Login(w http.ResponseWriter, req bunrouter.Request) error {
 	return LoginHandler(w, req, svc.client)
 }
@@ -83,7 +80,4 @@ func (svc *userClient) GetRoles(w http.ResponseWriter, req bunrouter.Request) er
 }
 func (svc *userClient) CreateRole(w http.ResponseWriter, req bunrouter.Request) error {
 	return CreateRoleHandler(w, req, svc.client)
-}
-func (svc *userClient) GetTest(w http.ResponseWriter, req bunrouter.Request) error {
-	return GetTestHandler(w, req, svc.client)
 }

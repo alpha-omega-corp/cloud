@@ -1,26 +1,21 @@
-module github.com/alpha-omega-corp/cloud/api
+module github.com/alpha-omega-corp/cloud/app/github
 
-go 1.23.7
+go 1.23.0
+
+toolchain go1.23.7
 
 require (
-	github.com/alpha-omega-corp/cloud/app/docker v0.0.0-20250419204936-8f70be0209e0
-	github.com/alpha-omega-corp/cloud/app/github v0.0.0-00010101000000-000000000000
-	github.com/alpha-omega-corp/cloud/app/user v0.0.0-20250419204936-8f70be0209e0
 	github.com/alpha-omega-corp/cloud/core v0.0.0-20250419204936-8f70be0209e0
-	github.com/rs/cors v1.11.1
-	github.com/spf13/viper/remote v1.20.1
-	github.com/uptrace/bunrouter v1.0.23
-	github.com/uptrace/bunrouter/extra/bunrouterotel v1.0.23
-	google.golang.org/grpc v1.72.0
+	github.com/alpha-omega-corp/services v0.0.0-20240324144213-d20902053154
+	github.com/google/go-github/v71 v71.0.0
+	github.com/uptrace/bun v1.2.11
+	go.etcd.io/etcd/client/v3 v3.5.21
+	golang.org/x/crypto v0.37.0
+	google.golang.org/grpc v1.71.1
+	google.golang.org/protobuf v1.36.6
 )
 
-replace github.com/alpha-omega-corp/cloud/core => ../core
-
-replace github.com/alpha-omega-corp/cloud/app/user => ../app/user
-
-replace github.com/alpha-omega-corp/cloud/app/docker => ../app/docker
-
-replace github.com/alpha-omega-corp/cloud/app/github => ../app/github
+replace github.com/alpha-omega-corp/cloud/core => ../../core
 
 require (
 	cloud.google.com/go v0.120.1 // indirect
@@ -30,7 +25,6 @@ require (
 	cloud.google.com/go/firestore v1.18.0 // indirect
 	cloud.google.com/go/longrunning v0.6.7 // indirect
 	github.com/armon/go-metrics v0.4.1 // indirect
-	github.com/cenkalti/backoff/v4 v4.3.0 // indirect
 	github.com/coreos/go-semver v0.3.1 // indirect
 	github.com/coreos/go-systemd/v22 v22.5.0 // indirect
 	github.com/fatih/color v1.18.0 // indirect
@@ -41,11 +35,10 @@ require (
 	github.com/go-viper/mapstructure/v2 v2.2.1 // indirect
 	github.com/gogo/protobuf v1.3.2 // indirect
 	github.com/golang/protobuf v1.5.4 // indirect
+	github.com/google/go-querystring v1.1.0 // indirect
 	github.com/google/s2a-go v0.1.9 // indirect
-	github.com/google/uuid v1.6.0 // indirect
 	github.com/googleapis/enterprise-certificate-proxy v0.3.6 // indirect
 	github.com/googleapis/gax-go/v2 v2.14.1 // indirect
-	github.com/grpc-ecosystem/grpc-gateway/v2 v2.26.3 // indirect
 	github.com/hashicorp/consul/api v1.32.0 // indirect
 	github.com/hashicorp/errwrap v1.1.0 // indirect
 	github.com/hashicorp/go-cleanhttp v0.5.2 // indirect
@@ -66,7 +59,7 @@ require (
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/nats-io/nats.go v1.41.1 // indirect
-	github.com/nats-io/nkeys v0.4.11 // indirect
+	github.com/nats-io/nkeys v0.4.10 // indirect
 	github.com/nats-io/nuid v1.0.1 // indirect
 	github.com/pelletier/go-toml/v2 v2.2.4 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
@@ -78,42 +71,29 @@ require (
 	github.com/spf13/cast v1.7.1 // indirect
 	github.com/spf13/pflag v1.0.6 // indirect
 	github.com/spf13/viper v1.20.1 // indirect
+	github.com/spf13/viper/remote v1.20.1 // indirect
 	github.com/subosito/gotenv v1.6.0 // indirect
 	github.com/tmthrgd/go-hex v0.0.0-20190904060850-447a3041c3bc // indirect
-	github.com/uptrace/bun v1.2.11 // indirect
 	github.com/uptrace/bun/dbfixture v1.2.11 // indirect
 	github.com/uptrace/bun/dialect/pgdialect v1.2.11 // indirect
 	github.com/uptrace/bun/driver/pgdriver v1.2.11 // indirect
 	github.com/uptrace/bun/extra/bundebug v1.2.11 // indirect
+	github.com/uptrace/bunrouter v1.0.23 // indirect
 	github.com/uptrace/bunrouter/extra/reqlog v1.0.23 // indirect
-	github.com/uptrace/uptrace-go v1.35.1 // indirect
 	github.com/urfave/cli/v3 v3.1.1 // indirect
 	github.com/vmihailenco/msgpack/v5 v5.4.1 // indirect
 	github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect
 	go.etcd.io/etcd/api/v3 v3.5.21 // indirect
 	go.etcd.io/etcd/client/pkg/v3 v3.5.21 // indirect
 	go.etcd.io/etcd/client/v2 v2.305.21 // indirect
-	go.etcd.io/etcd/client/v3 v3.5.21 // indirect
 	go.opentelemetry.io/auto/sdk v1.1.0 // indirect
 	go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc v0.60.0 // indirect
 	go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp v0.60.0 // indirect
-	go.opentelemetry.io/contrib/instrumentation/runtime v0.60.0 // indirect
 	go.opentelemetry.io/otel v1.35.0 // indirect
-	go.opentelemetry.io/otel/exporters/otlp/otlplog/otlploghttp v0.11.0 // indirect
-	go.opentelemetry.io/otel/exporters/otlp/otlpmetric/otlpmetrichttp v1.35.0 // indirect
-	go.opentelemetry.io/otel/exporters/otlp/otlptrace v1.35.0 // indirect
-	go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracehttp v1.35.0 // indirect
-	go.opentelemetry.io/otel/exporters/stdout/stdouttrace v1.35.0 // indirect
-	go.opentelemetry.io/otel/log v0.11.0 // indirect
 	go.opentelemetry.io/otel/metric v1.35.0 // indirect
-	go.opentelemetry.io/otel/sdk v1.35.0 // indirect
-	go.opentelemetry.io/otel/sdk/log v0.11.0 // indirect
-	go.opentelemetry.io/otel/sdk/metric v1.35.0 // indirect
 	go.opentelemetry.io/otel/trace v1.35.0 // indirect
-	go.opentelemetry.io/proto/otlp v1.5.0 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
 	go.uber.org/zap v1.27.0 // indirect
-	golang.org/x/crypto v0.37.0 // indirect
 	golang.org/x/exp v0.0.0-20250408133849-7e4ce0ab07d0 // indirect
 	golang.org/x/net v0.39.0 // indirect
 	golang.org/x/oauth2 v0.29.0 // indirect
@@ -123,9 +103,8 @@ require (
 	golang.org/x/time v0.11.0 // indirect
 	google.golang.org/api v0.229.0 // indirect
 	google.golang.org/genproto v0.0.0-20250414145226-207652e42e2e // indirect
-	google.golang.org/genproto/googleapis/api v0.0.0-20250422160041-2d3770c4ea7f // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20250422160041-2d3770c4ea7f // indirect
-	google.golang.org/protobuf v1.36.6 // indirect
+	google.golang.org/genproto/googleapis/api v0.0.0-20250414145226-207652e42e2e // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20250414145226-207652e42e2e // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 	mellium.im/sasl v0.3.2 // indirect
 )
