@@ -13,7 +13,6 @@ import (
 	"github.com/uptrace/bunrouter"
 	"github.com/uptrace/bunrouter/extra/bunrouterotel"
 	"github.com/uptrace/bunrouter/extra/reqlog"
-	"github.com/uptrace/uptrace-go/uptrace"
 	"github.com/urfave/cli/v3"
 	"go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp"
 	"google.golang.org/grpc"
@@ -103,14 +102,6 @@ func (app *App) newGrpcCommand(init func(config *config.Config, db *bun.DB, grpc
 
 func (app *App) newHttpCommand(init func(router *bunrouter.Router, configHandler *config.Handler)) *cli.Command {
 	return app.createCommand("app", "server", func(ctx context.Context, cmd *cli.Command) {
-		uptrace.ConfigureOpentelemetry(
-			uptrace.WithDSN("http://h7pTIsleXv3lLrvNlsYriQ@localhost:80?grpc=4316"),
-
-			uptrace.WithServiceName("cloud"),
-			uptrace.WithServiceVersion("v1.0.0"),
-			uptrace.WithDeploymentEnvironment("production"),
-		)
-
 		r := bunrouter.New(
 			bunrouter.WithMiddleware(reqlog.NewMiddleware(
 				reqlog.WithEnabled(true),

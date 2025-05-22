@@ -1,2 +1,3 @@
 url: localhost:3000
 kvs: etcd:2380
+uptrace: http://h7pTIsleXv3lLrvNlsYriQ@localhost:80?grpc=4316

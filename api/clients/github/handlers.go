@@ -3,7 +3,6 @@ package github
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
 	"github.com/alpha-omega-corp/cloud/app/github/pkg/proto"
 	"github.com/uptrace/bunrouter"
 	"io"
@@ -13,39 +12,13 @@ import (
 	"strings"
 )
 
-type PushPackageRequestBody struct {
-	Tag        string `json:"tag"`
-	VersionSHA string `json:"sha"`
-}
-
-type DeletePackageRequestBody struct {
-	Tag string `json:"tag"`
-}
-
-type CreatePackageContainerRequestBody struct {
-	ContainerName string `json:"containerName"`
-}
-
-type GetPackageVersionContainers struct {
-	Path string `json:"path"`
-}
-
-type CreatePackageRequestBody struct {
-	Name string `json:"name"`
-}
-
-type CreateSecretRequestBody struct {
-	Name    string `json:"name"`
-	Content string `json:"content"`
-}
-
 func DeletePackageHandler(w http.ResponseWriter, req bunrouter.Request, s proto.GithubServiceClient) error {
 	res, err := s.DeletePackage(req.Context(), &proto.DeletePackageRequest{
 		Name: req.Params().ByName("name"),
 	})
 
 	if err != nil {
-		return err
+		w.WriteHeader(http.StatusInternalServerError)
 	}
 
 	return bunrouter.JSON(w, res)
@@ -57,7 +30,7 @@ func GetPackageTagsHandler(w http.ResponseWriter, req bunrouter.Request, s proto
 	})
 
 	if err != nil {
-		return err
+		w.WriteHeader(http.StatusInternalServerError)
 	}
 
 	return bunrouter.JSON(w, res)
@@ -75,7 +48,7 @@ func DeletePackageVersionHandler(w http.ResponseWriter, req bunrouter.Request, s
 	})
 
 	if err != nil {
-		return err
+		w.WriteHeader(http.StatusInternalServerError)
 	}
 
 	return bunrouter.JSON(w, res)
@@ -84,16 +57,15 @@ func DeletePackageVersionHandler(w http.ResponseWriter, req bunrouter.Request, s
 func CreatePackageHandler(w http.ResponseWriter, req bunrouter.Request, s proto.GithubServiceClient) error {
 	data := new(CreatePackageRequestBody)
 	if err := json.NewDecoder(req.Body).Decode(data); err != nil {
-		return err
+		w.WriteHeader(http.StatusBadRequest)
 	}
 
-	fmt.Print(data.Name)
 	res, err := s.CreatePackage(req.Context(), &proto.CreatePackageRequest{
 		Name: data.Name,
 	})
 
 	if err != nil {
-		return err
+		w.WriteHeader(http.StatusInternalServerError)
 	}
 
 	return bunrouter.JSON(w, res)
@@ -103,7 +75,7 @@ func GetPackagesHandler(w http.ResponseWriter, req bunrouter.Request, s proto.Gi
 	res, err := s.GetPackages(req.Context(), &proto.GetPackagesRequest{})
 
 	if err != nil {
-		return err
+		w.WriteHeader(http.StatusInternalServerError)
 	}
 
 	return bunrouter.JSON(w, res)
@@ -117,7 +89,7 @@ func GetPackageHandler(w http.ResponseWriter, req bunrouter.Request, s proto.Git
 	})
 
 	if err != nil {
-		return err
+		w.WriteHeader(http.StatusInternalServerError)
 	}
 
 	return bunrouter.JSON(w, res)
@@ -132,7 +104,7 @@ func GetPackageFileHandler(w http.ResponseWriter, req bunrouter.Request, s proto
 	})
 
 	if err != nil {
-		return err
+		w.WriteHeader(http.StatusInternalServerError)
 	}
 
 	return bunrouter.JSON(w, res)
@@ -165,7 +137,7 @@ func CreatePackageVersionHandler(w http.ResponseWriter, req bunrouter.Request, s
 	})
 
 	if err != nil {
-		return err
+		w.WriteHeader(http.StatusInternalServerError)
 	}
 
 	return bunrouter.JSON(w, res)
@@ -174,7 +146,7 @@ func CreatePackageVersionHandler(w http.ResponseWriter, req bunrouter.Request, s
 func PushPackageVersionHandler(w http.ResponseWriter, req bunrouter.Request, s proto.GithubServiceClient) error {
 	data := new(PushPackageRequestBody)
 	if err := json.NewDecoder(req.Body).Decode(data); err != nil {
-		return err
+		w.WriteHeader(http.StatusBadRequest)
 	}
 
 	res, err := s.PushPackage(req.Context(), &proto.PushPackageRequest{
@@ -184,7 +156,7 @@ func PushPackageVersionHandler(w http.ResponseWriter, req bunrouter.Request, s p
 	})
 
 	if err != nil {
-		return err
+		w.WriteHeader(http.StatusInternalServerError)
 	}
 
 	return bunrouter.JSON(w, res)
@@ -194,8 +166,9 @@ func GetSecretContentHandler(w http.ResponseWriter, req bunrouter.Request, clien
 	res, err := client.GetSecretContent(req.Context(), &proto.GetSecretContentRequest{
 		Name: req.Params().ByName("name"),
 	})
+
 	if err != nil {
-		return err
+		w.WriteHeader(http.StatusInternalServerError)
 	}
 
 	return bunrouter.JSON(w, res)
@@ -204,7 +177,7 @@ func GetSecretContentHandler(w http.ResponseWriter, req bunrouter.Request, clien
 func SyncEnvironmentHandler(w http.ResponseWriter, req bunrouter.Request, client proto.GithubServiceClient) error {
 	res, err := client.SyncEnvironment(req.Context(), &proto.SyncEnvironmentRequest{})
 	if err != nil {
-		return err
+		w.WriteHeader(http.StatusInternalServerError)
 	}
 
 	return bunrouter.JSON(w, res)
@@ -213,7 +186,7 @@ func SyncEnvironmentHandler(w http.ResponseWriter, req bunrouter.Request, client
 func GetSecretsHandler(w http.ResponseWriter, req bunrouter.Request, client proto.GithubServiceClient) error {
 	res, err := client.GetSecrets(req.Context(), &proto.GetSecretsRequest{})
 	if err != nil {
-		return err
+		w.WriteHeader(http.StatusInternalServerError)
 	}
 
 	return bunrouter.JSON(w, res)
@@ -222,16 +195,16 @@ func GetSecretsHandler(w http.ResponseWriter, req bunrouter.Request, client prot
 func CreateSecretHandler(w http.ResponseWriter, req bunrouter.Request, client proto.GithubServiceClient) error {
 	data := new(CreateSecretRequestBody)
 	if err := json.NewDecoder(req.Body).Decode(data); err != nil {
-		return err
+		w.WriteHeader(http.StatusBadRequest)
 	}
 
-	fmt.Print(data)
 	res, err := client.CreateSecret(req.Context(), &proto.CreateSecretRequest{
 		Name:    data.Name,
 		Content: []byte(data.Content),
 	})
+
 	if err != nil {
-		return err
+		w.WriteHeader(http.StatusInternalServerError)
 	}
 
 	return bunrouter.JSON(w, res)
@@ -241,9 +214,36 @@ func DeleteSecretHandler(w http.ResponseWriter, req bunrouter.Request, client pr
 	res, err := client.DeleteSecret(req.Context(), &proto.DeleteSecretRequest{
 		Name: req.Params().ByName("name"),
 	})
+
 	if err != nil {
-		return err
+		w.WriteHeader(http.StatusInternalServerError)
 	}
 
 	return bunrouter.JSON(w, res)
+}
+
+type PushPackageRequestBody struct {
+	Tag        string `json:"tag"`
+	VersionSHA string `json:"sha"`
+}
+
+type DeletePackageRequestBody struct {
+	Tag string `json:"tag"`
+}
+
+type CreatePackageContainerRequestBody struct {
+	ContainerName string `json:"containerName"`
+}
+
+type GetPackageVersionContainers struct {
+	Path string `json:"path"`
+}
+
+type CreatePackageRequestBody struct {
+	Name string `json:"name"`
+}
+
+type CreateSecretRequestBody struct {
+	Name    string `json:"name"`
+	Content string `json:"content"`
 }

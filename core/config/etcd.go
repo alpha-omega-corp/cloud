@@ -67,7 +67,7 @@ func NewHandler(file []byte) *Handler {
 	}
 }
 
-func (h *Handler) LoadAs(ctx context.Context, name string) (config *Config) {
+func (h *Handler) LoadAs(ctx context.Context, name string) *Config {
 	_, err := h.etcd.Put(ctx, "config_"+name, string(h.initialConfig))
 	if err != nil {
 		panic(err)
@@ -82,20 +82,17 @@ func (h *Handler) LoadAs(ctx context.Context, name string) (config *Config) {
 }
 
 func (h *Handler) GetConfig(name string) (config *Config, err error) {
-	var cfg *Config
-
 	err = h.Read("config_"+name, "yaml")
 	if err != nil {
-		return nil, err
+		log.Fatalf("no configuration found for application: %v\n", name)
 	}
 
-	err = h.viper.Unmarshal(&cfg)
+	err = h.viper.Unmarshal(&config)
 	if err != nil {
 		return nil, err
 	}
 
-	cfg.Env = h.viper
-	config = cfg
+	config.Env = h.viper
 
 	return config, nil
 }
@@ -105,7 +102,7 @@ func (h *Handler) Read(key string, format string) (err error) {
 
 	err = h.viper.AddRemoteProvider("etcd3", "http://"+h.host, key)
 	if err != nil {
-		return
+		return err
 	}
 
 	h.viper.SetConfigType(format)
