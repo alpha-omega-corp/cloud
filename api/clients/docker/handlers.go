@@ -3,12 +3,37 @@ package docker
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"github.com/alpha-omega-corp/cloud/app/docker/pkg/proto"
 	"github.com/uptrace/bunrouter"
 	"io"
 	"mime/multipart"
 	"net/http"
 )
+
+type CreateUserMachine struct {
+	Name string
+}
+
+func CreateUserMachineHandler(w http.ResponseWriter, req bunrouter.Request, s proto.DockerServiceClient) error {
+	userId := req.Params().ByName("id")
+	fmt.Println("userId:", userId)
+
+	data := new(CreateUserMachine)
+	if err := json.NewDecoder(req.Body).Decode(data); err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+	}
+
+	res, err := s.CreateUserMachine(req.Context(), &proto.CreateUserMachineRequest{
+		Name: data.Name,
+	})
+
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+	}
+
+	return bunrouter.JSON(w, res)
+}
 
 func StopContainerHandler(w http.ResponseWriter, req bunrouter.Request, s proto.DockerServiceClient) error {
 	res, err := s.StopContainer(req.Context(), &proto.StopContainerRequest{

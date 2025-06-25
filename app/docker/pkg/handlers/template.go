@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"embed"
 	"github.com/alpha-omega-corp/cloud/app/docker/pkg/types"
-	"github.com/alpha-omega-corp/cloud/core/config"
+	"github.com/alpha-omega-corp/cloud/core"
 	"html/template"
 	"io/fs"
 	"sync"
@@ -25,10 +25,10 @@ type TemplateHandler interface {
 type templateHandler struct {
 	TemplateHandler
 	template *template.Template
-	config   *config.Config
+	config   *core.Config
 }
 
-func NewTemplateHandler(config *config.Config) TemplateHandler {
+func NewTemplateHandler(config *core.Config) TemplateHandler {
 	fileSys := getFS()
 	tmpl, err := template.ParseFS(fileSys, "*.template")
 	if err != nil {

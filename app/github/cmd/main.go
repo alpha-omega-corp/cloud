@@ -6,7 +6,6 @@ import (
 	"github.com/alpha-omega-corp/cloud/app/github/pkg/proto"
 	"github.com/alpha-omega-corp/cloud/app/github/pkg/utils"
 	"github.com/alpha-omega-corp/cloud/core"
-	"github.com/alpha-omega-corp/cloud/core/config"
 	"github.com/uptrace/bun"
 	"google.golang.org/grpc"
 )
@@ -18,7 +17,7 @@ var (
 
 func main() {
 	core.NewApp(embedFS, "github").
-		CreateApp(func(config *config.Config, db *bun.DB, grpc *grpc.Server) {
+		CreateApp(func(config *core.Config, db *bun.DB, grpc *grpc.Server) {
 			client := utils.NewGithubApiClient(config)
 
 			proto.RegisterGithubServiceServer(grpc, pkg.NewServer(client))

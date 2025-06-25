@@ -4,6 +4,8 @@ package docker;
 option go_package = "github.com/alpha-omega-corp/cloud/app/docker/pkg/proto";
 
 service DockerService {
+  rpc CreateUserMachine(CreateUserMachineRequest) returns (CreateUserMachineResponse) {}
+
   rpc GetContainers(GetContainersRequest) returns (GetContainersResponse) {}
   rpc CreateContainer(CreateContainerRequest) returns (CreateContainerResponse) {}
   rpc DeleteContainer(DeleteContainerRequest) returns (DeleteContainerResponse) {}
@@ -15,6 +17,18 @@ service DockerService {
   rpc BuildImage(BuildImageRequest) returns (BuildImageResponse) {}
 }
 
+message CreateUserMachineRequest {
+  string name = 1;
+}
+
+message CreateUserMachineResponse {
+  UserMachine item = 1;
+}
+
+message UserMachine {
+  string id = 1;
+  string name = 2;
+}
 
 message GetContainersRequest {
   string path = 1;

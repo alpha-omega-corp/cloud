@@ -5,7 +5,7 @@ import (
 	"context"
 	"github.com/alpha-omega-corp/cloud/app/docker/pkg/models"
 	"github.com/alpha-omega-corp/cloud/app/docker/pkg/proto"
-	"github.com/alpha-omega-corp/cloud/core/config"
+	"github.com/alpha-omega-corp/cloud/core"
 	"github.com/docker/docker/api/types/filters"
 	"github.com/docker/docker/api/types/image"
 	"github.com/docker/docker/client"
@@ -23,13 +23,13 @@ type ImageService interface {
 
 type imageService struct {
 	ImageService
-	config   *config.Config
+	config   *core.Config
 	client   *client.Client
 	template TemplateHandler
 	db       *bun.DB
 }
 
-func NewImageService(config *config.Config, client *client.Client, db *bun.DB) ImageService {
+func NewImageService(config *core.Config, client *client.Client, db *bun.DB) ImageService {
 	return &imageService{
 		db:       db,
 		client:   client,

@@ -1,16 +1,26 @@
-package config
+package core
 
 import (
 	"bytes"
 	"context"
 	"fmt"
 	"github.com/spf13/viper"
-	_ "github.com/spf13/viper/remote"
 	clientv3 "go.etcd.io/etcd/client/v3"
 	"google.golang.org/grpc/connectivity"
 	"log"
 	"time"
 )
+
+var Environment = map[string]string{
+	"local":  "local",
+	"docker": "docker",
+}
+
+func GetConfigPath(env string) string {
+	path := "config/config." + Environment[env] + ".yaml"
+
+	return path
+}
 
 type Config struct {
 	Url *string `mapstruct:"url"`
@@ -18,14 +28,14 @@ type Config struct {
 	Env *viper.Viper
 }
 
-type Handler struct {
-	viper         *viper.Viper
-	etcd          *clientv3.Client
-	initialConfig []byte
-	host          string
+type ConfigHandler struct {
+	name   string
+	viper  *viper.Viper
+	etcd   *clientv3.Client
+	config *Config
 }
 
-func NewHandler(file []byte) *Handler {
+func NewConfigHandler(ctx context.Context, name string, file []byte) *ConfigHandler {
 	v := viper.New()
 
 	v.SetConfigType("yaml")
@@ -39,7 +49,7 @@ func NewHandler(file []byte) *Handler {
 
 	config := clientv3.Config{
 		Endpoints:   []string{host},
-		DialTimeout: 1 * time.Second,
+		DialTimeout: 2 * time.Second,
 	}
 
 	etcd, err := clientv3.New(config)
@@ -59,30 +69,41 @@ func NewHandler(file []byte) *Handler {
 
 	fmt.Printf("etcd > %s\n", etcd.ActiveConnection().GetState())
 
-	return &Handler{
-		host:          host,
-		etcd:          etcd,
-		initialConfig: file,
-		viper:         viper.New(),
-	}
-}
-
-func (h *Handler) LoadAs(ctx context.Context, name string) *Config {
-	_, err := h.etcd.Put(ctx, "config_"+name, string(h.initialConfig))
+	_, err = etcd.Put(ctx, "config_"+name, string(file))
 	if err != nil {
 		panic(err)
 	}
 
-	cfg, err := h.GetConfig(name)
+	handler := &ConfigHandler{
+		etcd:  etcd,
+		viper: viper.New(),
+	}
+
+	c, err := handler.requestConfig(name)
 	if err != nil {
 		panic(err)
 	}
 
-	return cfg
+	handler.config = c
+
+	return handler
 }
 
-func (h *Handler) GetConfig(name string) (config *Config, err error) {
-	err = h.Read("config_"+name, "yaml")
+func (h *ConfigHandler) GetConfig() *Config {
+	return h.config
+}
+
+func (h *ConfigHandler) LoadConfig(name string) (*Config, error) {
+	config, err := h.requestConfig(name)
+	if err != nil {
+		return nil, err
+	}
+
+	return config, nil
+}
+
+func (h *ConfigHandler) requestConfig(name string) (config *Config, err error) {
+	err = h.get("config_"+name, "yaml")
 	if err != nil {
 		log.Fatalf("no configuration found for application: %v\n", name)
 	}
@@ -93,14 +114,17 @@ func (h *Handler) GetConfig(name string) (config *Config, err error) {
 	}
 
 	config.Env = h.viper
+	h.config = config
 
 	return config, nil
 }
 
-func (h *Handler) Read(key string, format string) (err error) {
+func (h *ConfigHandler) get(key string, format string) (err error) {
 	h.viper = viper.New()
 
-	err = h.viper.AddRemoteProvider("etcd3", "http://"+h.host, key)
+	host := h.etcd.Endpoints()[0]
+
+	err = h.viper.AddRemoteProvider("etcd3", "http://"+host, key)
 	if err != nil {
 		return err
 	}

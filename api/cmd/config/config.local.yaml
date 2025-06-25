@@ -1,5 +1,5 @@
 url: localhost:3000
-kvs: localhost:2380
+kvs: localhost:2379
 
 uptrace_dsn: http://h7pTIsleXv3lLrvNlsYriQ@localhost:80?grpc=4316
 uptrace_name: cloud

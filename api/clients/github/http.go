@@ -6,6 +6,9 @@ import (
 
 func RegisterClient(client Client, r *bunrouter.Router) Client {
 
+	r.GET("/github/repositories", client.GetRepositories)
+	r.GET("/github/repository/:name/commits", client.GetCommits)
+
 	r.GET("/github/secrets", client.GetSecrets)
 	r.POST("/github/secrets", client.CreateSecret)
 	r.GET("/github/secrets/:name", client.GetSecretContent)

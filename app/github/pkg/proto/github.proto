@@ -3,9 +3,10 @@ syntax = "proto3";
 package github;
 option go_package = "github.com/alpha-omega-corp/cloud/app/github/pkg/proto";
 
-import package "github.com/alpha-omega-corp/cloud/app/github/pkg/proto";
-
 service GithubService {
+  rpc GetRepositories(GetRepositoriesRequest) returns (GetRepositoriesResponse) {}
+  rpc GetCommits(GetCommitsRequest) returns (GetCommitsResponse) {}
+
   rpc GetSecretContent(GetSecretContentRequest) returns (GetSecretContentResponse) {}
   rpc GetSecrets(GetSecretsRequest) returns (GetSecretsResponse) {}
   rpc CreateSecret(CreateSecretRequest) returns (CreateSecretResponse) {}
@@ -21,6 +22,33 @@ service GithubService {
   rpc DeletePackage(DeletePackageRequest) returns (DeletePackageResponse) {}
   rpc CreatePackageVersion(CreatePackageVersionRequest) returns (CreatePackageVersionResponse) {}
   rpc DeletePackageVersion(DeletePackageVersionRequest) returns (DeletePackageVersionResponse) {}
+}
+
+message GetCommitsRequest {
+ string repoName = 1;
+}
+
+message GetCommitsResponse {
+  repeated Commit items = 1;
+}
+
+message Commit {
+  string sha = 1;
+  string html_url = 2;
+  string commit_message = 3;
+}
+
+
+message GetRepositoriesRequest {}
+
+message GetRepositoriesResponse {
+  repeated Repository items = 1;
+}
+
+message Repository {
+  string name = 1;
+  string full_name = 2;
+  string html_url = 3;
 }
 
 message DeletePackageRequest {

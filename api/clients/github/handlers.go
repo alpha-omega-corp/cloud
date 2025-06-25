@@ -3,6 +3,7 @@ package github
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"github.com/alpha-omega-corp/cloud/app/github/pkg/proto"
 	"github.com/uptrace/bunrouter"
 	"io"
@@ -11,6 +12,29 @@ import (
 	"strconv"
 	"strings"
 )
+
+func GetCommitsHandler(w http.ResponseWriter, req bunrouter.Request, s proto.GithubServiceClient) error {
+	res, err := s.GetCommits(req.Context(), &proto.GetCommitsRequest{
+		RepoName: req.Param("name"),
+	})
+
+	if err != nil {
+		fmt.Print(err)
+		w.WriteHeader(http.StatusInternalServerError)
+	}
+
+	return bunrouter.JSON(w, res)
+}
+
+func GetRepositoriesHandler(w http.ResponseWriter, req bunrouter.Request, s proto.GithubServiceClient) error {
+	res, err := s.GetRepositories(req.Context(), &proto.GetRepositoriesRequest{})
+
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+	}
+
+	return bunrouter.JSON(w, res)
+}
 
 func DeletePackageHandler(w http.ResponseWriter, req bunrouter.Request, s proto.GithubServiceClient) error {
 	res, err := s.DeletePackage(req.Context(), &proto.DeletePackageRequest{
@@ -220,6 +244,10 @@ func DeleteSecretHandler(w http.ResponseWriter, req bunrouter.Request, client pr
 	}
 
 	return bunrouter.JSON(w, res)
+}
+
+type GetCommitsRequestBody struct {
+	RepoName string `json:"repository"`
 }
 
 type PushPackageRequestBody struct {

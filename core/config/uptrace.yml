@@ -25,7 +25,7 @@ logging:
 ##
 service:
   env: hosted
-  secret: ngHM8OeQGCSV13ZQ5k-d4Q
+  secret: 'secret'
 
 ##
 ## Authentication configuration options.
@@ -191,16 +191,16 @@ metrics:
 ### Service graph processing options.
 ###
 service_graph:
-  # Uncomment to disable.
-  #disabled: true
+# Uncomment to disable.
+#disabled: true
 
 ##
 ## Sourcemaps processing options for JavaScript errors.
 ## Sourcemaps require Internet access to download source maps.
 ##
 sourcemaps:
-  # Uncomment to disable.
-  #disabled: true
+# Uncomment to disable.
+#disabled: true
 
 ##
 ## Redis database credentials for go-redis RedisRing client.

@@ -13,13 +13,24 @@ type Handler struct {
 	dbOnce sync.Once
 	db     *bun.DB
 
-	dsn string
+	dsn    string
+	models []any
 }
 
 func NewHandler(dsn string) *Handler {
 	return &Handler{
 		dsn: dsn,
 	}
+}
+
+func (h *Handler) WithModels(models ...any) {
+	h.models = append(h.models, models...)
+
+	h.Database().RegisterModel(h.models...)
+}
+
+func (h *Handler) Models() []any {
+	return h.models
 }
 
 func (h *Handler) Database() *bun.DB {

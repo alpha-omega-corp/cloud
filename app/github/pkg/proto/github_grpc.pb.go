@@ -19,6 +19,8 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
+	GithubService_GetRepositories_FullMethodName      = "/github.GithubService/GetRepositories"
+	GithubService_GetCommits_FullMethodName           = "/github.GithubService/GetCommits"
 	GithubService_GetSecretContent_FullMethodName     = "/github.GithubService/GetSecretContent"
 	GithubService_GetSecrets_FullMethodName           = "/github.GithubService/GetSecrets"
 	GithubService_CreateSecret_FullMethodName         = "/github.GithubService/CreateSecret"
@@ -40,6 +42,8 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type GithubServiceClient interface {
+	GetRepositories(ctx context.Context, in *GetRepositoriesRequest, opts ...grpc.CallOption) (*GetRepositoriesResponse, error)
+	GetCommits(ctx context.Context, in *GetCommitsRequest, opts ...grpc.CallOption) (*GetCommitsResponse, error)
 	GetSecretContent(ctx context.Context, in *GetSecretContentRequest, opts ...grpc.CallOption) (*GetSecretContentResponse, error)
 	GetSecrets(ctx context.Context, in *GetSecretsRequest, opts ...grpc.CallOption) (*GetSecretsResponse, error)
 	CreateSecret(ctx context.Context, in *CreateSecretRequest, opts ...grpc.CallOption) (*CreateSecretResponse, error)
@@ -63,6 +67,26 @@ type githubServiceClient struct {
 
 func NewGithubServiceClient(cc grpc.ClientConnInterface) GithubServiceClient {
 	return &githubServiceClient{cc}
+}
+
+func (c *githubServiceClient) GetRepositories(ctx context.Context, in *GetRepositoriesRequest, opts ...grpc.CallOption) (*GetRepositoriesResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetRepositoriesResponse)
+	err := c.cc.Invoke(ctx, GithubService_GetRepositories_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *githubServiceClient) GetCommits(ctx context.Context, in *GetCommitsRequest, opts ...grpc.CallOption) (*GetCommitsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetCommitsResponse)
+	err := c.cc.Invoke(ctx, GithubService_GetCommits_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *githubServiceClient) GetSecretContent(ctx context.Context, in *GetSecretContentRequest, opts ...grpc.CallOption) (*GetSecretContentResponse, error) {
@@ -219,6 +243,8 @@ func (c *githubServiceClient) DeletePackageVersion(ctx context.Context, in *Dele
 // All implementations must embed UnimplementedGithubServiceServer
 // for forward compatibility.
 type GithubServiceServer interface {
+	GetRepositories(context.Context, *GetRepositoriesRequest) (*GetRepositoriesResponse, error)
+	GetCommits(context.Context, *GetCommitsRequest) (*GetCommitsResponse, error)
 	GetSecretContent(context.Context, *GetSecretContentRequest) (*GetSecretContentResponse, error)
 	GetSecrets(context.Context, *GetSecretsRequest) (*GetSecretsResponse, error)
 	CreateSecret(context.Context, *CreateSecretRequest) (*CreateSecretResponse, error)
@@ -244,6 +270,12 @@ type GithubServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedGithubServiceServer struct{}
 
+func (UnimplementedGithubServiceServer) GetRepositories(context.Context, *GetRepositoriesRequest) (*GetRepositoriesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetRepositories not implemented")
+}
+func (UnimplementedGithubServiceServer) GetCommits(context.Context, *GetCommitsRequest) (*GetCommitsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetCommits not implemented")
+}
 func (UnimplementedGithubServiceServer) GetSecretContent(context.Context, *GetSecretContentRequest) (*GetSecretContentResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetSecretContent not implemented")
 }
@@ -308,6 +340,42 @@ func RegisterGithubServiceServer(s grpc.ServiceRegistrar, srv GithubServiceServe
 		t.testEmbeddedByValue()
 	}
 	s.RegisterService(&GithubService_ServiceDesc, srv)
+}
+
+func _GithubService_GetRepositories_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetRepositoriesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GithubServiceServer).GetRepositories(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: GithubService_GetRepositories_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GithubServiceServer).GetRepositories(ctx, req.(*GetRepositoriesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _GithubService_GetCommits_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetCommitsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GithubServiceServer).GetCommits(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: GithubService_GetCommits_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GithubServiceServer).GetCommits(ctx, req.(*GetCommitsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _GithubService_GetSecretContent_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -587,6 +655,14 @@ var GithubService_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "github.GithubService",
 	HandlerType: (*GithubServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "GetRepositories",
+			Handler:    _GithubService_GetRepositories_Handler,
+		},
+		{
+			MethodName: "GetCommits",
+			Handler:    _GithubService_GetCommits_Handler,
+		},
 		{
 			MethodName: "GetSecretContent",
 			Handler:    _GithubService_GetSecretContent_Handler,

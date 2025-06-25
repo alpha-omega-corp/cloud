@@ -4,7 +4,7 @@ import (
 	"context"
 	"github.com/alpha-omega-corp/cloud/app/docker/pkg/handlers"
 	"github.com/alpha-omega-corp/cloud/app/docker/pkg/proto"
-	"github.com/alpha-omega-corp/cloud/core/config"
+	"github.com/alpha-omega-corp/cloud/core"
 	"github.com/docker/docker/client"
 	"github.com/uptrace/bun"
 	"net/http"
@@ -16,19 +16,30 @@ type Server struct {
 	containerService handlers.ContainerService
 }
 
-func NewServer(config *config.Config, client *client.Client, db *bun.DB) *Server {
+func NewServer(config *core.Config, client *client.Client, db *bun.DB) *Server {
 	return &Server{
 		imageService:     handlers.NewImageService(config, client, db),
-		containerService: handlers.NewContainerHandler(config, client),
+		containerService: handlers.NewContainerHandler(config, client, db),
 	}
+}
+
+func (s *Server) CreateUserMachine(ctx context.Context, req *proto.CreateUserMachineRequest) (*proto.CreateUserMachineResponse, error) {
+	if err := s.containerService.Create(ctx, "path", req.Name); err != nil {
+
+	}
+
+	return &proto.CreateUserMachineResponse{
+		Item: &proto.UserMachine{
+			Id:   "",
+			Name: req.Name,
+		},
+	}, nil
 }
 
 func (s *Server) CreateContainer(ctx context.Context, req *proto.CreateContainerRequest) (*proto.CreateContainerResponse, error) {
 
-	if err := s.containerService.CreateContainer(ctx, req.Path, req.Name); err != nil {
-		return &proto.CreateContainerResponse{
-			Status: http.StatusOK,
-		}, err
+	if err := s.containerService.Create(ctx, req.Path, req.Name); err != nil {
+		return nil, err
 	}
 
 	return &proto.CreateContainerResponse{

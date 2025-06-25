@@ -1,0 +1,15 @@
+services:
+  docker-db:
+    image: postgres
+    container_name: app-docker-db
+    ports:
+      - "5442:5432"
+    environment:
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_USER=docker
+      - POSTGRES_DB=docker
+    volumes:
+      - pgdata_cloud_docker:/var/lib/postgresql/data
+
+volumes:
+  pgdata_cloud_docker:

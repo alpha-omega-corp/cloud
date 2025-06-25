@@ -6,7 +6,6 @@ import (
 	"github.com/alpha-omega-corp/cloud/app/docker/pkg/models"
 	"github.com/alpha-omega-corp/cloud/app/docker/pkg/proto"
 	"github.com/alpha-omega-corp/cloud/core"
-	"github.com/alpha-omega-corp/cloud/core/config"
 	"github.com/docker/docker/client"
 	"github.com/uptrace/bun"
 	"google.golang.org/grpc"
@@ -19,7 +18,7 @@ var (
 
 func main() {
 	core.NewApp(embedFS, "docker").
-		CreateApp(func(config *config.Config, db *bun.DB, grpc *grpc.Server) {
+		CreateApp(func(config *core.Config, db *bun.DB, grpc *grpc.Server) {
 			dockerClient, err := client.NewClientWithOpts(client.FromEnv, client.WithAPIVersionNegotiation())
 			if err != nil {
 				panic(err)

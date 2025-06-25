@@ -1,11 +1,14 @@
-build:
-	docker build --tag redis -f Dockerfile .
+bootstrap:
+	docker compose up -d && bash ./scripts/etcd.bash
 
-run:
-	docker run --network=cloud --name cache --publish 6379:6379 redis --save 60 1 --loglevel warning
+otel:
+	docker compose up -d && bash ./scripts/uptrace.bash
 
 uptrace:
 	uptrace --config=uptrace.yml serve
 
 uptrace-reset:
 	uptrace --config=uptrace.yml ch reset
+
+status:
+	etcdctl --endpoints=http://localhost:2379 member list

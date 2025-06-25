@@ -3,6 +3,7 @@ package pkg
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"github.com/alpha-omega-corp/cloud/app/github/pkg/handlers"
 	"github.com/alpha-omega-corp/cloud/app/github/pkg/proto"
 	"github.com/alpha-omega-corp/cloud/app/github/pkg/types"
@@ -21,6 +22,39 @@ func NewServer(client *utils.GithubApi) *Server {
 		packageService:    handlers.NewPackageService(client),
 		repositoryService: handlers.NewRepositoryService(client),
 	}
+}
+
+func (s *Server) GetRepositoryCommits(ctx context.Context, req *proto.GetCommitsRequest) (*proto.GetCommitsResponse, error) {
+	fmt.Println(req.RepoName)
+	items, err := s.repositoryService.GetCommits(ctx, req.RepoName)
+
+	if err != nil {
+		return nil, err
+	}
+
+	fmt.Print(items)
+	return nil, nil
+}
+
+func (s *Server) GetRepositories(ctx context.Context, req *proto.GetRepositoriesRequest) (*proto.GetRepositoriesResponse, error) {
+	items, err := s.repositoryService.GetAll(ctx)
+
+	if err != nil {
+		return nil, err
+	}
+
+	resSlice := make([]*proto.Repository, len(items))
+	for index, repository := range items {
+		resSlice[index] = &proto.Repository{
+			Name:     *repository.Name,
+			FullName: *repository.FullName,
+			HtmlUrl:  *repository.HTMLURL,
+		}
+	}
+
+	return &proto.GetRepositoriesResponse{
+		Items: resSlice,
+	}, nil
 }
 
 func (s *Server) GetPackages(ctx context.Context, req *proto.GetPackagesRequest) (*proto.GetPackagesResponse, error) {

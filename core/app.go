@@ -4,7 +4,6 @@ import (
 	"context"
 	"embed"
 	"fmt"
-	"github.com/alpha-omega-corp/cloud/core/config"
 	"github.com/alpha-omega-corp/cloud/core/database"
 	"github.com/alpha-omega-corp/cloud/core/server"
 	"github.com/uptrace/bun"
@@ -25,31 +24,22 @@ import (
 )
 
 type App struct {
-	name string
+	name          string
+	dbHandler     *database.Handler
+	configHandler *ConfigHandler
 
-	dbHandler *database.Handler
-	dbModels  []any
-
-	fs            embed.FS
-	config        *config.Config
-	configHandler *config.Handler
-}
-
-type HttpResponse struct {
-	Status string `json:"status"`
-	Error  string `json:"error"`
+	fs embed.FS
 }
 
 func NewApp(efs embed.FS, name string) *App {
 	return &App{
 		name:      name,
 		fs:        efs,
-		config:    nil,
 		dbHandler: nil,
 	}
 }
 
-func (app *App) CreateApi(init func(router *bunrouter.Router, configHandler *config.Handler)) os.Signal {
+func (app *App) CreateApi(init func(router *bunrouter.Router, configHandler *ConfigHandler)) os.Signal {
 	appCli := &cli.Command{
 		Usage: "cloud application cli",
 		Commands: []*cli.Command{
@@ -73,9 +63,7 @@ func (app *App) CreateApi(init func(router *bunrouter.Router, configHandler *con
 	return <-ch
 }
 
-func (app *App) CreateApp(init func(config *config.Config, db *bun.DB, grpc *grpc.Server), models ...any) {
-	app.dbModels = append(app.dbModels, models...)
-
+func (app *App) CreateApp(init func(config *Config, db *bun.DB, grpc *grpc.Server), models ...any) {
 	appCli := &cli.Command{
 		Usage: "cloud application cli",
 		Commands: []*cli.Command{
@@ -89,10 +77,10 @@ func (app *App) CreateApp(init func(config *config.Config, db *bun.DB, grpc *grp
 	}
 }
 
-func (app *App) newGrpcCommand(init func(config *config.Config, db *bun.DB, grpc *grpc.Server)) *cli.Command {
+func (app *App) newGrpcCommand(init func(config *Config, db *bun.DB, grpc *grpc.Server)) *cli.Command {
 	return app.createCommand("app", "server", func(ctx context.Context, cmd *cli.Command) {
-		if err := server.NewGRPC(*app.config.Url, app.dbHandler, func(db *bun.DB, grpc *grpc.Server) {
-			init(app.config, db, grpc)
+		if err := server.NewGRPC(*app.configHandler.config.Url, app.dbHandler, func(db *bun.DB, grpc *grpc.Server) {
+			init(app.configHandler.config, db, grpc)
 			fmt.Printf("server start success\n")
 		}); err != nil {
 			panic(err)
@@ -100,7 +88,7 @@ func (app *App) newGrpcCommand(init func(config *config.Config, db *bun.DB, grpc
 	})
 }
 
-func (app *App) newHttpCommand(init func(router *bunrouter.Router, configHandler *config.Handler)) *cli.Command {
+func (app *App) newHttpCommand(init func(router *bunrouter.Router, configHandler *ConfigHandler)) *cli.Command {
 	return app.createCommand("app", "server", func(ctx context.Context, cmd *cli.Command) {
 		r := bunrouter.New(
 			bunrouter.WithMiddleware(reqlog.NewMiddleware(
@@ -116,7 +104,7 @@ func (app *App) newHttpCommand(init func(router *bunrouter.Router, configHandler
 		// Listen and serve
 		handler := otelhttp.NewHandler(r, "")
 		httpSrv := &http.Server{
-			Addr:         *app.config.Url,
+			Addr:         *app.configHandler.config.Url,
 			ReadTimeout:  60 * time.Second,
 			WriteTimeout: 60 * time.Second,
 			IdleTimeout:  60 * time.Second,
@@ -142,7 +130,7 @@ func (app *App) migrateCommand() *cli.Command {
 			panic(err)
 		}
 
-		if err := db.ResetModel(ctx, app.dbModels...); err != nil {
+		if err := db.ResetModel(ctx, app.dbHandler.Models); err != nil {
 			panic(err)
 		}
 
@@ -155,16 +143,15 @@ func (app *App) migrateCommand() *cli.Command {
 }
 
 func (app *App) loadConfig(env string, name string) {
-	configFile, err := app.fs.ReadFile(config.GetConfigPath(env))
+	configFile, err := app.fs.ReadFile(GetConfigPath(env))
 	if err != nil {
 		log.Fatalf("read config file error: %v\n", err)
 	}
 
-	app.configHandler = config.NewHandler(configFile)
-	app.config = app.configHandler.LoadAs(context.Background(), name)
+	app.configHandler = NewConfigHandler(context.Background(), name, configFile)
 }
 
-func (app *App) createCommand(category string, name string, action func(ctx context.Context, cmd *cli.Command)) *cli.Command {
+func (app *App) createCommand(category string, name string, action func(ctx context.Context, cmd *cli.Command), models ...any) *cli.Command {
 	return &cli.Command{
 		Name:     name,
 		Category: category,
@@ -180,9 +167,9 @@ func (app *App) createCommand(category string, name string, action func(ctx cont
 			env := cmd.String("env")
 			app.loadConfig(env, app.name)
 
-			if app.config.Dsn != nil {
-				app.dbHandler = database.NewHandler(*app.config.Dsn)
-				app.dbHandler.Database().RegisterModel(app.dbModels...)
+			if app.configHandler.config.Dsn != nil {
+				app.dbHandler = database.NewHandler(*app.configHandler.config.Dsn)
+				app.dbHandler.WithModels(models...)
 			}
 
 			action(ctx, cmd)

@@ -6,11 +6,8 @@ toolchain go1.23.7
 
 require (
 	github.com/alpha-omega-corp/cloud/core v0.0.0-20250419204936-8f70be0209e0
-	github.com/alpha-omega-corp/services v0.0.0-20240324144213-d20902053154
 	github.com/google/go-github/v71 v71.0.0
 	github.com/uptrace/bun v1.2.11
-	go.etcd.io/etcd/client/v3 v3.5.21
-	golang.org/x/crypto v0.37.0
 	google.golang.org/grpc v1.72.0
 	google.golang.org/protobuf v1.36.6
 )
@@ -79,6 +76,7 @@ require (
 	github.com/uptrace/bun/driver/pgdriver v1.2.11 // indirect
 	github.com/uptrace/bun/extra/bundebug v1.2.11 // indirect
 	github.com/uptrace/bunrouter v1.0.23 // indirect
+	github.com/uptrace/bunrouter/extra/bunrouterotel v1.0.23 // indirect
 	github.com/uptrace/bunrouter/extra/reqlog v1.0.23 // indirect
 	github.com/urfave/cli/v3 v3.1.1 // indirect
 	github.com/vmihailenco/msgpack/v5 v5.4.1 // indirect
@@ -86,6 +84,7 @@ require (
 	go.etcd.io/etcd/api/v3 v3.5.21 // indirect
 	go.etcd.io/etcd/client/pkg/v3 v3.5.21 // indirect
 	go.etcd.io/etcd/client/v2 v2.305.21 // indirect
+	go.etcd.io/etcd/client/v3 v3.5.21 // indirect
 	go.opentelemetry.io/auto/sdk v1.1.0 // indirect
 	go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc v0.60.0 // indirect
 	go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp v0.60.0 // indirect
@@ -94,6 +93,7 @@ require (
 	go.opentelemetry.io/otel/trace v1.35.0 // indirect
 	go.uber.org/multierr v1.11.0 // indirect
 	go.uber.org/zap v1.27.0 // indirect
+	golang.org/x/crypto v0.37.0 // indirect
 	golang.org/x/exp v0.0.0-20250408133849-7e4ce0ab07d0 // indirect
 	golang.org/x/net v0.39.0 // indirect
 	golang.org/x/oauth2 v0.29.0 // indirect

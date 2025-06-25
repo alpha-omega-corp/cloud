@@ -1,0 +1,7 @@
+
+name: apps
+
+include:
+  - user/docker-compose.yml
+  - github/docker-compose.yml
+  - docker/docker-compose.yml

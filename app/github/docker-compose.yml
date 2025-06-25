@@ -1,0 +1,15 @@
+services:
+  github-db:
+    image: postgres
+    container_name: app-github-db
+    ports:
+      - "5441:5432"
+    environment:
+      - POSTGRES_PASSWORD=github
+      - POSTGRES_USER=github
+      - POSTGRES_DB=github
+    volumes:
+      - pgdata_cloud_github:/var/lib/postgresql/data
+
+volumes:
+  pgdata_cloud_github:

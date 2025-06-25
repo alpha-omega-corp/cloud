@@ -3,7 +3,7 @@ package user
 import (
 	"fmt"
 	"github.com/alpha-omega-corp/cloud/app/user/pkg/proto"
-	"github.com/alpha-omega-corp/cloud/core/config"
+	"github.com/alpha-omega-corp/cloud/core"
 	"github.com/uptrace/bunrouter"
 	"google.golang.org/grpc"
 	"net/http"
@@ -24,7 +24,6 @@ type Client interface {
 	GetUserPermissions(w http.ResponseWriter, req bunrouter.Request) error
 	GetRoles(w http.ResponseWriter, req bunrouter.Request) error
 	CreateRole(w http.ResponseWriter, req bunrouter.Request) error
-	GetTest(w http.ResponseWriter, req bunrouter.Request) error
 }
 
 type userClient struct {
@@ -32,8 +31,8 @@ type userClient struct {
 	client proto.UserServiceClient
 }
 
-func NewClient(c *config.Config) Client {
-	conn, err := grpc.Dial(*c.Url, grpc.WithInsecure())
+func NewClient(c *core.Config) Client {
+	conn, err := grpc.NewClient(*c.Url, grpc.WithInsecure())
 
 	if err != nil {
 		fmt.Println("Could not connect:", err)

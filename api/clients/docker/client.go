@@ -3,13 +3,14 @@ package docker
 import (
 	"fmt"
 	"github.com/alpha-omega-corp/cloud/app/docker/pkg/proto"
-	"github.com/alpha-omega-corp/cloud/core/config"
+	"github.com/alpha-omega-corp/cloud/core"
 	"github.com/uptrace/bunrouter"
 	"google.golang.org/grpc"
 	"net/http"
 )
 
 type Client interface {
+	CreateUserMachine(w http.ResponseWriter, req bunrouter.Request) error
 	GetContainers(w http.ResponseWriter, req bunrouter.Request) error
 	GetPackageVersionContainers(w http.ResponseWriter, req bunrouter.Request) error
 	CreateContainer(w http.ResponseWriter, req bunrouter.Request) error
@@ -27,8 +28,8 @@ type dockerClient struct {
 	client proto.DockerServiceClient
 }
 
-func NewClient(c *config.Config) Client {
-	conn, err := grpc.Dial(*c.Url, grpc.WithInsecure())
+func NewClient(c *core.Config) Client {
+	conn, err := grpc.NewClient(*c.Url, grpc.WithInsecure())
 
 	if err != nil {
 		fmt.Println("Could not connect:", err)
@@ -37,6 +38,9 @@ func NewClient(c *config.Config) Client {
 	return &dockerClient{client: proto.NewDockerServiceClient(conn)}
 }
 
+func (svc *dockerClient) CreateUserMachine(w http.ResponseWriter, req bunrouter.Request) error {
+	return CreateUserMachineHandler(w, req, svc.client)
+}
 func (svc *dockerClient) GetContainers(w http.ResponseWriter, req bunrouter.Request) error {
 	return GetContainersHandler(w, req, svc.client)
 }

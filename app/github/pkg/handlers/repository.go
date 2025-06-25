@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"context"
+	"fmt"
 	"github.com/alpha-omega-corp/cloud/app/github/pkg/utils"
 	"github.com/google/go-github/v71/github"
 )
@@ -19,11 +20,12 @@ type PackageFile struct {
 }
 
 type RepositoryService interface {
-	GetPackageFiles(ctx context.Context, name string) ([]*PackageFile, error)
+	GetAll(ctx context.Context) ([]*github.Repository, error)
+	GetCommits(ctx context.Context, repo string) ([]*github.RepositoryCommit, error)
 	GetContents(ctx context.Context, repo string, path string) (content *Content, err error)
 	PutContents(ctx context.Context, repo string, path string, content []byte, sha *string) error
 	DeleteContents(ctx context.Context, repo string, path string, sha string) error
-	GetAll(ctx context.Context) ([]*github.Repository, error)
+	GetPackageFiles(ctx context.Context, name string) ([]*PackageFile, error)
 }
 
 type repositoryService struct {
@@ -39,13 +41,24 @@ func NewRepositoryService(client *utils.GithubApi) RepositoryService {
 
 func (h *repositoryService) GetAll(ctx context.Context) ([]*github.Repository, error) {
 	opt := &github.RepositoryListByOrgOptions{}
-	packages, _, err := h.client.Default.Repositories.ListByOrg(ctx, h.client.Org, opt)
+	items, _, err := h.client.Default.Repositories.ListByOrg(ctx, h.client.Org, opt)
 
 	if err != nil {
 		return nil, err
 	}
 
-	return packages, nil
+	return items, nil
+}
+
+func (h *repositoryService) GetCommits(ctx context.Context, repo string) ([]*github.RepositoryCommit, error) {
+	items, _, err := h.client.Default.Repositories.ListCommits(ctx, h.client.Org, "cloud", &github.CommitsListOptions{})
+
+	fmt.Print(items)
+	if err != nil {
+		panic(err)
+	}
+
+	return items, nil
 }
 
 func (h *repositoryService) GetPackageFiles(ctx context.Context, name string) ([]*PackageFile, error) {

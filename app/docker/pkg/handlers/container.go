@@ -4,7 +4,8 @@ import (
 	"context"
 	"encoding/base64"
 	"encoding/json"
-	"github.com/alpha-omega-corp/cloud/core/config"
+	"fmt"
+	"github.com/alpha-omega-corp/cloud/core"
 	"github.com/docker/docker/api/types/container"
 	"github.com/docker/docker/api/types/filters"
 	"github.com/docker/docker/api/types/image"
@@ -12,12 +13,13 @@ import (
 	"github.com/docker/docker/api/types/registry"
 	_ "github.com/docker/docker/api/types/registry"
 	"github.com/docker/docker/client"
+	"github.com/uptrace/bun"
 	"io"
 	"strings"
 )
 
 type ContainerService interface {
-	CreateContainer(ctx context.Context, path string, name string) error
+	Create(ctx context.Context, path string, name string) error
 	GetAll(ctx context.Context) ([]container.Summary, error)
 	GetAllByImage(ctx context.Context, path string) ([]container.Summary, error)
 	Start(ctx context.Context, cId string) error
@@ -31,14 +33,23 @@ type containerService struct {
 	ContainerService
 
 	client *client.Client
-	config *config.Config
+	config *core.Config
 }
 
-func NewContainerHandler(config *config.Config, client *client.Client) ContainerService {
+func NewContainerHandler(config *core.Config, client *client.Client, db *bun.DB) ContainerService {
 	return &containerService{
 		client: client,
 		config: config,
 	}
+}
+
+func (h *containerService) CreateUserContainer(ctx context.Context, imageName string) error {
+
+	if err := h.Create(ctx, imageName, imageName); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func (h *containerService) Start(ctx context.Context, cId string) error {
@@ -108,8 +119,9 @@ func (h *containerService) GetAllByImage(ctx context.Context, path string) ([]co
 	})
 }
 
-func (h *containerService) CreateContainer(ctx context.Context, path string, name string) error {
+func (h *containerService) Create(ctx context.Context, path string, name string) error {
 	imgName := h.imageName(path)
+	fmt.Print(imgName)
 	if err := h.PullImage(imgName, ctx); err != nil {
 		return err
 	}

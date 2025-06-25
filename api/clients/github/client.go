@@ -3,13 +3,15 @@ package github
 import (
 	"fmt"
 	"github.com/alpha-omega-corp/cloud/app/github/pkg/proto"
-	"github.com/alpha-omega-corp/cloud/core/config"
+	"github.com/alpha-omega-corp/cloud/core"
 	"github.com/uptrace/bunrouter"
 	"google.golang.org/grpc"
 	"net/http"
 )
 
 type Client interface {
+	GetCommits(w http.ResponseWriter, req bunrouter.Request) error
+	GetRepositories(w http.ResponseWriter, req bunrouter.Request) error
 	GetSecretContent(w http.ResponseWriter, req bunrouter.Request) error
 	SyncEnvironment(w http.ResponseWriter, req bunrouter.Request) error
 	DeleteSecret(w http.ResponseWriter, req bunrouter.Request) error
@@ -32,14 +34,22 @@ type gitClient struct {
 	client proto.GithubServiceClient
 }
 
-func NewClient(c *config.Config) Client {
-	conn, err := grpc.Dial(*c.Url, grpc.WithInsecure())
+func NewClient(c *core.Config) Client {
+	conn, err := grpc.NewClient(*c.Url, grpc.WithInsecure())
 
 	if err != nil {
 		fmt.Println("Could not connect:", err)
 	}
 
 	return &gitClient{client: proto.NewGithubServiceClient(conn)}
+}
+
+func (svc *gitClient) GetCommits(w http.ResponseWriter, req bunrouter.Request) error {
+	return GetCommitsHandler(w, req, svc.client)
+}
+
+func (svc *gitClient) GetRepositories(w http.ResponseWriter, req bunrouter.Request) error {
+	return GetRepositoriesHandler(w, req, svc.client)
 }
 
 func (svc *gitClient) DeletePackage(w http.ResponseWriter, req bunrouter.Request) error {

@@ -21,6 +21,294 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type GetCommitsRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	RepoName      string                 `protobuf:"bytes,1,opt,name=repoName,proto3" json:"repoName,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetCommitsRequest) Reset() {
+	*x = GetCommitsRequest{}
+	mi := &file_pkg_proto_github_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetCommitsRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetCommitsRequest) ProtoMessage() {}
+
+func (x *GetCommitsRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_pkg_proto_github_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetCommitsRequest.ProtoReflect.Descriptor instead.
+func (*GetCommitsRequest) Descriptor() ([]byte, []int) {
+	return file_pkg_proto_github_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *GetCommitsRequest) GetRepoName() string {
+	if x != nil {
+		return x.RepoName
+	}
+	return ""
+}
+
+type GetCommitsResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Items         []*Commit              `protobuf:"bytes,1,rep,name=items,proto3" json:"items,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetCommitsResponse) Reset() {
+	*x = GetCommitsResponse{}
+	mi := &file_pkg_proto_github_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetCommitsResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetCommitsResponse) ProtoMessage() {}
+
+func (x *GetCommitsResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_pkg_proto_github_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetCommitsResponse.ProtoReflect.Descriptor instead.
+func (*GetCommitsResponse) Descriptor() ([]byte, []int) {
+	return file_pkg_proto_github_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *GetCommitsResponse) GetItems() []*Commit {
+	if x != nil {
+		return x.Items
+	}
+	return nil
+}
+
+type Commit struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Sha           string                 `protobuf:"bytes,1,opt,name=sha,proto3" json:"sha,omitempty"`
+	HtmlUrl       string                 `protobuf:"bytes,2,opt,name=html_url,json=htmlUrl,proto3" json:"html_url,omitempty"`
+	CommitMessage string                 `protobuf:"bytes,3,opt,name=commit_message,json=commitMessage,proto3" json:"commit_message,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Commit) Reset() {
+	*x = Commit{}
+	mi := &file_pkg_proto_github_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Commit) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Commit) ProtoMessage() {}
+
+func (x *Commit) ProtoReflect() protoreflect.Message {
+	mi := &file_pkg_proto_github_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Commit.ProtoReflect.Descriptor instead.
+func (*Commit) Descriptor() ([]byte, []int) {
+	return file_pkg_proto_github_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *Commit) GetSha() string {
+	if x != nil {
+		return x.Sha
+	}
+	return ""
+}
+
+func (x *Commit) GetHtmlUrl() string {
+	if x != nil {
+		return x.HtmlUrl
+	}
+	return ""
+}
+
+func (x *Commit) GetCommitMessage() string {
+	if x != nil {
+		return x.CommitMessage
+	}
+	return ""
+}
+
+type GetRepositoriesRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetRepositoriesRequest) Reset() {
+	*x = GetRepositoriesRequest{}
+	mi := &file_pkg_proto_github_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetRepositoriesRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetRepositoriesRequest) ProtoMessage() {}
+
+func (x *GetRepositoriesRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_pkg_proto_github_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetRepositoriesRequest.ProtoReflect.Descriptor instead.
+func (*GetRepositoriesRequest) Descriptor() ([]byte, []int) {
+	return file_pkg_proto_github_proto_rawDescGZIP(), []int{3}
+}
+
+type GetRepositoriesResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Items         []*Repository          `protobuf:"bytes,1,rep,name=items,proto3" json:"items,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *GetRepositoriesResponse) Reset() {
+	*x = GetRepositoriesResponse{}
+	mi := &file_pkg_proto_github_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *GetRepositoriesResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetRepositoriesResponse) ProtoMessage() {}
+
+func (x *GetRepositoriesResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_pkg_proto_github_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetRepositoriesResponse.ProtoReflect.Descriptor instead.
+func (*GetRepositoriesResponse) Descriptor() ([]byte, []int) {
+	return file_pkg_proto_github_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *GetRepositoriesResponse) GetItems() []*Repository {
+	if x != nil {
+		return x.Items
+	}
+	return nil
+}
+
+type Repository struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	FullName      string                 `protobuf:"bytes,2,opt,name=full_name,json=fullName,proto3" json:"full_name,omitempty"`
+	HtmlUrl       string                 `protobuf:"bytes,3,opt,name=html_url,json=htmlUrl,proto3" json:"html_url,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Repository) Reset() {
+	*x = Repository{}
+	mi := &file_pkg_proto_github_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Repository) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Repository) ProtoMessage() {}
+
+func (x *Repository) ProtoReflect() protoreflect.Message {
+	mi := &file_pkg_proto_github_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Repository.ProtoReflect.Descriptor instead.
+func (*Repository) Descriptor() ([]byte, []int) {
+	return file_pkg_proto_github_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *Repository) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *Repository) GetFullName() string {
+	if x != nil {
+		return x.FullName
+	}
+	return ""
+}
+
+func (x *Repository) GetHtmlUrl() string {
+	if x != nil {
+		return x.HtmlUrl
+	}
+	return ""
+}
+
 type DeletePackageRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Name          string                 `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
@@ -30,7 +318,7 @@ type DeletePackageRequest struct {
 
 func (x *DeletePackageRequest) Reset() {
 	*x = DeletePackageRequest{}
-	mi := &file_pkg_proto_github_proto_msgTypes[0]
+	mi := &file_pkg_proto_github_proto_msgTypes[6]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -42,7 +330,7 @@ func (x *DeletePackageRequest) String() string {
 func (*DeletePackageRequest) ProtoMessage() {}
 
 func (x *DeletePackageRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_pkg_proto_github_proto_msgTypes[0]
+	mi := &file_pkg_proto_github_proto_msgTypes[6]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -55,7 +343,7 @@ func (x *DeletePackageRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeletePackageRequest.ProtoReflect.Descriptor instead.
 func (*DeletePackageRequest) Descriptor() ([]byte, []int) {
-	return file_pkg_proto_github_proto_rawDescGZIP(), []int{0}
+	return file_pkg_proto_github_proto_rawDescGZIP(), []int{6}
 }
 
 func (x *DeletePackageRequest) GetName() string {
@@ -74,7 +362,7 @@ type DeletePackageResponse struct {
 
 func (x *DeletePackageResponse) Reset() {
 	*x = DeletePackageResponse{}
-	mi := &file_pkg_proto_github_proto_msgTypes[1]
+	mi := &file_pkg_proto_github_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -86,7 +374,7 @@ func (x *DeletePackageResponse) String() string {
 func (*DeletePackageResponse) ProtoMessage() {}
 
 func (x *DeletePackageResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_pkg_proto_github_proto_msgTypes[1]
+	mi := &file_pkg_proto_github_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -99,7 +387,7 @@ func (x *DeletePackageResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeletePackageResponse.ProtoReflect.Descriptor instead.
 func (*DeletePackageResponse) Descriptor() ([]byte, []int) {
-	return file_pkg_proto_github_proto_rawDescGZIP(), []int{1}
+	return file_pkg_proto_github_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *DeletePackageResponse) GetStatus() int64 {
@@ -118,7 +406,7 @@ type GetSecretContentRequest struct {
 
 func (x *GetSecretContentRequest) Reset() {
 	*x = GetSecretContentRequest{}
-	mi := &file_pkg_proto_github_proto_msgTypes[2]
+	mi := &file_pkg_proto_github_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -130,7 +418,7 @@ func (x *GetSecretContentRequest) String() string {
 func (*GetSecretContentRequest) ProtoMessage() {}
 
 func (x *GetSecretContentRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_pkg_proto_github_proto_msgTypes[2]
+	mi := &file_pkg_proto_github_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -143,7 +431,7 @@ func (x *GetSecretContentRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetSecretContentRequest.ProtoReflect.Descriptor instead.
 func (*GetSecretContentRequest) Descriptor() ([]byte, []int) {
-	return file_pkg_proto_github_proto_rawDescGZIP(), []int{2}
+	return file_pkg_proto_github_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *GetSecretContentRequest) GetName() string {
@@ -162,7 +450,7 @@ type GetSecretContentResponse struct {
 
 func (x *GetSecretContentResponse) Reset() {
 	*x = GetSecretContentResponse{}
-	mi := &file_pkg_proto_github_proto_msgTypes[3]
+	mi := &file_pkg_proto_github_proto_msgTypes[9]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -174,7 +462,7 @@ func (x *GetSecretContentResponse) String() string {
 func (*GetSecretContentResponse) ProtoMessage() {}
 
 func (x *GetSecretContentResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_pkg_proto_github_proto_msgTypes[3]
+	mi := &file_pkg_proto_github_proto_msgTypes[9]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -187,7 +475,7 @@ func (x *GetSecretContentResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetSecretContentResponse.ProtoReflect.Descriptor instead.
 func (*GetSecretContentResponse) Descriptor() ([]byte, []int) {
-	return file_pkg_proto_github_proto_rawDescGZIP(), []int{3}
+	return file_pkg_proto_github_proto_rawDescGZIP(), []int{9}
 }
 
 func (x *GetSecretContentResponse) GetContent() []byte {
@@ -205,7 +493,7 @@ type SyncEnvironmentRequest struct {
 
 func (x *SyncEnvironmentRequest) Reset() {
 	*x = SyncEnvironmentRequest{}
-	mi := &file_pkg_proto_github_proto_msgTypes[4]
+	mi := &file_pkg_proto_github_proto_msgTypes[10]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -217,7 +505,7 @@ func (x *SyncEnvironmentRequest) String() string {
 func (*SyncEnvironmentRequest) ProtoMessage() {}
 
 func (x *SyncEnvironmentRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_pkg_proto_github_proto_msgTypes[4]
+	mi := &file_pkg_proto_github_proto_msgTypes[10]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -230,7 +518,7 @@ func (x *SyncEnvironmentRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SyncEnvironmentRequest.ProtoReflect.Descriptor instead.
 func (*SyncEnvironmentRequest) Descriptor() ([]byte, []int) {
-	return file_pkg_proto_github_proto_rawDescGZIP(), []int{4}
+	return file_pkg_proto_github_proto_rawDescGZIP(), []int{10}
 }
 
 type SyncEnvironmentResponse struct {
@@ -242,7 +530,7 @@ type SyncEnvironmentResponse struct {
 
 func (x *SyncEnvironmentResponse) Reset() {
 	*x = SyncEnvironmentResponse{}
-	mi := &file_pkg_proto_github_proto_msgTypes[5]
+	mi := &file_pkg_proto_github_proto_msgTypes[11]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -254,7 +542,7 @@ func (x *SyncEnvironmentResponse) String() string {
 func (*SyncEnvironmentResponse) ProtoMessage() {}
 
 func (x *SyncEnvironmentResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_pkg_proto_github_proto_msgTypes[5]
+	mi := &file_pkg_proto_github_proto_msgTypes[11]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -267,7 +555,7 @@ func (x *SyncEnvironmentResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SyncEnvironmentResponse.ProtoReflect.Descriptor instead.
 func (*SyncEnvironmentResponse) Descriptor() ([]byte, []int) {
-	return file_pkg_proto_github_proto_rawDescGZIP(), []int{5}
+	return file_pkg_proto_github_proto_rawDescGZIP(), []int{11}
 }
 
 func (x *SyncEnvironmentResponse) GetStatus() int64 {
@@ -286,7 +574,7 @@ type DeleteSecretRequest struct {
 
 func (x *DeleteSecretRequest) Reset() {
 	*x = DeleteSecretRequest{}
-	mi := &file_pkg_proto_github_proto_msgTypes[6]
+	mi := &file_pkg_proto_github_proto_msgTypes[12]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -298,7 +586,7 @@ func (x *DeleteSecretRequest) String() string {
 func (*DeleteSecretRequest) ProtoMessage() {}
 
 func (x *DeleteSecretRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_pkg_proto_github_proto_msgTypes[6]
+	mi := &file_pkg_proto_github_proto_msgTypes[12]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -311,7 +599,7 @@ func (x *DeleteSecretRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteSecretRequest.ProtoReflect.Descriptor instead.
 func (*DeleteSecretRequest) Descriptor() ([]byte, []int) {
-	return file_pkg_proto_github_proto_rawDescGZIP(), []int{6}
+	return file_pkg_proto_github_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *DeleteSecretRequest) GetName() string {
@@ -330,7 +618,7 @@ type DeleteSecretResponse struct {
 
 func (x *DeleteSecretResponse) Reset() {
 	*x = DeleteSecretResponse{}
-	mi := &file_pkg_proto_github_proto_msgTypes[7]
+	mi := &file_pkg_proto_github_proto_msgTypes[13]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -342,7 +630,7 @@ func (x *DeleteSecretResponse) String() string {
 func (*DeleteSecretResponse) ProtoMessage() {}
 
 func (x *DeleteSecretResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_pkg_proto_github_proto_msgTypes[7]
+	mi := &file_pkg_proto_github_proto_msgTypes[13]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -355,7 +643,7 @@ func (x *DeleteSecretResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteSecretResponse.ProtoReflect.Descriptor instead.
 func (*DeleteSecretResponse) Descriptor() ([]byte, []int) {
-	return file_pkg_proto_github_proto_rawDescGZIP(), []int{7}
+	return file_pkg_proto_github_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *DeleteSecretResponse) GetStatus() int64 {
@@ -375,7 +663,7 @@ type CreateSecretRequest struct {
 
 func (x *CreateSecretRequest) Reset() {
 	*x = CreateSecretRequest{}
-	mi := &file_pkg_proto_github_proto_msgTypes[8]
+	mi := &file_pkg_proto_github_proto_msgTypes[14]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -387,7 +675,7 @@ func (x *CreateSecretRequest) String() string {
 func (*CreateSecretRequest) ProtoMessage() {}
 
 func (x *CreateSecretRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_pkg_proto_github_proto_msgTypes[8]
+	mi := &file_pkg_proto_github_proto_msgTypes[14]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -400,7 +688,7 @@ func (x *CreateSecretRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateSecretRequest.ProtoReflect.Descriptor instead.
 func (*CreateSecretRequest) Descriptor() ([]byte, []int) {
-	return file_pkg_proto_github_proto_rawDescGZIP(), []int{8}
+	return file_pkg_proto_github_proto_rawDescGZIP(), []int{14}
 }
 
 func (x *CreateSecretRequest) GetName() string {
@@ -426,7 +714,7 @@ type CreateSecretResponse struct {
 
 func (x *CreateSecretResponse) Reset() {
 	*x = CreateSecretResponse{}
-	mi := &file_pkg_proto_github_proto_msgTypes[9]
+	mi := &file_pkg_proto_github_proto_msgTypes[15]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -438,7 +726,7 @@ func (x *CreateSecretResponse) String() string {
 func (*CreateSecretResponse) ProtoMessage() {}
 
 func (x *CreateSecretResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_pkg_proto_github_proto_msgTypes[9]
+	mi := &file_pkg_proto_github_proto_msgTypes[15]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -451,7 +739,7 @@ func (x *CreateSecretResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreateSecretResponse.ProtoReflect.Descriptor instead.
 func (*CreateSecretResponse) Descriptor() ([]byte, []int) {
-	return file_pkg_proto_github_proto_rawDescGZIP(), []int{9}
+	return file_pkg_proto_github_proto_rawDescGZIP(), []int{15}
 }
 
 func (x *CreateSecretResponse) GetStatus() int64 {
@@ -469,7 +757,7 @@ type GetSecretsRequest struct {
 
 func (x *GetSecretsRequest) Reset() {
 	*x = GetSecretsRequest{}
-	mi := &file_pkg_proto_github_proto_msgTypes[10]
+	mi := &file_pkg_proto_github_proto_msgTypes[16]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -481,7 +769,7 @@ func (x *GetSecretsRequest) String() string {
 func (*GetSecretsRequest) ProtoMessage() {}
 
 func (x *GetSecretsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_pkg_proto_github_proto_msgTypes[10]
+	mi := &file_pkg_proto_github_proto_msgTypes[16]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -494,7 +782,7 @@ func (x *GetSecretsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetSecretsRequest.ProtoReflect.Descriptor instead.
 func (*GetSecretsRequest) Descriptor() ([]byte, []int) {
-	return file_pkg_proto_github_proto_rawDescGZIP(), []int{10}
+	return file_pkg_proto_github_proto_rawDescGZIP(), []int{16}
 }
 
 type GetSecretsResponse struct {
@@ -506,7 +794,7 @@ type GetSecretsResponse struct {
 
 func (x *GetSecretsResponse) Reset() {
 	*x = GetSecretsResponse{}
-	mi := &file_pkg_proto_github_proto_msgTypes[11]
+	mi := &file_pkg_proto_github_proto_msgTypes[17]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -518,7 +806,7 @@ func (x *GetSecretsResponse) String() string {
 func (*GetSecretsResponse) ProtoMessage() {}
 
 func (x *GetSecretsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_pkg_proto_github_proto_msgTypes[11]
+	mi := &file_pkg_proto_github_proto_msgTypes[17]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -531,7 +819,7 @@ func (x *GetSecretsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetSecretsResponse.ProtoReflect.Descriptor instead.
 func (*GetSecretsResponse) Descriptor() ([]byte, []int) {
-	return file_pkg_proto_github_proto_rawDescGZIP(), []int{11}
+	return file_pkg_proto_github_proto_rawDescGZIP(), []int{17}
 }
 
 func (x *GetSecretsResponse) GetSecrets() []*Secret {
@@ -553,7 +841,7 @@ type Secret struct {
 
 func (x *Secret) Reset() {
 	*x = Secret{}
-	mi := &file_pkg_proto_github_proto_msgTypes[12]
+	mi := &file_pkg_proto_github_proto_msgTypes[18]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -565,7 +853,7 @@ func (x *Secret) String() string {
 func (*Secret) ProtoMessage() {}
 
 func (x *Secret) ProtoReflect() protoreflect.Message {
-	mi := &file_pkg_proto_github_proto_msgTypes[12]
+	mi := &file_pkg_proto_github_proto_msgTypes[18]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -578,7 +866,7 @@ func (x *Secret) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Secret.ProtoReflect.Descriptor instead.
 func (*Secret) Descriptor() ([]byte, []int) {
-	return file_pkg_proto_github_proto_rawDescGZIP(), []int{12}
+	return file_pkg_proto_github_proto_rawDescGZIP(), []int{18}
 }
 
 func (x *Secret) GetName() string {
@@ -619,7 +907,7 @@ type Package struct {
 
 func (x *Package) Reset() {
 	*x = Package{}
-	mi := &file_pkg_proto_github_proto_msgTypes[13]
+	mi := &file_pkg_proto_github_proto_msgTypes[19]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -631,7 +919,7 @@ func (x *Package) String() string {
 func (*Package) ProtoMessage() {}
 
 func (x *Package) ProtoReflect() protoreflect.Message {
-	mi := &file_pkg_proto_github_proto_msgTypes[13]
+	mi := &file_pkg_proto_github_proto_msgTypes[19]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -644,7 +932,7 @@ func (x *Package) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Package.ProtoReflect.Descriptor instead.
 func (*Package) Descriptor() ([]byte, []int) {
-	return file_pkg_proto_github_proto_rawDescGZIP(), []int{13}
+	return file_pkg_proto_github_proto_rawDescGZIP(), []int{19}
 }
 
 func (x *Package) GetName() string {
@@ -677,7 +965,7 @@ type SimplePackage struct {
 
 func (x *SimplePackage) Reset() {
 	*x = SimplePackage{}
-	mi := &file_pkg_proto_github_proto_msgTypes[14]
+	mi := &file_pkg_proto_github_proto_msgTypes[20]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -689,7 +977,7 @@ func (x *SimplePackage) String() string {
 func (*SimplePackage) ProtoMessage() {}
 
 func (x *SimplePackage) ProtoReflect() protoreflect.Message {
-	mi := &file_pkg_proto_github_proto_msgTypes[14]
+	mi := &file_pkg_proto_github_proto_msgTypes[20]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -702,7 +990,7 @@ func (x *SimplePackage) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SimplePackage.ProtoReflect.Descriptor instead.
 func (*SimplePackage) Descriptor() ([]byte, []int) {
-	return file_pkg_proto_github_proto_rawDescGZIP(), []int{14}
+	return file_pkg_proto_github_proto_rawDescGZIP(), []int{20}
 }
 
 func (x *SimplePackage) GetType() string {
@@ -780,7 +1068,7 @@ type GitPackage struct {
 
 func (x *GitPackage) Reset() {
 	*x = GitPackage{}
-	mi := &file_pkg_proto_github_proto_msgTypes[15]
+	mi := &file_pkg_proto_github_proto_msgTypes[21]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -792,7 +1080,7 @@ func (x *GitPackage) String() string {
 func (*GitPackage) ProtoMessage() {}
 
 func (x *GitPackage) ProtoReflect() protoreflect.Message {
-	mi := &file_pkg_proto_github_proto_msgTypes[15]
+	mi := &file_pkg_proto_github_proto_msgTypes[21]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -805,7 +1093,7 @@ func (x *GitPackage) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GitPackage.ProtoReflect.Descriptor instead.
 func (*GitPackage) Descriptor() ([]byte, []int) {
-	return file_pkg_proto_github_proto_rawDescGZIP(), []int{15}
+	return file_pkg_proto_github_proto_rawDescGZIP(), []int{21}
 }
 
 func (x *GitPackage) GetId() int64 {
@@ -895,7 +1183,7 @@ type File struct {
 
 func (x *File) Reset() {
 	*x = File{}
-	mi := &file_pkg_proto_github_proto_msgTypes[16]
+	mi := &file_pkg_proto_github_proto_msgTypes[22]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -907,7 +1195,7 @@ func (x *File) String() string {
 func (*File) ProtoMessage() {}
 
 func (x *File) ProtoReflect() protoreflect.Message {
-	mi := &file_pkg_proto_github_proto_msgTypes[16]
+	mi := &file_pkg_proto_github_proto_msgTypes[22]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -920,7 +1208,7 @@ func (x *File) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use File.ProtoReflect.Descriptor instead.
 func (*File) Descriptor() ([]byte, []int) {
-	return file_pkg_proto_github_proto_rawDescGZIP(), []int{16}
+	return file_pkg_proto_github_proto_rawDescGZIP(), []int{22}
 }
 
 func (x *File) GetName() string {
@@ -947,7 +1235,7 @@ type PackageIdentifier struct {
 
 func (x *PackageIdentifier) Reset() {
 	*x = PackageIdentifier{}
-	mi := &file_pkg_proto_github_proto_msgTypes[17]
+	mi := &file_pkg_proto_github_proto_msgTypes[23]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -959,7 +1247,7 @@ func (x *PackageIdentifier) String() string {
 func (*PackageIdentifier) ProtoMessage() {}
 
 func (x *PackageIdentifier) ProtoReflect() protoreflect.Message {
-	mi := &file_pkg_proto_github_proto_msgTypes[17]
+	mi := &file_pkg_proto_github_proto_msgTypes[23]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -972,7 +1260,7 @@ func (x *PackageIdentifier) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PackageIdentifier.ProtoReflect.Descriptor instead.
 func (*PackageIdentifier) Descriptor() ([]byte, []int) {
-	return file_pkg_proto_github_proto_rawDescGZIP(), []int{17}
+	return file_pkg_proto_github_proto_rawDescGZIP(), []int{23}
 }
 
 func (x *PackageIdentifier) GetName() string {
@@ -998,7 +1286,7 @@ type GetPackageTagsRequest struct {
 
 func (x *GetPackageTagsRequest) Reset() {
 	*x = GetPackageTagsRequest{}
-	mi := &file_pkg_proto_github_proto_msgTypes[18]
+	mi := &file_pkg_proto_github_proto_msgTypes[24]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1010,7 +1298,7 @@ func (x *GetPackageTagsRequest) String() string {
 func (*GetPackageTagsRequest) ProtoMessage() {}
 
 func (x *GetPackageTagsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_pkg_proto_github_proto_msgTypes[18]
+	mi := &file_pkg_proto_github_proto_msgTypes[24]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1023,7 +1311,7 @@ func (x *GetPackageTagsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetPackageTagsRequest.ProtoReflect.Descriptor instead.
 func (*GetPackageTagsRequest) Descriptor() ([]byte, []int) {
-	return file_pkg_proto_github_proto_rawDescGZIP(), []int{18}
+	return file_pkg_proto_github_proto_rawDescGZIP(), []int{24}
 }
 
 func (x *GetPackageTagsRequest) GetName() string {
@@ -1042,7 +1330,7 @@ type GetPackageTagsResponse struct {
 
 func (x *GetPackageTagsResponse) Reset() {
 	*x = GetPackageTagsResponse{}
-	mi := &file_pkg_proto_github_proto_msgTypes[19]
+	mi := &file_pkg_proto_github_proto_msgTypes[25]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1054,7 +1342,7 @@ func (x *GetPackageTagsResponse) String() string {
 func (*GetPackageTagsResponse) ProtoMessage() {}
 
 func (x *GetPackageTagsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_pkg_proto_github_proto_msgTypes[19]
+	mi := &file_pkg_proto_github_proto_msgTypes[25]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1067,7 +1355,7 @@ func (x *GetPackageTagsResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetPackageTagsResponse.ProtoReflect.Descriptor instead.
 func (*GetPackageTagsResponse) Descriptor() ([]byte, []int) {
-	return file_pkg_proto_github_proto_rawDescGZIP(), []int{19}
+	return file_pkg_proto_github_proto_rawDescGZIP(), []int{25}
 }
 
 func (x *GetPackageTagsResponse) GetTags() []string {
@@ -1087,7 +1375,7 @@ type PackageTag struct {
 
 func (x *PackageTag) Reset() {
 	*x = PackageTag{}
-	mi := &file_pkg_proto_github_proto_msgTypes[20]
+	mi := &file_pkg_proto_github_proto_msgTypes[26]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1099,7 +1387,7 @@ func (x *PackageTag) String() string {
 func (*PackageTag) ProtoMessage() {}
 
 func (x *PackageTag) ProtoReflect() protoreflect.Message {
-	mi := &file_pkg_proto_github_proto_msgTypes[20]
+	mi := &file_pkg_proto_github_proto_msgTypes[26]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1112,7 +1400,7 @@ func (x *PackageTag) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PackageTag.ProtoReflect.Descriptor instead.
 func (*PackageTag) Descriptor() ([]byte, []int) {
-	return file_pkg_proto_github_proto_rawDescGZIP(), []int{20}
+	return file_pkg_proto_github_proto_rawDescGZIP(), []int{26}
 }
 
 func (x *PackageTag) GetName() string {
@@ -1140,7 +1428,7 @@ type DeletePackageVersionRequest struct {
 
 func (x *DeletePackageVersionRequest) Reset() {
 	*x = DeletePackageVersionRequest{}
-	mi := &file_pkg_proto_github_proto_msgTypes[21]
+	mi := &file_pkg_proto_github_proto_msgTypes[27]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1152,7 +1440,7 @@ func (x *DeletePackageVersionRequest) String() string {
 func (*DeletePackageVersionRequest) ProtoMessage() {}
 
 func (x *DeletePackageVersionRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_pkg_proto_github_proto_msgTypes[21]
+	mi := &file_pkg_proto_github_proto_msgTypes[27]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1165,7 +1453,7 @@ func (x *DeletePackageVersionRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeletePackageVersionRequest.ProtoReflect.Descriptor instead.
 func (*DeletePackageVersionRequest) Descriptor() ([]byte, []int) {
-	return file_pkg_proto_github_proto_rawDescGZIP(), []int{21}
+	return file_pkg_proto_github_proto_rawDescGZIP(), []int{27}
 }
 
 func (x *DeletePackageVersionRequest) GetName() string {
@@ -1198,7 +1486,7 @@ type DeletePackageVersionResponse struct {
 
 func (x *DeletePackageVersionResponse) Reset() {
 	*x = DeletePackageVersionResponse{}
-	mi := &file_pkg_proto_github_proto_msgTypes[22]
+	mi := &file_pkg_proto_github_proto_msgTypes[28]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1210,7 +1498,7 @@ func (x *DeletePackageVersionResponse) String() string {
 func (*DeletePackageVersionResponse) ProtoMessage() {}
 
 func (x *DeletePackageVersionResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_pkg_proto_github_proto_msgTypes[22]
+	mi := &file_pkg_proto_github_proto_msgTypes[28]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1223,7 +1511,7 @@ func (x *DeletePackageVersionResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeletePackageVersionResponse.ProtoReflect.Descriptor instead.
 func (*DeletePackageVersionResponse) Descriptor() ([]byte, []int) {
-	return file_pkg_proto_github_proto_rawDescGZIP(), []int{22}
+	return file_pkg_proto_github_proto_rawDescGZIP(), []int{28}
 }
 
 func (x *DeletePackageVersionResponse) GetStatus() int64 {
@@ -1244,7 +1532,7 @@ type CreatePackageVersionRequest struct {
 
 func (x *CreatePackageVersionRequest) Reset() {
 	*x = CreatePackageVersionRequest{}
-	mi := &file_pkg_proto_github_proto_msgTypes[23]
+	mi := &file_pkg_proto_github_proto_msgTypes[29]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1256,7 +1544,7 @@ func (x *CreatePackageVersionRequest) String() string {
 func (*CreatePackageVersionRequest) ProtoMessage() {}
 
 func (x *CreatePackageVersionRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_pkg_proto_github_proto_msgTypes[23]
+	mi := &file_pkg_proto_github_proto_msgTypes[29]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1269,7 +1557,7 @@ func (x *CreatePackageVersionRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreatePackageVersionRequest.ProtoReflect.Descriptor instead.
 func (*CreatePackageVersionRequest) Descriptor() ([]byte, []int) {
-	return file_pkg_proto_github_proto_rawDescGZIP(), []int{23}
+	return file_pkg_proto_github_proto_rawDescGZIP(), []int{29}
 }
 
 func (x *CreatePackageVersionRequest) GetName() string {
@@ -1302,7 +1590,7 @@ type CreatePackageVersionResponse struct {
 
 func (x *CreatePackageVersionResponse) Reset() {
 	*x = CreatePackageVersionResponse{}
-	mi := &file_pkg_proto_github_proto_msgTypes[24]
+	mi := &file_pkg_proto_github_proto_msgTypes[30]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1314,7 +1602,7 @@ func (x *CreatePackageVersionResponse) String() string {
 func (*CreatePackageVersionResponse) ProtoMessage() {}
 
 func (x *CreatePackageVersionResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_pkg_proto_github_proto_msgTypes[24]
+	mi := &file_pkg_proto_github_proto_msgTypes[30]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1327,7 +1615,7 @@ func (x *CreatePackageVersionResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreatePackageVersionResponse.ProtoReflect.Descriptor instead.
 func (*CreatePackageVersionResponse) Descriptor() ([]byte, []int) {
-	return file_pkg_proto_github_proto_rawDescGZIP(), []int{24}
+	return file_pkg_proto_github_proto_rawDescGZIP(), []int{30}
 }
 
 func (x *CreatePackageVersionResponse) GetStatus() int64 {
@@ -1347,7 +1635,7 @@ type GetPackageFileRequest struct {
 
 func (x *GetPackageFileRequest) Reset() {
 	*x = GetPackageFileRequest{}
-	mi := &file_pkg_proto_github_proto_msgTypes[25]
+	mi := &file_pkg_proto_github_proto_msgTypes[31]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1359,7 +1647,7 @@ func (x *GetPackageFileRequest) String() string {
 func (*GetPackageFileRequest) ProtoMessage() {}
 
 func (x *GetPackageFileRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_pkg_proto_github_proto_msgTypes[25]
+	mi := &file_pkg_proto_github_proto_msgTypes[31]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1372,7 +1660,7 @@ func (x *GetPackageFileRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetPackageFileRequest.ProtoReflect.Descriptor instead.
 func (*GetPackageFileRequest) Descriptor() ([]byte, []int) {
-	return file_pkg_proto_github_proto_rawDescGZIP(), []int{25}
+	return file_pkg_proto_github_proto_rawDescGZIP(), []int{31}
 }
 
 func (x *GetPackageFileRequest) GetName() string {
@@ -1398,7 +1686,7 @@ type GetPackageFileResponse struct {
 
 func (x *GetPackageFileResponse) Reset() {
 	*x = GetPackageFileResponse{}
-	mi := &file_pkg_proto_github_proto_msgTypes[26]
+	mi := &file_pkg_proto_github_proto_msgTypes[32]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1410,7 +1698,7 @@ func (x *GetPackageFileResponse) String() string {
 func (*GetPackageFileResponse) ProtoMessage() {}
 
 func (x *GetPackageFileResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_pkg_proto_github_proto_msgTypes[26]
+	mi := &file_pkg_proto_github_proto_msgTypes[32]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1423,7 +1711,7 @@ func (x *GetPackageFileResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetPackageFileResponse.ProtoReflect.Descriptor instead.
 func (*GetPackageFileResponse) Descriptor() ([]byte, []int) {
-	return file_pkg_proto_github_proto_rawDescGZIP(), []int{26}
+	return file_pkg_proto_github_proto_rawDescGZIP(), []int{32}
 }
 
 func (x *GetPackageFileResponse) GetContent() []byte {
@@ -1442,7 +1730,7 @@ type GetPackageResponse struct {
 
 func (x *GetPackageResponse) Reset() {
 	*x = GetPackageResponse{}
-	mi := &file_pkg_proto_github_proto_msgTypes[27]
+	mi := &file_pkg_proto_github_proto_msgTypes[33]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1454,7 +1742,7 @@ func (x *GetPackageResponse) String() string {
 func (*GetPackageResponse) ProtoMessage() {}
 
 func (x *GetPackageResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_pkg_proto_github_proto_msgTypes[27]
+	mi := &file_pkg_proto_github_proto_msgTypes[33]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1467,7 +1755,7 @@ func (x *GetPackageResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetPackageResponse.ProtoReflect.Descriptor instead.
 func (*GetPackageResponse) Descriptor() ([]byte, []int) {
-	return file_pkg_proto_github_proto_rawDescGZIP(), []int{27}
+	return file_pkg_proto_github_proto_rawDescGZIP(), []int{33}
 }
 
 func (x *GetPackageResponse) GetVersions() []*PackageVersion {
@@ -1492,7 +1780,7 @@ type PackageVersion struct {
 
 func (x *PackageVersion) Reset() {
 	*x = PackageVersion{}
-	mi := &file_pkg_proto_github_proto_msgTypes[28]
+	mi := &file_pkg_proto_github_proto_msgTypes[34]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1504,7 +1792,7 @@ func (x *PackageVersion) String() string {
 func (*PackageVersion) ProtoMessage() {}
 
 func (x *PackageVersion) ProtoReflect() protoreflect.Message {
-	mi := &file_pkg_proto_github_proto_msgTypes[28]
+	mi := &file_pkg_proto_github_proto_msgTypes[34]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1517,7 +1805,7 @@ func (x *PackageVersion) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PackageVersion.ProtoReflect.Descriptor instead.
 func (*PackageVersion) Descriptor() ([]byte, []int) {
-	return file_pkg_proto_github_proto_rawDescGZIP(), []int{28}
+	return file_pkg_proto_github_proto_rawDescGZIP(), []int{34}
 }
 
 func (x *PackageVersion) GetRepoName() string {
@@ -1579,7 +1867,7 @@ type ContainerPackageRequest struct {
 
 func (x *ContainerPackageRequest) Reset() {
 	*x = ContainerPackageRequest{}
-	mi := &file_pkg_proto_github_proto_msgTypes[29]
+	mi := &file_pkg_proto_github_proto_msgTypes[35]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1591,7 +1879,7 @@ func (x *ContainerPackageRequest) String() string {
 func (*ContainerPackageRequest) ProtoMessage() {}
 
 func (x *ContainerPackageRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_pkg_proto_github_proto_msgTypes[29]
+	mi := &file_pkg_proto_github_proto_msgTypes[35]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1604,7 +1892,7 @@ func (x *ContainerPackageRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ContainerPackageRequest.ProtoReflect.Descriptor instead.
 func (*ContainerPackageRequest) Descriptor() ([]byte, []int) {
-	return file_pkg_proto_github_proto_rawDescGZIP(), []int{29}
+	return file_pkg_proto_github_proto_rawDescGZIP(), []int{35}
 }
 
 func (x *ContainerPackageRequest) GetId() int64 {
@@ -1631,7 +1919,7 @@ type ContainerPackageResponse struct {
 
 func (x *ContainerPackageResponse) Reset() {
 	*x = ContainerPackageResponse{}
-	mi := &file_pkg_proto_github_proto_msgTypes[30]
+	mi := &file_pkg_proto_github_proto_msgTypes[36]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1643,7 +1931,7 @@ func (x *ContainerPackageResponse) String() string {
 func (*ContainerPackageResponse) ProtoMessage() {}
 
 func (x *ContainerPackageResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_pkg_proto_github_proto_msgTypes[30]
+	mi := &file_pkg_proto_github_proto_msgTypes[36]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1656,7 +1944,7 @@ func (x *ContainerPackageResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ContainerPackageResponse.ProtoReflect.Descriptor instead.
 func (*ContainerPackageResponse) Descriptor() ([]byte, []int) {
-	return file_pkg_proto_github_proto_rawDescGZIP(), []int{30}
+	return file_pkg_proto_github_proto_rawDescGZIP(), []int{36}
 }
 
 func (x *ContainerPackageResponse) GetStatus() int64 {
@@ -1684,7 +1972,7 @@ type PushPackageRequest struct {
 
 func (x *PushPackageRequest) Reset() {
 	*x = PushPackageRequest{}
-	mi := &file_pkg_proto_github_proto_msgTypes[31]
+	mi := &file_pkg_proto_github_proto_msgTypes[37]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1696,7 +1984,7 @@ func (x *PushPackageRequest) String() string {
 func (*PushPackageRequest) ProtoMessage() {}
 
 func (x *PushPackageRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_pkg_proto_github_proto_msgTypes[31]
+	mi := &file_pkg_proto_github_proto_msgTypes[37]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1709,7 +1997,7 @@ func (x *PushPackageRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PushPackageRequest.ProtoReflect.Descriptor instead.
 func (*PushPackageRequest) Descriptor() ([]byte, []int) {
-	return file_pkg_proto_github_proto_rawDescGZIP(), []int{31}
+	return file_pkg_proto_github_proto_rawDescGZIP(), []int{37}
 }
 
 func (x *PushPackageRequest) GetName() string {
@@ -1742,7 +2030,7 @@ type PushPackageResponse struct {
 
 func (x *PushPackageResponse) Reset() {
 	*x = PushPackageResponse{}
-	mi := &file_pkg_proto_github_proto_msgTypes[32]
+	mi := &file_pkg_proto_github_proto_msgTypes[38]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1754,7 +2042,7 @@ func (x *PushPackageResponse) String() string {
 func (*PushPackageResponse) ProtoMessage() {}
 
 func (x *PushPackageResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_pkg_proto_github_proto_msgTypes[32]
+	mi := &file_pkg_proto_github_proto_msgTypes[38]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1767,7 +2055,7 @@ func (x *PushPackageResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use PushPackageResponse.ProtoReflect.Descriptor instead.
 func (*PushPackageResponse) Descriptor() ([]byte, []int) {
-	return file_pkg_proto_github_proto_rawDescGZIP(), []int{32}
+	return file_pkg_proto_github_proto_rawDescGZIP(), []int{38}
 }
 
 func (x *PushPackageResponse) GetStatus() int64 {
@@ -1786,7 +2074,7 @@ type CreatePackageRequest struct {
 
 func (x *CreatePackageRequest) Reset() {
 	*x = CreatePackageRequest{}
-	mi := &file_pkg_proto_github_proto_msgTypes[33]
+	mi := &file_pkg_proto_github_proto_msgTypes[39]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1798,7 +2086,7 @@ func (x *CreatePackageRequest) String() string {
 func (*CreatePackageRequest) ProtoMessage() {}
 
 func (x *CreatePackageRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_pkg_proto_github_proto_msgTypes[33]
+	mi := &file_pkg_proto_github_proto_msgTypes[39]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1811,7 +2099,7 @@ func (x *CreatePackageRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreatePackageRequest.ProtoReflect.Descriptor instead.
 func (*CreatePackageRequest) Descriptor() ([]byte, []int) {
-	return file_pkg_proto_github_proto_rawDescGZIP(), []int{33}
+	return file_pkg_proto_github_proto_rawDescGZIP(), []int{39}
 }
 
 func (x *CreatePackageRequest) GetName() string {
@@ -1830,7 +2118,7 @@ type CreatePackageResponse struct {
 
 func (x *CreatePackageResponse) Reset() {
 	*x = CreatePackageResponse{}
-	mi := &file_pkg_proto_github_proto_msgTypes[34]
+	mi := &file_pkg_proto_github_proto_msgTypes[40]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1842,7 +2130,7 @@ func (x *CreatePackageResponse) String() string {
 func (*CreatePackageResponse) ProtoMessage() {}
 
 func (x *CreatePackageResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_pkg_proto_github_proto_msgTypes[34]
+	mi := &file_pkg_proto_github_proto_msgTypes[40]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1855,7 +2143,7 @@ func (x *CreatePackageResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use CreatePackageResponse.ProtoReflect.Descriptor instead.
 func (*CreatePackageResponse) Descriptor() ([]byte, []int) {
-	return file_pkg_proto_github_proto_rawDescGZIP(), []int{34}
+	return file_pkg_proto_github_proto_rawDescGZIP(), []int{40}
 }
 
 func (x *CreatePackageResponse) GetStatus() int64 {
@@ -1874,7 +2162,7 @@ type GetPackageRequest struct {
 
 func (x *GetPackageRequest) Reset() {
 	*x = GetPackageRequest{}
-	mi := &file_pkg_proto_github_proto_msgTypes[35]
+	mi := &file_pkg_proto_github_proto_msgTypes[41]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1886,7 +2174,7 @@ func (x *GetPackageRequest) String() string {
 func (*GetPackageRequest) ProtoMessage() {}
 
 func (x *GetPackageRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_pkg_proto_github_proto_msgTypes[35]
+	mi := &file_pkg_proto_github_proto_msgTypes[41]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1899,7 +2187,7 @@ func (x *GetPackageRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetPackageRequest.ProtoReflect.Descriptor instead.
 func (*GetPackageRequest) Descriptor() ([]byte, []int) {
-	return file_pkg_proto_github_proto_rawDescGZIP(), []int{35}
+	return file_pkg_proto_github_proto_rawDescGZIP(), []int{41}
 }
 
 func (x *GetPackageRequest) GetName() string {
@@ -1917,7 +2205,7 @@ type GetPackagesRequest struct {
 
 func (x *GetPackagesRequest) Reset() {
 	*x = GetPackagesRequest{}
-	mi := &file_pkg_proto_github_proto_msgTypes[36]
+	mi := &file_pkg_proto_github_proto_msgTypes[42]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1929,7 +2217,7 @@ func (x *GetPackagesRequest) String() string {
 func (*GetPackagesRequest) ProtoMessage() {}
 
 func (x *GetPackagesRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_pkg_proto_github_proto_msgTypes[36]
+	mi := &file_pkg_proto_github_proto_msgTypes[42]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1942,7 +2230,7 @@ func (x *GetPackagesRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetPackagesRequest.ProtoReflect.Descriptor instead.
 func (*GetPackagesRequest) Descriptor() ([]byte, []int) {
-	return file_pkg_proto_github_proto_rawDescGZIP(), []int{36}
+	return file_pkg_proto_github_proto_rawDescGZIP(), []int{42}
 }
 
 type GetPackagesResponse struct {
@@ -1954,7 +2242,7 @@ type GetPackagesResponse struct {
 
 func (x *GetPackagesResponse) Reset() {
 	*x = GetPackagesResponse{}
-	mi := &file_pkg_proto_github_proto_msgTypes[37]
+	mi := &file_pkg_proto_github_proto_msgTypes[43]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1966,7 +2254,7 @@ func (x *GetPackagesResponse) String() string {
 func (*GetPackagesResponse) ProtoMessage() {}
 
 func (x *GetPackagesResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_pkg_proto_github_proto_msgTypes[37]
+	mi := &file_pkg_proto_github_proto_msgTypes[43]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1979,7 +2267,7 @@ func (x *GetPackagesResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetPackagesResponse.ProtoReflect.Descriptor instead.
 func (*GetPackagesResponse) Descriptor() ([]byte, []int) {
-	return file_pkg_proto_github_proto_rawDescGZIP(), []int{37}
+	return file_pkg_proto_github_proto_rawDescGZIP(), []int{43}
 }
 
 func (x *GetPackagesResponse) GetPackages() []*SimplePackage {
@@ -1993,7 +2281,23 @@ var File_pkg_proto_github_proto protoreflect.FileDescriptor
 
 const file_pkg_proto_github_proto_rawDesc = "" +
 	"\n" +
-	"\x16pkg/proto/github.proto\x12\x06github\"*\n" +
+	"\x16pkg/proto/github.proto\x12\x06github\"/\n" +
+	"\x11GetCommitsRequest\x12\x1a\n" +
+	"\brepoName\x18\x01 \x01(\tR\brepoName\":\n" +
+	"\x12GetCommitsResponse\x12$\n" +
+	"\x05items\x18\x01 \x03(\v2\x0e.github.CommitR\x05items\"\\\n" +
+	"\x06Commit\x12\x10\n" +
+	"\x03sha\x18\x01 \x01(\tR\x03sha\x12\x19\n" +
+	"\bhtml_url\x18\x02 \x01(\tR\ahtmlUrl\x12%\n" +
+	"\x0ecommit_message\x18\x03 \x01(\tR\rcommitMessage\"\x18\n" +
+	"\x16GetRepositoriesRequest\"C\n" +
+	"\x17GetRepositoriesResponse\x12(\n" +
+	"\x05items\x18\x01 \x03(\v2\x12.github.RepositoryR\x05items\"X\n" +
+	"\n" +
+	"Repository\x12\x12\n" +
+	"\x04name\x18\x01 \x01(\tR\x04name\x12\x1b\n" +
+	"\tfull_name\x18\x02 \x01(\tR\bfullName\x12\x19\n" +
+	"\bhtml_url\x18\x03 \x01(\tR\ahtmlUrl\"*\n" +
 	"\x14DeletePackageRequest\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\"/\n" +
 	"\x15DeletePackageResponse\x12\x16\n" +
@@ -2123,8 +2427,11 @@ const file_pkg_proto_github_proto_rawDesc = "" +
 	"\x04name\x18\x01 \x01(\tR\x04name\"\x14\n" +
 	"\x12GetPackagesRequest\"H\n" +
 	"\x13GetPackagesResponse\x121\n" +
-	"\bpackages\x18\x01 \x03(\v2\x15.github.SimplePackageR\bpackages2\xe3\t\n" +
-	"\rGithubService\x12W\n" +
+	"\bpackages\x18\x01 \x03(\v2\x15.github.SimplePackageR\bpackages2\x80\v\n" +
+	"\rGithubService\x12T\n" +
+	"\x0fGetRepositories\x12\x1e.github.GetRepositoriesRequest\x1a\x1f.github.GetRepositoriesResponse\"\x00\x12E\n" +
+	"\n" +
+	"GetCommits\x12\x19.github.GetCommitsRequest\x1a\x1a.github.GetCommitsResponse\"\x00\x12W\n" +
 	"\x10GetSecretContent\x12\x1f.github.GetSecretContentRequest\x1a .github.GetSecretContentResponse\"\x00\x12E\n" +
 	"\n" +
 	"GetSecrets\x12\x19.github.GetSecretsRequest\x1a\x1a.github.GetSecretsResponse\"\x00\x12K\n" +
@@ -2155,87 +2462,99 @@ func file_pkg_proto_github_proto_rawDescGZIP() []byte {
 	return file_pkg_proto_github_proto_rawDescData
 }
 
-var file_pkg_proto_github_proto_msgTypes = make([]protoimpl.MessageInfo, 38)
+var file_pkg_proto_github_proto_msgTypes = make([]protoimpl.MessageInfo, 44)
 var file_pkg_proto_github_proto_goTypes = []any{
-	(*DeletePackageRequest)(nil),         // 0: github.DeletePackageRequest
-	(*DeletePackageResponse)(nil),        // 1: github.DeletePackageResponse
-	(*GetSecretContentRequest)(nil),      // 2: github.GetSecretContentRequest
-	(*GetSecretContentResponse)(nil),     // 3: github.GetSecretContentResponse
-	(*SyncEnvironmentRequest)(nil),       // 4: github.SyncEnvironmentRequest
-	(*SyncEnvironmentResponse)(nil),      // 5: github.SyncEnvironmentResponse
-	(*DeleteSecretRequest)(nil),          // 6: github.DeleteSecretRequest
-	(*DeleteSecretResponse)(nil),         // 7: github.DeleteSecretResponse
-	(*CreateSecretRequest)(nil),          // 8: github.CreateSecretRequest
-	(*CreateSecretResponse)(nil),         // 9: github.CreateSecretResponse
-	(*GetSecretsRequest)(nil),            // 10: github.GetSecretsRequest
-	(*GetSecretsResponse)(nil),           // 11: github.GetSecretsResponse
-	(*Secret)(nil),                       // 12: github.Secret
-	(*Package)(nil),                      // 13: github.Package
-	(*SimplePackage)(nil),                // 14: github.SimplePackage
-	(*GitPackage)(nil),                   // 15: github.GitPackage
-	(*File)(nil),                         // 16: github.File
-	(*PackageIdentifier)(nil),            // 17: github.PackageIdentifier
-	(*GetPackageTagsRequest)(nil),        // 18: github.GetPackageTagsRequest
-	(*GetPackageTagsResponse)(nil),       // 19: github.GetPackageTagsResponse
-	(*PackageTag)(nil),                   // 20: github.PackageTag
-	(*DeletePackageVersionRequest)(nil),  // 21: github.DeletePackageVersionRequest
-	(*DeletePackageVersionResponse)(nil), // 22: github.DeletePackageVersionResponse
-	(*CreatePackageVersionRequest)(nil),  // 23: github.CreatePackageVersionRequest
-	(*CreatePackageVersionResponse)(nil), // 24: github.CreatePackageVersionResponse
-	(*GetPackageFileRequest)(nil),        // 25: github.GetPackageFileRequest
-	(*GetPackageFileResponse)(nil),       // 26: github.GetPackageFileResponse
-	(*GetPackageResponse)(nil),           // 27: github.GetPackageResponse
-	(*PackageVersion)(nil),               // 28: github.PackageVersion
-	(*ContainerPackageRequest)(nil),      // 29: github.ContainerPackageRequest
-	(*ContainerPackageResponse)(nil),     // 30: github.ContainerPackageResponse
-	(*PushPackageRequest)(nil),           // 31: github.PushPackageRequest
-	(*PushPackageResponse)(nil),          // 32: github.PushPackageResponse
-	(*CreatePackageRequest)(nil),         // 33: github.CreatePackageRequest
-	(*CreatePackageResponse)(nil),        // 34: github.CreatePackageResponse
-	(*GetPackageRequest)(nil),            // 35: github.GetPackageRequest
-	(*GetPackagesRequest)(nil),           // 36: github.GetPackagesRequest
-	(*GetPackagesResponse)(nil),          // 37: github.GetPackagesResponse
+	(*GetCommitsRequest)(nil),            // 0: github.GetCommitsRequest
+	(*GetCommitsResponse)(nil),           // 1: github.GetCommitsResponse
+	(*Commit)(nil),                       // 2: github.Commit
+	(*GetRepositoriesRequest)(nil),       // 3: github.GetRepositoriesRequest
+	(*GetRepositoriesResponse)(nil),      // 4: github.GetRepositoriesResponse
+	(*Repository)(nil),                   // 5: github.Repository
+	(*DeletePackageRequest)(nil),         // 6: github.DeletePackageRequest
+	(*DeletePackageResponse)(nil),        // 7: github.DeletePackageResponse
+	(*GetSecretContentRequest)(nil),      // 8: github.GetSecretContentRequest
+	(*GetSecretContentResponse)(nil),     // 9: github.GetSecretContentResponse
+	(*SyncEnvironmentRequest)(nil),       // 10: github.SyncEnvironmentRequest
+	(*SyncEnvironmentResponse)(nil),      // 11: github.SyncEnvironmentResponse
+	(*DeleteSecretRequest)(nil),          // 12: github.DeleteSecretRequest
+	(*DeleteSecretResponse)(nil),         // 13: github.DeleteSecretResponse
+	(*CreateSecretRequest)(nil),          // 14: github.CreateSecretRequest
+	(*CreateSecretResponse)(nil),         // 15: github.CreateSecretResponse
+	(*GetSecretsRequest)(nil),            // 16: github.GetSecretsRequest
+	(*GetSecretsResponse)(nil),           // 17: github.GetSecretsResponse
+	(*Secret)(nil),                       // 18: github.Secret
+	(*Package)(nil),                      // 19: github.Package
+	(*SimplePackage)(nil),                // 20: github.SimplePackage
+	(*GitPackage)(nil),                   // 21: github.GitPackage
+	(*File)(nil),                         // 22: github.File
+	(*PackageIdentifier)(nil),            // 23: github.PackageIdentifier
+	(*GetPackageTagsRequest)(nil),        // 24: github.GetPackageTagsRequest
+	(*GetPackageTagsResponse)(nil),       // 25: github.GetPackageTagsResponse
+	(*PackageTag)(nil),                   // 26: github.PackageTag
+	(*DeletePackageVersionRequest)(nil),  // 27: github.DeletePackageVersionRequest
+	(*DeletePackageVersionResponse)(nil), // 28: github.DeletePackageVersionResponse
+	(*CreatePackageVersionRequest)(nil),  // 29: github.CreatePackageVersionRequest
+	(*CreatePackageVersionResponse)(nil), // 30: github.CreatePackageVersionResponse
+	(*GetPackageFileRequest)(nil),        // 31: github.GetPackageFileRequest
+	(*GetPackageFileResponse)(nil),       // 32: github.GetPackageFileResponse
+	(*GetPackageResponse)(nil),           // 33: github.GetPackageResponse
+	(*PackageVersion)(nil),               // 34: github.PackageVersion
+	(*ContainerPackageRequest)(nil),      // 35: github.ContainerPackageRequest
+	(*ContainerPackageResponse)(nil),     // 36: github.ContainerPackageResponse
+	(*PushPackageRequest)(nil),           // 37: github.PushPackageRequest
+	(*PushPackageResponse)(nil),          // 38: github.PushPackageResponse
+	(*CreatePackageRequest)(nil),         // 39: github.CreatePackageRequest
+	(*CreatePackageResponse)(nil),        // 40: github.CreatePackageResponse
+	(*GetPackageRequest)(nil),            // 41: github.GetPackageRequest
+	(*GetPackagesRequest)(nil),           // 42: github.GetPackagesRequest
+	(*GetPackagesResponse)(nil),          // 43: github.GetPackagesResponse
 }
 var file_pkg_proto_github_proto_depIdxs = []int32{
-	12, // 0: github.GetSecretsResponse.secrets:type_name -> github.Secret
-	16, // 1: github.Package.files:type_name -> github.File
-	28, // 2: github.GetPackageResponse.versions:type_name -> github.PackageVersion
-	14, // 3: github.GetPackagesResponse.packages:type_name -> github.SimplePackage
-	2,  // 4: github.GithubService.GetSecretContent:input_type -> github.GetSecretContentRequest
-	10, // 5: github.GithubService.GetSecrets:input_type -> github.GetSecretsRequest
-	8,  // 6: github.GithubService.CreateSecret:input_type -> github.CreateSecretRequest
-	6,  // 7: github.GithubService.DeleteSecret:input_type -> github.DeleteSecretRequest
-	4,  // 8: github.GithubService.SyncEnvironment:input_type -> github.SyncEnvironmentRequest
-	31, // 9: github.GithubService.PushPackage:input_type -> github.PushPackageRequest
-	29, // 10: github.GithubService.ContainerPackage:input_type -> github.ContainerPackageRequest
-	36, // 11: github.GithubService.GetPackages:input_type -> github.GetPackagesRequest
-	35, // 12: github.GithubService.GetPackage:input_type -> github.GetPackageRequest
-	18, // 13: github.GithubService.GetPackageTags:input_type -> github.GetPackageTagsRequest
-	25, // 14: github.GithubService.GetPackageFile:input_type -> github.GetPackageFileRequest
-	33, // 15: github.GithubService.CreatePackage:input_type -> github.CreatePackageRequest
-	0,  // 16: github.GithubService.DeletePackage:input_type -> github.DeletePackageRequest
-	23, // 17: github.GithubService.CreatePackageVersion:input_type -> github.CreatePackageVersionRequest
-	21, // 18: github.GithubService.DeletePackageVersion:input_type -> github.DeletePackageVersionRequest
-	3,  // 19: github.GithubService.GetSecretContent:output_type -> github.GetSecretContentResponse
-	11, // 20: github.GithubService.GetSecrets:output_type -> github.GetSecretsResponse
-	9,  // 21: github.GithubService.CreateSecret:output_type -> github.CreateSecretResponse
-	7,  // 22: github.GithubService.DeleteSecret:output_type -> github.DeleteSecretResponse
-	5,  // 23: github.GithubService.SyncEnvironment:output_type -> github.SyncEnvironmentResponse
-	32, // 24: github.GithubService.PushPackage:output_type -> github.PushPackageResponse
-	30, // 25: github.GithubService.ContainerPackage:output_type -> github.ContainerPackageResponse
-	37, // 26: github.GithubService.GetPackages:output_type -> github.GetPackagesResponse
-	27, // 27: github.GithubService.GetPackage:output_type -> github.GetPackageResponse
-	19, // 28: github.GithubService.GetPackageTags:output_type -> github.GetPackageTagsResponse
-	26, // 29: github.GithubService.GetPackageFile:output_type -> github.GetPackageFileResponse
-	34, // 30: github.GithubService.CreatePackage:output_type -> github.CreatePackageResponse
-	1,  // 31: github.GithubService.DeletePackage:output_type -> github.DeletePackageResponse
-	24, // 32: github.GithubService.CreatePackageVersion:output_type -> github.CreatePackageVersionResponse
-	22, // 33: github.GithubService.DeletePackageVersion:output_type -> github.DeletePackageVersionResponse
-	19, // [19:34] is the sub-list for method output_type
-	4,  // [4:19] is the sub-list for method input_type
-	4,  // [4:4] is the sub-list for extension type_name
-	4,  // [4:4] is the sub-list for extension extendee
-	0,  // [0:4] is the sub-list for field type_name
+	2,  // 0: github.GetCommitsResponse.items:type_name -> github.Commit
+	5,  // 1: github.GetRepositoriesResponse.items:type_name -> github.Repository
+	18, // 2: github.GetSecretsResponse.secrets:type_name -> github.Secret
+	22, // 3: github.Package.files:type_name -> github.File
+	34, // 4: github.GetPackageResponse.versions:type_name -> github.PackageVersion
+	20, // 5: github.GetPackagesResponse.packages:type_name -> github.SimplePackage
+	3,  // 6: github.GithubService.GetRepositories:input_type -> github.GetRepositoriesRequest
+	0,  // 7: github.GithubService.GetCommits:input_type -> github.GetCommitsRequest
+	8,  // 8: github.GithubService.GetSecretContent:input_type -> github.GetSecretContentRequest
+	16, // 9: github.GithubService.GetSecrets:input_type -> github.GetSecretsRequest
+	14, // 10: github.GithubService.CreateSecret:input_type -> github.CreateSecretRequest
+	12, // 11: github.GithubService.DeleteSecret:input_type -> github.DeleteSecretRequest
+	10, // 12: github.GithubService.SyncEnvironment:input_type -> github.SyncEnvironmentRequest
+	37, // 13: github.GithubService.PushPackage:input_type -> github.PushPackageRequest
+	35, // 14: github.GithubService.ContainerPackage:input_type -> github.ContainerPackageRequest
+	42, // 15: github.GithubService.GetPackages:input_type -> github.GetPackagesRequest
+	41, // 16: github.GithubService.GetPackage:input_type -> github.GetPackageRequest
+	24, // 17: github.GithubService.GetPackageTags:input_type -> github.GetPackageTagsRequest
+	31, // 18: github.GithubService.GetPackageFile:input_type -> github.GetPackageFileRequest
+	39, // 19: github.GithubService.CreatePackage:input_type -> github.CreatePackageRequest
+	6,  // 20: github.GithubService.DeletePackage:input_type -> github.DeletePackageRequest
+	29, // 21: github.GithubService.CreatePackageVersion:input_type -> github.CreatePackageVersionRequest
+	27, // 22: github.GithubService.DeletePackageVersion:input_type -> github.DeletePackageVersionRequest
+	4,  // 23: github.GithubService.GetRepositories:output_type -> github.GetRepositoriesResponse
+	1,  // 24: github.GithubService.GetCommits:output_type -> github.GetCommitsResponse
+	9,  // 25: github.GithubService.GetSecretContent:output_type -> github.GetSecretContentResponse
+	17, // 26: github.GithubService.GetSecrets:output_type -> github.GetSecretsResponse
+	15, // 27: github.GithubService.CreateSecret:output_type -> github.CreateSecretResponse
+	13, // 28: github.GithubService.DeleteSecret:output_type -> github.DeleteSecretResponse
+	11, // 29: github.GithubService.SyncEnvironment:output_type -> github.SyncEnvironmentResponse
+	38, // 30: github.GithubService.PushPackage:output_type -> github.PushPackageResponse
+	36, // 31: github.GithubService.ContainerPackage:output_type -> github.ContainerPackageResponse
+	43, // 32: github.GithubService.GetPackages:output_type -> github.GetPackagesResponse
+	33, // 33: github.GithubService.GetPackage:output_type -> github.GetPackageResponse
+	25, // 34: github.GithubService.GetPackageTags:output_type -> github.GetPackageTagsResponse
+	32, // 35: github.GithubService.GetPackageFile:output_type -> github.GetPackageFileResponse
+	40, // 36: github.GithubService.CreatePackage:output_type -> github.CreatePackageResponse
+	7,  // 37: github.GithubService.DeletePackage:output_type -> github.DeletePackageResponse
+	30, // 38: github.GithubService.CreatePackageVersion:output_type -> github.CreatePackageVersionResponse
+	28, // 39: github.GithubService.DeletePackageVersion:output_type -> github.DeletePackageVersionResponse
+	23, // [23:40] is the sub-list for method output_type
+	6,  // [6:23] is the sub-list for method input_type
+	6,  // [6:6] is the sub-list for extension type_name
+	6,  // [6:6] is the sub-list for extension extendee
+	0,  // [0:6] is the sub-list for field type_name
 }
 
 func init() { file_pkg_proto_github_proto_init() }
@@ -2243,15 +2562,15 @@ func file_pkg_proto_github_proto_init() {
 	if File_pkg_proto_github_proto != nil {
 		return
 	}
-	file_pkg_proto_github_proto_msgTypes[21].OneofWrappers = []any{}
-	file_pkg_proto_github_proto_msgTypes[28].OneofWrappers = []any{}
+	file_pkg_proto_github_proto_msgTypes[27].OneofWrappers = []any{}
+	file_pkg_proto_github_proto_msgTypes[34].OneofWrappers = []any{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_pkg_proto_github_proto_rawDesc), len(file_pkg_proto_github_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   38,
+			NumMessages:   44,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
