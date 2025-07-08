@@ -5,7 +5,7 @@ otel:
 	docker compose up -d && bash ./scripts/uptrace.bash
 
 uptrace:
-	uptrace --config=uptrace.yml serve
+	uptrace --config=config/uptrace.yml serve
 
 uptrace-reset:
 	uptrace --config=uptrace.yml ch reset

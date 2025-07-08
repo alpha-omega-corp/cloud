@@ -93,7 +93,7 @@ func (h *ConfigHandler) GetConfig() *Config {
 	return h.config
 }
 
-func (h *ConfigHandler) LoadConfig(name string) (*Config, error) {
+func (h *ConfigHandler) WithConfig(name string) (*Config, error) {
 	config, err := h.requestConfig(name)
 	if err != nil {
 		return nil, err
@@ -105,7 +105,7 @@ func (h *ConfigHandler) LoadConfig(name string) (*Config, error) {
 func (h *ConfigHandler) requestConfig(name string) (config *Config, err error) {
 	err = h.get("config_"+name, "yaml")
 	if err != nil {
-		log.Fatalf("no configuration found for application: %v\n", name)
+		log.Fatalf("no configuration found for application: %v\n%v", name, err.Error())
 	}
 
 	err = h.viper.Unmarshal(&config)
@@ -114,7 +114,6 @@ func (h *ConfigHandler) requestConfig(name string) (config *Config, err error) {
 	}
 
 	config.Env = h.viper
-	h.config = config
 
 	return config, nil
 }

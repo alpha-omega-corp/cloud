@@ -6,21 +6,19 @@ import (
 
 func RegisterClient(client Client, r *bunrouter.Router) Client {
 
-	r.POST("/docker/user/:id/machine", client.CreateUserMachine)
+	r.POST("/docker/user/machine", client.CreateUserMachine)
 
 	r.GET("/docker/containers", client.GetContainers)
 	r.POST("/docker/container", client.CreateContainer)
-
 	r.DELETE("/docker/containers/:id", client.DeleteContainer)
 	r.GET("/docker/containers/:id/logs", client.GetContainerLogs)
 	r.POST("/docker/containers/:id/start", client.StartContainer)
 	r.POST("/docker/containers/:id/stop", client.StopContainer)
 
-	r.POST("/docker/images", client.StoreImage)
+	r.POST("/docker/image", client.StoreImage)
+
 	r.GET("/docker/images/:name", client.GetImage)
 	r.POST("/docker/images/build", client.BuildImage)
-
-	r.GET("/docker/pkg/:name/containers/:tag", client.GetPackageVersionContainers)
 
 	return client
 }

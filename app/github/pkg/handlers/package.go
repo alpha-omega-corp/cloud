@@ -13,6 +13,7 @@ import (
 type PackageService interface {
 	GetVersions(name string) ([]types.GitPackageVersion, error)
 	GetVersion(name string, vId int64) (*types.GitPackageVersion, error)
+	Create(name string) error
 	Push(path string) (err error)
 	Delete(name string, vId *int64) error
 }
@@ -27,33 +28,6 @@ func NewPackageService(client *utils.GithubApi) PackageService {
 	return &packageService{
 		client: client,
 	}
-}
-
-func (s *packageService) Push(path string) (err error) {
-	err = s.runMakefile(path, "create")
-	err = s.runMakefile(path, "tag")
-	err = s.runMakefile(path, "push")
-
-	return
-}
-
-func (s *packageService) runMakefile(path string, act string) error {
-	path, err := filepath.Abs(path)
-	if err != nil {
-		return err
-	}
-
-	cmd := exec.Command("make", act)
-	cmd.Dir = path
-
-	res, err := cmd.Output()
-	if err != nil {
-		return err
-	}
-
-	fmt.Print(string(res))
-
-	return nil
 }
 
 func (s *packageService) GetVersions(name string) ([]types.GitPackageVersion, error) {
@@ -82,4 +56,31 @@ func (s *packageService) GetVersion(name string, vId int64) (*types.GitPackageVe
 	}
 
 	return pkg, nil
+}
+
+func (s *packageService) Push(path string) (err error) {
+	err = s.runMakefile(path, "create")
+	err = s.runMakefile(path, "tag")
+	err = s.runMakefile(path, "push")
+
+	return
+}
+
+func (s *packageService) runMakefile(path string, act string) error {
+	path, err := filepath.Abs(path)
+	if err != nil {
+		return err
+	}
+
+	cmd := exec.Command("make", act)
+	cmd.Dir = path
+
+	res, err := cmd.Output()
+	if err != nil {
+		return err
+	}
+
+	fmt.Print(string(res))
+
+	return nil
 }

@@ -2,31 +2,23 @@ package middlewares
 
 import (
 	"github.com/alpha-omega-corp/cloud/api/clients/user"
-	"github.com/alpha-omega-corp/cloud/app/user/pkg/proto"
 	"github.com/uptrace/bunrouter"
 	"net/http"
-	"strings"
 )
 
 type AuthMiddleware struct {
-	service user.Client
+	userClient user.Client
 }
 
-func NewAuthMiddleware(userService user.Client) *AuthMiddleware {
+func NewAuthMiddleware(client user.Client) *AuthMiddleware {
 	return &AuthMiddleware{
-		service: userService,
+		userClient: client,
 	}
 }
 
-func (middleware *AuthMiddleware) Auth(next bunrouter.HandlerFunc) bunrouter.HandlerFunc {
+func (m *AuthMiddleware) Auth(next bunrouter.HandlerFunc) bunrouter.HandlerFunc {
 	return func(w http.ResponseWriter, req bunrouter.Request) error {
-		authHeader := req.Header.Get("Authorization")
-		token := strings.Split(authHeader, "Bearer ")[1]
-
-		_, err := middleware.service.Self().Validate(req.Context(), &proto.ValidateRequest{
-			Token: token,
-		})
-
+		err := m.userClient.Validate(w, req)
 		if err != nil {
 			return err
 		}

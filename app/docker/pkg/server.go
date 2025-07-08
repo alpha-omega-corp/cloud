@@ -14,34 +14,46 @@ type Server struct {
 	proto.UnimplementedDockerServiceServer
 	imageService     handlers.ImageService
 	containerService handlers.ContainerService
+	machineService   handlers.MachineService
 }
 
 func NewServer(config *core.Config, client *client.Client, db *bun.DB) *Server {
 	return &Server{
-		imageService:     handlers.NewImageService(config, client, db),
+		imageService:     handlers.NewImageHandler(config, client, db),
 		containerService: handlers.NewContainerHandler(config, client, db),
+		machineService:   handlers.NewMachineHandler(db),
 	}
 }
 
-func (s *Server) CreateUserMachine(ctx context.Context, req *proto.CreateUserMachineRequest) (*proto.CreateUserMachineResponse, error) {
-	if err := s.containerService.Create(ctx, "path", req.Name); err != nil {
+func (s *Server) GetUserMachine(ctx context.Context, req *proto.GetUserMachinesRequest) (*proto.GetUserMachinesResponse, error) {
+	//res, err := s.containerService.GetAll(ctx)
+	return nil, nil
+}
 
+func (s *Server) CreateUserMachine(ctx context.Context, req *proto.CreateUserMachineRequest) (*proto.CreateUserMachineResponse, error) {
+	res, err := s.containerService.Create(ctx, "docker:dind", req.Name)
+	if err != nil {
+		return nil, err
+	}
+
+	container, err := s.containerService.GetOne(ctx, res.ID)
+	if err != nil {
+		return nil, err
 	}
 
 	return &proto.CreateUserMachineResponse{
 		Item: &proto.UserMachine{
-			Id:   "",
 			Name: req.Name,
+			Container: &proto.Container{
+				Id:     container.ID,
+				Image:  container.Image,
+				Status: container.State.Status,
+			},
 		},
 	}, nil
 }
 
 func (s *Server) CreateContainer(ctx context.Context, req *proto.CreateContainerRequest) (*proto.CreateContainerResponse, error) {
-
-	if err := s.containerService.Create(ctx, req.Path, req.Name); err != nil {
-		return nil, err
-	}
-
 	return &proto.CreateContainerResponse{
 		Status: http.StatusOK,
 	}, nil
@@ -60,7 +72,7 @@ func (s *Server) BuildImage(ctx context.Context, req *proto.BuildImageRequest) (
 }
 
 func (s *Server) GetContainers(ctx context.Context, req *proto.GetContainersRequest) (*proto.GetContainersResponse, error) {
-	res, err := s.containerService.GetAllByImage(ctx, req.Path)
+	res, err := s.containerService.GetAllByImage(ctx, req.Name+"/"+req.Tag)
 	if err != nil {
 		return nil, err
 	}

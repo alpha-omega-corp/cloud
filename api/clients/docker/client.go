@@ -4,15 +4,16 @@ import (
 	"fmt"
 	"github.com/alpha-omega-corp/cloud/app/docker/pkg/proto"
 	"github.com/alpha-omega-corp/cloud/core"
+	"github.com/alpha-omega-corp/cloud/core/httputils"
 	"github.com/uptrace/bunrouter"
 	"google.golang.org/grpc"
+	"mime/multipart"
 	"net/http"
 )
 
 type Client interface {
 	CreateUserMachine(w http.ResponseWriter, req bunrouter.Request) error
 	GetContainers(w http.ResponseWriter, req bunrouter.Request) error
-	GetPackageVersionContainers(w http.ResponseWriter, req bunrouter.Request) error
 	CreateContainer(w http.ResponseWriter, req bunrouter.Request) error
 	GetContainerLogs(w http.ResponseWriter, req bunrouter.Request) error
 	DeleteContainer(w http.ResponseWriter, req bunrouter.Request) error
@@ -38,45 +39,92 @@ func NewClient(c *core.Config) Client {
 	return &dockerClient{client: proto.NewDockerServiceClient(conn)}
 }
 
-func (svc *dockerClient) CreateUserMachine(w http.ResponseWriter, req bunrouter.Request) error {
-	return CreateUserMachineHandler(w, req, svc.client)
+func (sc *dockerClient) CreateUserMachine(w http.ResponseWriter, req bunrouter.Request) error {
+	return httputils.Response(w, func() (*proto.CreateUserMachineResponse, error) {
+		data := httputils.GetBody[proto.CreateUserMachineRequest](w, req)
+
+		return sc.client.CreateUserMachine(req.Context(), data)
+	})
 }
-func (svc *dockerClient) GetContainers(w http.ResponseWriter, req bunrouter.Request) error {
-	return GetContainersHandler(w, req, svc.client)
+func (sc *dockerClient) GetUserMachines(w http.ResponseWriter, req bunrouter.Request) error {
+	return httputils.Response(w, func() (*proto.GetUserMachinesResponse, error) {
+		data := httputils.GetParams[proto.GetUserMachinesRequest](w, req)
+
+		return sc.client.GetUserMachines(req.Context(), data)
+	})
+}
+func (sc *dockerClient) GetContainers(w http.ResponseWriter, req bunrouter.Request) error {
+	return httputils.Response(w, func() (*proto.GetContainersResponse, error) {
+		data := httputils.GetParams[proto.GetContainersRequest](w, req)
+
+		return sc.client.GetContainers(req.Context(), data)
+	})
+}
+func (sc *dockerClient) CreateContainer(w http.ResponseWriter, req bunrouter.Request) error {
+	return httputils.Response(w, func() (*proto.CreateContainerResponse, error) {
+		data := httputils.GetBody[proto.CreateContainerRequest](w, req)
+
+		return sc.client.CreateContainer(req.Context(), data)
+	})
+}
+func (sc *dockerClient) StartContainer(w http.ResponseWriter, req bunrouter.Request) error {
+	return httputils.Response(w, func() (*proto.StartContainerResponse, error) {
+		data := httputils.GetBody[proto.StartContainerRequest](w, req)
+
+		return sc.client.StartContainer(req.Context(), data)
+	})
+}
+func (sc *dockerClient) StopContainer(w http.ResponseWriter, req bunrouter.Request) error {
+	return httputils.Response(w, func() (*proto.StopContainerResponse, error) {
+		data := httputils.GetBody[proto.StopContainerRequest](w, req)
+
+		return sc.client.StopContainer(req.Context(), data)
+	})
 }
 
-func (svc *dockerClient) CreateContainer(w http.ResponseWriter, req bunrouter.Request) error {
-	return CreateContainerHandler(w, req, svc.client)
+func (sc *dockerClient) GetContainerLogs(w http.ResponseWriter, req bunrouter.Request) error {
+	return httputils.Response(w, func() (*proto.GetContainerLogsResponse, error) {
+		data := httputils.GetParams[proto.GetContainerLogsRequest](w, req)
+
+		return sc.client.GetContainerLogs(req.Context(), data)
+	})
 }
 
-func (svc *dockerClient) StartContainer(w http.ResponseWriter, req bunrouter.Request) error {
-	return StartContainerHandler(w, req, svc.client)
+func (sc *dockerClient) DeleteContainer(w http.ResponseWriter, req bunrouter.Request) error {
+	return httputils.Response(w, func() (*proto.DeleteContainerResponse, error) {
+		data := httputils.GetBody[proto.DeleteContainerRequest](w, req)
+
+		return sc.client.DeleteContainer(req.Context(), data)
+	})
 }
 
-func (svc *dockerClient) StopContainer(w http.ResponseWriter, req bunrouter.Request) error {
-	return StopContainerHandler(w, req, svc.client)
+func (sc *dockerClient) GetImage(w http.ResponseWriter, req bunrouter.Request) error {
+	return httputils.Response(w, func() (*proto.GetImageResponse, error) {
+		data := httputils.GetBody[proto.GetImageRequest](w, req)
+
+		return sc.client.GetImage(req.Context(), data)
+	})
 }
 
-func (svc *dockerClient) GetPackageVersionContainers(w http.ResponseWriter, req bunrouter.Request) error {
-	return GetContainersHandler(w, req, svc.client)
+func (sc *dockerClient) StoreImage(w http.ResponseWriter, req bunrouter.Request) error {
+	return httputils.Response(w, func() (*proto.StoreImageResponse, error) {
+		data := httputils.GetFormData[struct {
+			Name    string
+			Content *multipart.FileHeader
+		}](w, req)
+
+		return sc.client.StoreImage(req.Context(), &proto.StoreImageRequest{
+			Name:    data.Name,
+			Content: make([]byte, 0),
+		})
+	})
 }
 
-func (svc *dockerClient) GetContainerLogs(w http.ResponseWriter, req bunrouter.Request) error {
-	return GetContainerLogsHandler(w, req, svc.client)
-}
+func (sc *dockerClient) BuildImage(w http.ResponseWriter, req bunrouter.Request) error {
+	return httputils.Response(w, func() (*proto.BuildImageResponse, error) {
+		data := httputils.GetBody[proto.BuildImageRequest](w, req)
 
-func (svc *dockerClient) DeleteContainer(w http.ResponseWriter, req bunrouter.Request) error {
-	return DeleteContainerHandler(w, req, svc.client)
-}
+		return sc.client.BuildImage(req.Context(), data)
 
-func (svc *dockerClient) GetImage(w http.ResponseWriter, req bunrouter.Request) error {
-	return GetImageHandler(w, req, svc.client)
-}
-
-func (svc *dockerClient) StoreImage(w http.ResponseWriter, req bunrouter.Request) error {
-	return StoreImageHandler(w, req, svc.client)
-}
-
-func (svc *dockerClient) BuildImage(w http.ResponseWriter, req bunrouter.Request) error {
-	return BuildImageHandler(w, req, svc.client)
+	})
 }

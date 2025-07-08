@@ -6,6 +6,7 @@ import (
 	"github.com/alpha-omega-corp/cloud/app/github/pkg/proto"
 	"github.com/alpha-omega-corp/cloud/app/github/pkg/utils"
 	"github.com/alpha-omega-corp/cloud/core"
+	_ "github.com/spf13/viper/remote"
 	"github.com/uptrace/bun"
 	"google.golang.org/grpc"
 )

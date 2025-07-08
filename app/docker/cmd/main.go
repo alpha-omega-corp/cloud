@@ -7,6 +7,7 @@ import (
 	"github.com/alpha-omega-corp/cloud/app/docker/pkg/proto"
 	"github.com/alpha-omega-corp/cloud/core"
 	"github.com/docker/docker/client"
+	_ "github.com/spf13/viper/remote"
 	"github.com/uptrace/bun"
 	"google.golang.org/grpc"
 )
@@ -34,5 +35,6 @@ func main() {
 			proto.RegisterDockerServiceServer(grpc, pkg.NewServer(config, dockerClient, db))
 		}, []interface{}{
 			(*models.Dockerfile)(nil),
+			(*models.Machine)(nil),
 		}...)
 }

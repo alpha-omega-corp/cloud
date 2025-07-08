@@ -11,6 +11,7 @@ import (
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -22,17 +23,17 @@ const (
 	UserService_Login_FullMethodName                    = "/user.UserService/Login"
 	UserService_Register_FullMethodName                 = "/user.UserService/Register"
 	UserService_Validate_FullMethodName                 = "/user.UserService/Validate"
-	UserService_GetUser_FullMethodName                  = "/user.UserService/getUser"
 	UserService_GetUsers_FullMethodName                 = "/user.UserService/GetUsers"
+	UserService_GetServices_FullMethodName              = "/user.UserService/GetServices"
+	UserService_GetRoles_FullMethodName                 = "/user.UserService/GetRoles"
+	UserService_GetUser_FullMethodName                  = "/user.UserService/GetUser"
 	UserService_CreateUser_FullMethodName               = "/user.UserService/CreateUser"
 	UserService_UpdateUser_FullMethodName               = "/user.UserService/UpdateUser"
 	UserService_DeleteUser_FullMethodName               = "/user.UserService/DeleteUser"
 	UserService_AssignUser_FullMethodName               = "/user.UserService/AssignUser"
-	UserService_GetServices_FullMethodName              = "/user.UserService/GetServices"
 	UserService_CreateServicePermissions_FullMethodName = "/user.UserService/CreateServicePermissions"
 	UserService_GetServicePermissions_FullMethodName    = "/user.UserService/GetServicePermissions"
 	UserService_GetUserPermissions_FullMethodName       = "/user.UserService/GetUserPermissions"
-	UserService_GetRoles_FullMethodName                 = "/user.UserService/GetRoles"
 	UserService_CreateRole_FullMethodName               = "/user.UserService/CreateRole"
 )
 
@@ -43,17 +44,17 @@ type UserServiceClient interface {
 	Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error)
 	Register(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*RegisterResponse, error)
 	Validate(ctx context.Context, in *ValidateRequest, opts ...grpc.CallOption) (*ValidateResponse, error)
+	GetUsers(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetUsersResponse, error)
+	GetServices(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetServicesResponse, error)
+	GetRoles(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetRolesResponse, error)
 	GetUser(ctx context.Context, in *GetUserRequest, opts ...grpc.CallOption) (*GetUserResponse, error)
-	GetUsers(ctx context.Context, in *GetUsersRequest, opts ...grpc.CallOption) (*GetUsersResponse, error)
 	CreateUser(ctx context.Context, in *CreateUserRequest, opts ...grpc.CallOption) (*CreateUserResponse, error)
 	UpdateUser(ctx context.Context, in *UpdateUserRequest, opts ...grpc.CallOption) (*UpdateUserResponse, error)
 	DeleteUser(ctx context.Context, in *DeleteUserRequest, opts ...grpc.CallOption) (*DeleteUserResponse, error)
 	AssignUser(ctx context.Context, in *AssignUserRequest, opts ...grpc.CallOption) (*AssignUserResponse, error)
-	GetServices(ctx context.Context, in *GetServicesRequest, opts ...grpc.CallOption) (*GetServicesResponse, error)
 	CreateServicePermissions(ctx context.Context, in *CreateServicePermissionsRequest, opts ...grpc.CallOption) (*CreateServicePermissionsResponse, error)
 	GetServicePermissions(ctx context.Context, in *GetServicePermissionsRequest, opts ...grpc.CallOption) (*GetServicePermissionsResponse, error)
 	GetUserPermissions(ctx context.Context, in *GetUserPermissionsRequest, opts ...grpc.CallOption) (*GetUserPermissionsResponse, error)
-	GetRoles(ctx context.Context, in *GetRolesRequest, opts ...grpc.CallOption) (*GetRolesResponse, error)
 	CreateRole(ctx context.Context, in *CreateRoleRequest, opts ...grpc.CallOption) (*CreateRoleResponse, error)
 }
 
@@ -95,20 +96,40 @@ func (c *userServiceClient) Validate(ctx context.Context, in *ValidateRequest, o
 	return out, nil
 }
 
-func (c *userServiceClient) GetUser(ctx context.Context, in *GetUserRequest, opts ...grpc.CallOption) (*GetUserResponse, error) {
+func (c *userServiceClient) GetUsers(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetUsersResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetUserResponse)
-	err := c.cc.Invoke(ctx, UserService_GetUser_FullMethodName, in, out, cOpts...)
+	out := new(GetUsersResponse)
+	err := c.cc.Invoke(ctx, UserService_GetUsers_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *userServiceClient) GetUsers(ctx context.Context, in *GetUsersRequest, opts ...grpc.CallOption) (*GetUsersResponse, error) {
+func (c *userServiceClient) GetServices(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetServicesResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetUsersResponse)
-	err := c.cc.Invoke(ctx, UserService_GetUsers_FullMethodName, in, out, cOpts...)
+	out := new(GetServicesResponse)
+	err := c.cc.Invoke(ctx, UserService_GetServices_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) GetRoles(ctx context.Context, in *emptypb.Empty, opts ...grpc.CallOption) (*GetRolesResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetRolesResponse)
+	err := c.cc.Invoke(ctx, UserService_GetRoles_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) GetUser(ctx context.Context, in *GetUserRequest, opts ...grpc.CallOption) (*GetUserResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetUserResponse)
+	err := c.cc.Invoke(ctx, UserService_GetUser_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -155,16 +176,6 @@ func (c *userServiceClient) AssignUser(ctx context.Context, in *AssignUserReques
 	return out, nil
 }
 
-func (c *userServiceClient) GetServices(ctx context.Context, in *GetServicesRequest, opts ...grpc.CallOption) (*GetServicesResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetServicesResponse)
-	err := c.cc.Invoke(ctx, UserService_GetServices_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *userServiceClient) CreateServicePermissions(ctx context.Context, in *CreateServicePermissionsRequest, opts ...grpc.CallOption) (*CreateServicePermissionsResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(CreateServicePermissionsResponse)
@@ -195,16 +206,6 @@ func (c *userServiceClient) GetUserPermissions(ctx context.Context, in *GetUserP
 	return out, nil
 }
 
-func (c *userServiceClient) GetRoles(ctx context.Context, in *GetRolesRequest, opts ...grpc.CallOption) (*GetRolesResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(GetRolesResponse)
-	err := c.cc.Invoke(ctx, UserService_GetRoles_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *userServiceClient) CreateRole(ctx context.Context, in *CreateRoleRequest, opts ...grpc.CallOption) (*CreateRoleResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(CreateRoleResponse)
@@ -222,17 +223,17 @@ type UserServiceServer interface {
 	Login(context.Context, *LoginRequest) (*LoginResponse, error)
 	Register(context.Context, *RegisterRequest) (*RegisterResponse, error)
 	Validate(context.Context, *ValidateRequest) (*ValidateResponse, error)
+	GetUsers(context.Context, *emptypb.Empty) (*GetUsersResponse, error)
+	GetServices(context.Context, *emptypb.Empty) (*GetServicesResponse, error)
+	GetRoles(context.Context, *emptypb.Empty) (*GetRolesResponse, error)
 	GetUser(context.Context, *GetUserRequest) (*GetUserResponse, error)
-	GetUsers(context.Context, *GetUsersRequest) (*GetUsersResponse, error)
 	CreateUser(context.Context, *CreateUserRequest) (*CreateUserResponse, error)
 	UpdateUser(context.Context, *UpdateUserRequest) (*UpdateUserResponse, error)
 	DeleteUser(context.Context, *DeleteUserRequest) (*DeleteUserResponse, error)
 	AssignUser(context.Context, *AssignUserRequest) (*AssignUserResponse, error)
-	GetServices(context.Context, *GetServicesRequest) (*GetServicesResponse, error)
 	CreateServicePermissions(context.Context, *CreateServicePermissionsRequest) (*CreateServicePermissionsResponse, error)
 	GetServicePermissions(context.Context, *GetServicePermissionsRequest) (*GetServicePermissionsResponse, error)
 	GetUserPermissions(context.Context, *GetUserPermissionsRequest) (*GetUserPermissionsResponse, error)
-	GetRoles(context.Context, *GetRolesRequest) (*GetRolesResponse, error)
 	CreateRole(context.Context, *CreateRoleRequest) (*CreateRoleResponse, error)
 	mustEmbedUnimplementedUserServiceServer()
 }
@@ -253,11 +254,17 @@ func (UnimplementedUserServiceServer) Register(context.Context, *RegisterRequest
 func (UnimplementedUserServiceServer) Validate(context.Context, *ValidateRequest) (*ValidateResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Validate not implemented")
 }
+func (UnimplementedUserServiceServer) GetUsers(context.Context, *emptypb.Empty) (*GetUsersResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUsers not implemented")
+}
+func (UnimplementedUserServiceServer) GetServices(context.Context, *emptypb.Empty) (*GetServicesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetServices not implemented")
+}
+func (UnimplementedUserServiceServer) GetRoles(context.Context, *emptypb.Empty) (*GetRolesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetRoles not implemented")
+}
 func (UnimplementedUserServiceServer) GetUser(context.Context, *GetUserRequest) (*GetUserResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUser not implemented")
-}
-func (UnimplementedUserServiceServer) GetUsers(context.Context, *GetUsersRequest) (*GetUsersResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetUsers not implemented")
 }
 func (UnimplementedUserServiceServer) CreateUser(context.Context, *CreateUserRequest) (*CreateUserResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateUser not implemented")
@@ -271,9 +278,6 @@ func (UnimplementedUserServiceServer) DeleteUser(context.Context, *DeleteUserReq
 func (UnimplementedUserServiceServer) AssignUser(context.Context, *AssignUserRequest) (*AssignUserResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AssignUser not implemented")
 }
-func (UnimplementedUserServiceServer) GetServices(context.Context, *GetServicesRequest) (*GetServicesResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetServices not implemented")
-}
 func (UnimplementedUserServiceServer) CreateServicePermissions(context.Context, *CreateServicePermissionsRequest) (*CreateServicePermissionsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateServicePermissions not implemented")
 }
@@ -282,9 +286,6 @@ func (UnimplementedUserServiceServer) GetServicePermissions(context.Context, *Ge
 }
 func (UnimplementedUserServiceServer) GetUserPermissions(context.Context, *GetUserPermissionsRequest) (*GetUserPermissionsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserPermissions not implemented")
-}
-func (UnimplementedUserServiceServer) GetRoles(context.Context, *GetRolesRequest) (*GetRolesResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetRoles not implemented")
 }
 func (UnimplementedUserServiceServer) CreateRole(context.Context, *CreateRoleRequest) (*CreateRoleResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateRole not implemented")
@@ -364,6 +365,60 @@ func _UserService_Validate_Handler(srv interface{}, ctx context.Context, dec fun
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserService_GetUsers_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(emptypb.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).GetUsers(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_GetUsers_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).GetUsers(ctx, req.(*emptypb.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_GetServices_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(emptypb.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).GetServices(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_GetServices_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).GetServices(ctx, req.(*emptypb.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_GetRoles_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(emptypb.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).GetRoles(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: UserService_GetRoles_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).GetRoles(ctx, req.(*emptypb.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _UserService_GetUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetUserRequest)
 	if err := dec(in); err != nil {
@@ -378,24 +433,6 @@ func _UserService_GetUser_Handler(srv interface{}, ctx context.Context, dec func
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(UserServiceServer).GetUser(ctx, req.(*GetUserRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _UserService_GetUsers_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetUsersRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserServiceServer).GetUsers(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: UserService_GetUsers_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).GetUsers(ctx, req.(*GetUsersRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -472,24 +509,6 @@ func _UserService_AssignUser_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UserService_GetServices_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetServicesRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserServiceServer).GetServices(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: UserService_GetServices_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).GetServices(ctx, req.(*GetServicesRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _UserService_CreateServicePermissions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CreateServicePermissionsRequest)
 	if err := dec(in); err != nil {
@@ -544,24 +563,6 @@ func _UserService_GetUserPermissions_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UserService_GetRoles_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetRolesRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserServiceServer).GetRoles(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: UserService_GetRoles_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).GetRoles(ctx, req.(*GetRolesRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _UserService_CreateRole_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CreateRoleRequest)
 	if err := dec(in); err != nil {
@@ -600,12 +601,20 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _UserService_Validate_Handler,
 		},
 		{
-			MethodName: "getUser",
-			Handler:    _UserService_GetUser_Handler,
-		},
-		{
 			MethodName: "GetUsers",
 			Handler:    _UserService_GetUsers_Handler,
+		},
+		{
+			MethodName: "GetServices",
+			Handler:    _UserService_GetServices_Handler,
+		},
+		{
+			MethodName: "GetRoles",
+			Handler:    _UserService_GetRoles_Handler,
+		},
+		{
+			MethodName: "GetUser",
+			Handler:    _UserService_GetUser_Handler,
 		},
 		{
 			MethodName: "CreateUser",
@@ -624,10 +633,6 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _UserService_AssignUser_Handler,
 		},
 		{
-			MethodName: "GetServices",
-			Handler:    _UserService_GetServices_Handler,
-		},
-		{
 			MethodName: "CreateServicePermissions",
 			Handler:    _UserService_CreateServicePermissions_Handler,
 		},
@@ -638,10 +643,6 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetUserPermissions",
 			Handler:    _UserService_GetUserPermissions_Handler,
-		},
-		{
-			MethodName: "GetRoles",
-			Handler:    _UserService_GetRoles_Handler,
 		},
 		{
 			MethodName: "CreateRole",

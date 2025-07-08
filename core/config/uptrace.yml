@@ -49,12 +49,6 @@ site:
 ## ClickHouse database credentials.
 ##
 
-ch:
-  addr: localhost:9000
-  user: uptrace
-  password: root
-  database: uptrace
-
 ch_cluster:
   cluster: 'uptrace1'
   # Whether to use ClickHouse replication.
@@ -68,7 +62,7 @@ ch_cluster:
         - addr: 'localhost:9000'
           database: uptrace
           user: uptrace
-          password: root
+          password: uptrace
 
           dial_timeout: 3s
           write_timeout: 5s
@@ -108,7 +102,7 @@ ch_schema:
 ## such as users, projects, dashboards, etc.
 ##
 pg:
-  addr: localhost:5430
+  addr: localhost:5431
   user: otel
   password: otel
   database: otel
@@ -216,7 +210,7 @@ redis_cache:
 uptrace_go:
   # Uncomment to disable.
   #disabled: false
-  dsn: http://h7pTIsleXv3lLrvNlsYriQ@localhost:80?grpc=4316
+  dsn: http://TZv7ZmaDFhtJMlHB1WY3Vg@localhost:80?grpc=4316
 
 ##
 ## Token for the Telegram bot that will be sending notifications to Telegram channels.

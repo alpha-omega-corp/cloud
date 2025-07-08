@@ -2,26 +2,34 @@ syntax = "proto3";
 
 package github;
 option go_package = "github.com/alpha-omega-corp/cloud/app/github/pkg/proto";
+import "google/protobuf/empty.proto";
 
 service GithubService {
   rpc GetRepositories(GetRepositoriesRequest) returns (GetRepositoriesResponse) {}
   rpc GetCommits(GetCommitsRequest) returns (GetCommitsResponse) {}
 
-  rpc GetSecretContent(GetSecretContentRequest) returns (GetSecretContentResponse) {}
   rpc GetSecrets(GetSecretsRequest) returns (GetSecretsResponse) {}
+  rpc GetSecret(GetSecretRequest) returns (GetSecretResponse) {}
   rpc CreateSecret(CreateSecretRequest) returns (CreateSecretResponse) {}
   rpc DeleteSecret(DeleteSecretRequest) returns (DeleteSecretResponse) {}
-  rpc SyncEnvironment(SyncEnvironmentRequest) returns (SyncEnvironmentResponse) {}
-  rpc PushPackage(PushPackageRequest) returns (PushPackageResponse) {}
-  rpc ContainerPackage(ContainerPackageRequest) returns (ContainerPackageResponse) {}
+  rpc SyncSecrets(google.protobuf.Empty) returns (SyncSecretsResponse) {}
+
   rpc GetPackages(GetPackagesRequest) returns (GetPackagesResponse) {}
   rpc GetPackage(GetPackageRequest) returns (GetPackageResponse) {}
-  rpc GetPackageTags(GetPackageTagsRequest) returns (GetPackageTagsResponse) {}
-  rpc GetPackageFile(GetPackageFileRequest) returns (GetPackageFileResponse) {}
   rpc CreatePackage(CreatePackageRequest) returns (CreatePackageResponse) {}
   rpc DeletePackage(DeletePackageRequest) returns (DeletePackageResponse) {}
+  rpc PushPackage(PushPackageRequest) returns (PushPackageResponse) {}
+
+  rpc GetPackageFile(GetPackageFileRequest) returns (GetPackageFileResponse) {}
+  rpc GetPackageVersions(GetPackageVersionsRequest) returns (GetPackageVersionsResponse) {}
   rpc CreatePackageVersion(CreatePackageVersionRequest) returns (CreatePackageVersionResponse) {}
   rpc DeletePackageVersion(DeletePackageVersionRequest) returns (DeletePackageVersionResponse) {}
+
+  rpc ContainerPackage(ContainerPackageRequest) returns (ContainerPackageResponse) {}
+
+
+
+
 }
 
 message GetCommitsRequest {
@@ -59,16 +67,15 @@ message DeletePackageResponse {
   int64 status = 1;
 }
 
-message GetSecretContentRequest {
+message GetSecretRequest {
   string name = 1;
 }
 
-message GetSecretContentResponse {
+message GetSecretResponse {
   bytes content = 1;
 }
 
-message SyncEnvironmentRequest {}
-message SyncEnvironmentResponse {
+message SyncSecretsResponse {
   int64 status = 1;
 }
 
@@ -146,11 +153,11 @@ message PackageIdentifier {
 }
 
 
-message GetPackageTagsRequest {
+message GetPackageVersionsRequest {
   string name = 1;
 }
 
-message GetPackageTagsResponse {
+message GetPackageVersionsResponse {
   repeated string tags = 1;
 }
 
@@ -215,7 +222,7 @@ message ContainerPackageResponse {
 }
 
 message PushPackageRequest {
-  string name = 1;
+  string repoName = 1;
   string tag = 2;
   string versionSHA = 3;
 }

@@ -1,6 +1,6 @@
 url: localhost:50052
 kvs: localhost:2379
-dsn: postgres://docker:docker@localhost:5433/docker
+dsn: postgres://docker:docker@localhost:5442/docker
 
 ###
 

@@ -6,12 +6,11 @@ services:
 
   etcd:
     image: gcr.io/etcd-development/etcd:v3.2.10
+    container_name: core-etcd
     restart: always
     ports:
       - '2379:2379'
       - '2380:2380'
-    volumes:
-      - ./certs/:/srv/
     environment:
       ETCD_NAME: node1
       ETCDCTL_API: 1
@@ -43,7 +42,7 @@ services:
       retries: 30
     volumes:
       - ch_data5:/var/lib/clickhouse
-      - ./clickhouse.xml:/etc/clickhouse-server/config.d/config.xml
+      - ./config/clickhouse.xml:/etc/clickhouse-server/config.d/config.xml
     ports:
       - '8123:8123'
       - '9000:9000'
@@ -77,7 +76,7 @@ services:
     container_name: core-otel-collector
     restart: on-failure
     volumes:
-      - ../otel-collector.yml:/etc/otelcol-contrib/config.yaml
+      - ./config/otel-collector.yml:/etc/otelcol-contrib/config.yaml
     ports:
       - '4317:4317'
       - '4318:4318'

@@ -1,9 +1,7 @@
 name: cloud
 
 include:
-  #- app/docker-compose.yml
+  - app/docker-compose.yml
   - core/docker-compose.yml
-
-services:
 
 

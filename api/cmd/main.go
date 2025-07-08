@@ -20,33 +20,31 @@ var (
 
 func main() {
 	core.NewApp(embedFS, "api").
-		CreateApi(func(router *bunrouter.Router, configHandler *core.ConfigHandler) {
+		CreateApi(func(configHandler *core.ConfigHandler, router *bunrouter.Router) {
 
 			// Router middlewares
 			router.Use(bunrouterotel.NewMiddleware())
 			router.Use(middlewares.NewCorsMiddleware())
 			router.Use(middlewares.NewErrorHandler)
 
-			// Create user service
-			configUser, err := configHandler.LoadConfig("user")
+			// Register clients
+			configUser, err := configHandler.WithConfig("user")
 			if err != nil {
 				log.Fatal(err.Error())
 			}
 			userClient := user.RegisterClient(user.NewClient(configUser), router)
-
 			router.Use(middlewares.NewAuthMiddleware(userClient).Auth)
 
-			configDocker, err := configHandler.LoadConfig("docker")
+			configDocker, err := configHandler.WithConfig("docker")
 			if err != nil {
 				log.Fatal(err.Error())
 			}
 			docker.RegisterClient(docker.NewClient(configDocker), router)
 
-			configGithub, err := configHandler.LoadConfig("github")
+			configGithub, err := configHandler.WithConfig("github")
 			if err != nil {
 				log.Fatal(err.Error())
 			}
-
 			github.RegisterClient(github.NewClient(configGithub), router)
 
 			env := *configHandler.GetConfig().Env

@@ -9,6 +9,7 @@ package proto
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
@@ -1789,7 +1790,7 @@ var File_pkg_proto_user_proto protoreflect.FileDescriptor
 
 const file_pkg_proto_user_proto_rawDesc = "" +
 	"\n" +
-	"\x14pkg/proto/user.proto\x12\x04user\"3\n" +
+	"\x14pkg/proto/user.proto\x12\x04user\x1a\x1bgoogle/protobuf/empty.proto\"3\n" +
 	"\x19GetUserPermissionsRequest\x12\x16\n" +
 	"\x06userId\x18\x01 \x01(\x03R\x06userId\"\x9d\x01\n" +
 	"\x1aGetUserPermissionsResponse\x12D\n" +
@@ -1906,9 +1907,11 @@ const file_pkg_proto_user_proto_rawDesc = "" +
 	"\vUserService\x122\n" +
 	"\x05Login\x12\x12.user.LoginRequest\x1a\x13.user.LoginResponse\"\x00\x12;\n" +
 	"\bRegister\x12\x15.user.RegisterRequest\x1a\x16.user.RegisterResponse\"\x00\x12;\n" +
-	"\bValidate\x12\x15.user.ValidateRequest\x1a\x16.user.ValidateResponse\"\x00\x128\n" +
-	"\agetUser\x12\x14.user.GetUserRequest\x1a\x15.user.GetUserResponse\"\x00\x12;\n" +
-	"\bGetUsers\x12\x15.user.GetUsersRequest\x1a\x16.user.GetUsersResponse\"\x00\x12A\n" +
+	"\bValidate\x12\x15.user.ValidateRequest\x1a\x16.user.ValidateResponse\"\x00\x12<\n" +
+	"\bGetUsers\x12\x16.google.protobuf.Empty\x1a\x16.user.GetUsersResponse\"\x00\x12B\n" +
+	"\vGetServices\x12\x16.google.protobuf.Empty\x1a\x19.user.GetServicesResponse\"\x00\x12<\n" +
+	"\bGetRoles\x12\x16.google.protobuf.Empty\x1a\x16.user.GetRolesResponse\"\x00\x128\n" +
+	"\aGetUser\x12\x14.user.GetUserRequest\x1a\x15.user.GetUserResponse\"\x00\x12A\n" +
 	"\n" +
 	"CreateUser\x12\x17.user.CreateUserRequest\x1a\x18.user.CreateUserResponse\"\x00\x12A\n" +
 	"\n" +
@@ -1916,12 +1919,10 @@ const file_pkg_proto_user_proto_rawDesc = "" +
 	"\n" +
 	"DeleteUser\x12\x17.user.DeleteUserRequest\x1a\x18.user.DeleteUserResponse\"\x00\x12A\n" +
 	"\n" +
-	"AssignUser\x12\x17.user.AssignUserRequest\x1a\x18.user.AssignUserResponse\"\x00\x12D\n" +
-	"\vGetServices\x12\x18.user.GetServicesRequest\x1a\x19.user.GetServicesResponse\"\x00\x12k\n" +
+	"AssignUser\x12\x17.user.AssignUserRequest\x1a\x18.user.AssignUserResponse\"\x00\x12k\n" +
 	"\x18CreateServicePermissions\x12%.user.CreateServicePermissionsRequest\x1a&.user.CreateServicePermissionsResponse\"\x00\x12b\n" +
 	"\x15GetServicePermissions\x12\".user.GetServicePermissionsRequest\x1a#.user.GetServicePermissionsResponse\"\x00\x12Y\n" +
-	"\x12GetUserPermissions\x12\x1f.user.GetUserPermissionsRequest\x1a .user.GetUserPermissionsResponse\"\x00\x12;\n" +
-	"\bGetRoles\x12\x15.user.GetRolesRequest\x1a\x16.user.GetRolesResponse\"\x00\x12A\n" +
+	"\x12GetUserPermissions\x12\x1f.user.GetUserPermissionsRequest\x1a .user.GetUserPermissionsResponse\"\x00\x12A\n" +
 	"\n" +
 	"CreateRole\x12\x17.user.CreateRoleRequest\x1a\x18.user.CreateRoleResponse\"\x00B6Z4github.com/alpha-omega-corp/cloud/app/user/pkg/protob\x06proto3"
 
@@ -1976,6 +1977,7 @@ var file_pkg_proto_user_proto_goTypes = []any{
 	(*ValidateRequest)(nil),                  // 33: user.ValidateRequest
 	(*ValidateResponse)(nil),                 // 34: user.ValidateResponse
 	nil,                                      // 35: user.GetUserPermissionsResponse.MatrixEntry
+	(*emptypb.Empty)(nil),                    // 36: google.protobuf.Empty
 }
 var file_pkg_proto_user_proto_depIdxs = []int32{
 	35, // 0: user.GetUserPermissionsResponse.matrix:type_name -> user.GetUserPermissionsResponse.MatrixEntry
@@ -1992,32 +1994,32 @@ var file_pkg_proto_user_proto_depIdxs = []int32{
 	30, // 11: user.UserService.Login:input_type -> user.LoginRequest
 	28, // 12: user.UserService.Register:input_type -> user.RegisterRequest
 	33, // 13: user.UserService.Validate:input_type -> user.ValidateRequest
-	11, // 14: user.UserService.getUser:input_type -> user.GetUserRequest
-	21, // 15: user.UserService.GetUsers:input_type -> user.GetUsersRequest
-	15, // 16: user.UserService.CreateUser:input_type -> user.CreateUserRequest
-	17, // 17: user.UserService.UpdateUser:input_type -> user.UpdateUserRequest
-	13, // 18: user.UserService.DeleteUser:input_type -> user.DeleteUserRequest
-	19, // 19: user.UserService.AssignUser:input_type -> user.AssignUserRequest
-	9,  // 20: user.UserService.GetServices:input_type -> user.GetServicesRequest
-	7,  // 21: user.UserService.CreateServicePermissions:input_type -> user.CreateServicePermissionsRequest
-	3,  // 22: user.UserService.GetServicePermissions:input_type -> user.GetServicePermissionsRequest
-	1,  // 23: user.UserService.GetUserPermissions:input_type -> user.GetUserPermissionsRequest
-	23, // 24: user.UserService.GetRoles:input_type -> user.GetRolesRequest
+	36, // 14: user.UserService.GetUsers:input_type -> google.protobuf.Empty
+	36, // 15: user.UserService.GetServices:input_type -> google.protobuf.Empty
+	36, // 16: user.UserService.GetRoles:input_type -> google.protobuf.Empty
+	11, // 17: user.UserService.GetUser:input_type -> user.GetUserRequest
+	15, // 18: user.UserService.CreateUser:input_type -> user.CreateUserRequest
+	17, // 19: user.UserService.UpdateUser:input_type -> user.UpdateUserRequest
+	13, // 20: user.UserService.DeleteUser:input_type -> user.DeleteUserRequest
+	19, // 21: user.UserService.AssignUser:input_type -> user.AssignUserRequest
+	7,  // 22: user.UserService.CreateServicePermissions:input_type -> user.CreateServicePermissionsRequest
+	3,  // 23: user.UserService.GetServicePermissions:input_type -> user.GetServicePermissionsRequest
+	1,  // 24: user.UserService.GetUserPermissions:input_type -> user.GetUserPermissionsRequest
 	25, // 25: user.UserService.CreateRole:input_type -> user.CreateRoleRequest
 	31, // 26: user.UserService.Login:output_type -> user.LoginResponse
 	29, // 27: user.UserService.Register:output_type -> user.RegisterResponse
 	34, // 28: user.UserService.Validate:output_type -> user.ValidateResponse
-	12, // 29: user.UserService.getUser:output_type -> user.GetUserResponse
-	22, // 30: user.UserService.GetUsers:output_type -> user.GetUsersResponse
-	16, // 31: user.UserService.CreateUser:output_type -> user.CreateUserResponse
-	18, // 32: user.UserService.UpdateUser:output_type -> user.UpdateUserResponse
-	14, // 33: user.UserService.DeleteUser:output_type -> user.DeleteUserResponse
-	20, // 34: user.UserService.AssignUser:output_type -> user.AssignUserResponse
-	10, // 35: user.UserService.GetServices:output_type -> user.GetServicesResponse
-	6,  // 36: user.UserService.CreateServicePermissions:output_type -> user.CreateServicePermissionsResponse
-	4,  // 37: user.UserService.GetServicePermissions:output_type -> user.GetServicePermissionsResponse
-	2,  // 38: user.UserService.GetUserPermissions:output_type -> user.GetUserPermissionsResponse
-	24, // 39: user.UserService.GetRoles:output_type -> user.GetRolesResponse
+	22, // 29: user.UserService.GetUsers:output_type -> user.GetUsersResponse
+	10, // 30: user.UserService.GetServices:output_type -> user.GetServicesResponse
+	24, // 31: user.UserService.GetRoles:output_type -> user.GetRolesResponse
+	12, // 32: user.UserService.GetUser:output_type -> user.GetUserResponse
+	16, // 33: user.UserService.CreateUser:output_type -> user.CreateUserResponse
+	18, // 34: user.UserService.UpdateUser:output_type -> user.UpdateUserResponse
+	14, // 35: user.UserService.DeleteUser:output_type -> user.DeleteUserResponse
+	20, // 36: user.UserService.AssignUser:output_type -> user.AssignUserResponse
+	6,  // 37: user.UserService.CreateServicePermissions:output_type -> user.CreateServicePermissionsResponse
+	4,  // 38: user.UserService.GetServicePermissions:output_type -> user.GetServicePermissionsResponse
+	2,  // 39: user.UserService.GetUserPermissions:output_type -> user.GetUserPermissionsResponse
 	26, // 40: user.UserService.CreateRole:output_type -> user.CreateRoleResponse
 	26, // [26:41] is the sub-list for method output_type
 	11, // [11:26] is the sub-list for method input_type

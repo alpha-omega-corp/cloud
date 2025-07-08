@@ -1,16 +1,17 @@
-package server
+package core
 
 import (
 	"fmt"
-	"github.com/alpha-omega-corp/cloud/core/database"
 	"github.com/uptrace/bun"
 	"google.golang.org/grpc"
 	"log"
 	"net"
 )
 
-func NewGRPC(host string, dbHandler *database.Handler, proto func(db *bun.DB, grpc *grpc.Server)) error {
-	listen, err := net.Listen("tcp", host)
+func GRPC(configHandler ConfigHandler, dbHandler *StorageHandler, init func(db *bun.DB, grpc *grpc.Server)) error {
+	config := configHandler.GetConfig()
+
+	listen, err := net.Listen("tcp", *config.Url)
 
 	if err != nil {
 		return err
@@ -26,11 +27,11 @@ func NewGRPC(host string, dbHandler *database.Handler, proto func(db *bun.DB, gr
 			}
 		}(db)
 
-		proto(db, srv)
+		init(db, srv)
 	} else {
-		proto(nil, srv)
+		init(nil, srv)
 	}
 
-	fmt.Printf("running at tcp://%v", host)
+	fmt.Printf("running at tcp://%v", *config.Url)
 	return srv.Serve(listen)
 }

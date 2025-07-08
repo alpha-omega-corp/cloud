@@ -8,6 +8,7 @@ import (
 	"github.com/alpha-omega-corp/cloud/app/github/pkg/proto"
 	"github.com/alpha-omega-corp/cloud/app/github/pkg/types"
 	"github.com/alpha-omega-corp/cloud/app/github/pkg/utils"
+	"net/http"
 )
 
 type Server struct {
@@ -132,5 +133,17 @@ func (s *Server) GetPackageFile(ctx context.Context, req *proto.GetPackageFileRe
 
 	return &proto.GetPackageFileResponse{
 		Content: []byte(file),
+	}, nil
+}
+
+func (s *Server) PushPackage(ctx context.Context, req *proto.PushPackageRequest) (*proto.PushPackageResponse, error) {
+	path := req.RepoName + "/.gitkeep"
+
+	if err := s.repositoryService.PutContents(ctx, req.RepoName, path, []byte("."), nil); err != nil {
+		return nil, err
+	}
+
+	return &proto.PushPackageResponse{
+		Status: http.StatusCreated,
 	}, nil
 }

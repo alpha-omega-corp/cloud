@@ -1,0 +1,8 @@
+- model: Machine
+  rows:
+    - _id: TestMachine
+      name: goat
+      container_id: 0000
+      user_id: 1
+      created_at: '{{ now }}'
+      updated_at: '{{ now }}'

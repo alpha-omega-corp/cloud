@@ -5,12 +5,13 @@ go 1.23.7
 require (
 	github.com/alpha-omega-corp/cloud/app/docker v0.0.0-20250419204936-8f70be0209e0
 	github.com/alpha-omega-corp/cloud/app/github v0.0.0-00010101000000-000000000000
-	github.com/alpha-omega-corp/cloud/app/user v0.0.0-20250419204936-8f70be0209e0
+	github.com/alpha-omega-corp/cloud/app/user v0.0.0-20250625164954-38ee9d0b3134
 	github.com/alpha-omega-corp/cloud/core v0.0.0-20250419204936-8f70be0209e0
 	github.com/rs/cors v1.11.1
 	github.com/spf13/viper/remote v1.20.1
 	github.com/uptrace/bunrouter v1.0.23
 	github.com/uptrace/bunrouter/extra/bunrouterotel v1.0.23
+	github.com/uptrace/uptrace-go v1.35.1
 	google.golang.org/grpc v1.72.0
 )
 
@@ -71,6 +72,7 @@ require (
 	github.com/pelletier/go-toml/v2 v2.2.4 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/puzpuzpuz/xsync/v3 v3.5.1 // indirect
+	github.com/rs/zerolog v1.33.0 // indirect
 	github.com/sagikazarmark/crypt v0.28.0 // indirect
 	github.com/sagikazarmark/locafero v0.9.0 // indirect
 	github.com/sourcegraph/conc v0.3.0 // indirect
@@ -86,7 +88,6 @@ require (
 	github.com/uptrace/bun/driver/pgdriver v1.2.11 // indirect
 	github.com/uptrace/bun/extra/bundebug v1.2.11 // indirect
 	github.com/uptrace/bunrouter/extra/reqlog v1.0.23 // indirect
-	github.com/uptrace/uptrace-go v1.35.1 // indirect
 	github.com/urfave/cli/v3 v3.1.1 // indirect
 	github.com/vmihailenco/msgpack/v5 v5.4.1 // indirect
 	github.com/vmihailenco/tagparser/v2 v2.0.0 // indirect

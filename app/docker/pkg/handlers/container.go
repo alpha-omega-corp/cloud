@@ -4,7 +4,6 @@ import (
 	"context"
 	"encoding/base64"
 	"encoding/json"
-	"fmt"
 	"github.com/alpha-omega-corp/cloud/core"
 	"github.com/docker/docker/api/types/container"
 	"github.com/docker/docker/api/types/filters"
@@ -19,8 +18,9 @@ import (
 )
 
 type ContainerService interface {
-	Create(ctx context.Context, path string, name string) error
-	GetAll(ctx context.Context) ([]container.Summary, error)
+	Create(ctx context.Context, image string, name string) (*container.CreateResponse, error)
+	GetOne(ctx context.Context, cId string) (container.InspectResponse, error)
+	GetAll(ctx context.Context, opts container.ListOptions) ([]container.Summary, error)
 	GetAllByImage(ctx context.Context, path string) ([]container.Summary, error)
 	Start(ctx context.Context, cId string) error
 	Stop(ctx context.Context, cId string) error
@@ -43,13 +43,27 @@ func NewContainerHandler(config *core.Config, client *client.Client, db *bun.DB)
 	}
 }
 
-func (h *containerService) CreateUserContainer(ctx context.Context, imageName string) error {
+func (h *containerService) GetOne(ctx context.Context, cId string) (container.InspectResponse, error) {
+	return h.client.ContainerInspect(ctx, cId)
+}
 
-	if err := h.Create(ctx, imageName, imageName); err != nil {
-		return err
+func (h *containerService) GetAll(ctx context.Context, opts container.ListOptions) ([]container.Summary, error) {
+	return h.client.ContainerList(ctx, opts)
+}
+
+func (h *containerService) Create(ctx context.Context, image string, name string) (*container.CreateResponse, error) {
+	if err := h.PullImage(image, ctx); err != nil {
+		return nil, err
 	}
 
-	return nil
+	res, err := h.client.ContainerCreate(ctx, &container.Config{
+		Image: image,
+	}, nil, nil, nil, name)
+	if err != nil {
+		return nil, err
+	}
+
+	return &res, nil
 }
 
 func (h *containerService) Start(ctx context.Context, cId string) error {
@@ -66,13 +80,12 @@ func (h *containerService) Delete(ctx context.Context, cId string) error {
 	})
 }
 
-func (h *containerService) GetAll(ctx context.Context) ([]container.Summary, error) {
-	containers, err := h.client.ContainerList(ctx, container.ListOptions{})
-	if err != nil {
-		return nil, err
-	}
-
-	return containers, nil
+func (h *containerService) GetAllByImage(ctx context.Context, path string) ([]container.Summary, error) {
+	filter := filters.NewArgs(filters.KeyValuePair{Key: "ancestor", Value: h.imageName(path)})
+	return h.client.ContainerList(ctx, container.ListOptions{
+		All:     true,
+		Filters: filter,
+	})
 }
 
 func (h *containerService) GetLogs(containerId string, ctx context.Context) (io.ReadCloser, error) {
@@ -106,35 +119,6 @@ func (h *containerService) PullImage(imgName string, ctx context.Context) error 
 	_, err = h.client.ImagePull(ctx, imgName, image.PullOptions{RegistryAuth: authString})
 	if err != nil {
 		return err
-	}
-
-	return nil
-}
-
-func (h *containerService) GetAllByImage(ctx context.Context, path string) ([]container.Summary, error) {
-	filter := filters.NewArgs(filters.KeyValuePair{Key: "ancestor", Value: h.imageName(path)})
-	return h.client.ContainerList(ctx, container.ListOptions{
-		All:     true,
-		Filters: filter,
-	})
-}
-
-func (h *containerService) Create(ctx context.Context, path string, name string) error {
-	imgName := h.imageName(path)
-	fmt.Print(imgName)
-	if err := h.PullImage(imgName, ctx); err != nil {
-		return err
-	}
-
-	resp, err := h.client.ContainerCreate(ctx, &container.Config{
-		Image: imgName,
-	}, nil, nil, nil, name)
-	if err != nil {
-		panic(err)
-	}
-
-	if err := h.client.ContainerStart(ctx, resp.ID, container.StartOptions{}); err != nil {
-		panic(err)
 	}
 
 	return nil

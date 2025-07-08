@@ -4,6 +4,7 @@ package docker;
 option go_package = "github.com/alpha-omega-corp/cloud/app/docker/pkg/proto";
 
 service DockerService {
+  rpc GetUserMachines(GetUserMachinesRequest) returns (GetUserMachinesResponse) {}
   rpc CreateUserMachine(CreateUserMachineRequest) returns (CreateUserMachineResponse) {}
 
   rpc GetContainers(GetContainersRequest) returns (GetContainersResponse) {}
@@ -17,6 +18,14 @@ service DockerService {
   rpc BuildImage(BuildImageRequest) returns (BuildImageResponse) {}
 }
 
+message GetUserMachinesRequest {
+  string userId = 1;
+}
+
+message GetUserMachinesResponse {
+  repeated UserMachine machines = 1;
+}
+
 message CreateUserMachineRequest {
   string name = 1;
 }
@@ -26,40 +35,45 @@ message CreateUserMachineResponse {
 }
 
 message UserMachine {
-  string id = 1;
-  string name = 2;
+  string name = 1;
+  Container container = 2;
 }
 
 message GetContainersRequest {
-  string path = 1;
+  string name = 1;
+  string tag = 2;
 }
 
 message GetContainersResponse {
   repeated Container containers = 1;
 }
 
-message CreateContainerRequest {
-  string path = 1;
-  string name = 2;
-}
 
-message CreateContainerResponse {
-  int64 status = 1;
+
+
+message StartContainerRequest {
+  string id = 1;
 }
 
 message StopContainerRequest {
-  string containerId = 1;
+  string id = 1;
+}
+
+message CreateContainerRequest {
+  string name = 1;
+  string tag = 2;
+}
+
+
+message StartContainerResponse {
+  int64 status = 1;
 }
 
 message StopContainerResponse {
   int64 status = 1;
 }
 
-message StartContainerRequest {
-  string containerId = 1;
-}
-
-message StartContainerResponse {
+message CreateContainerResponse {
   int64 status = 1;
 }
 

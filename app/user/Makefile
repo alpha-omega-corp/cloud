@@ -2,7 +2,7 @@ server:
 	go run cmd/main.go server
 
 db:
-	docker compose -p "cloud-apps" up -d && go run cmd/main.go migration
+	go run cmd/main.go migration
 
 ##
 

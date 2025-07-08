@@ -1,7 +1,7 @@
 url: localhost:3000
 kvs: localhost:2379
 
-uptrace_dsn: http://h7pTIsleXv3lLrvNlsYriQ@localhost:80?grpc=4316
+uptrace_dsn: http://TZv7ZmaDFhtJMlHB1WY3Vg@localhost:80?grpc=4316
 uptrace_name: cloud
 uptrace_version: v1.0
 uptrace_env: local

@@ -2,27 +2,27 @@ syntax = "proto3";
 
 package user;
 option go_package = "github.com/alpha-omega-corp/cloud/app/user/pkg/proto";
-
+import "google/protobuf/empty.proto";
 
 service UserService {
   rpc Login(LoginRequest) returns (LoginResponse) {}
   rpc Register(RegisterRequest) returns (RegisterResponse) {}
   rpc Validate(ValidateRequest) returns (ValidateResponse) {}
 
-  rpc getUser(GetUserRequest) returns (GetUserResponse) {}
-  rpc GetUsers(GetUsersRequest) returns (GetUsersResponse) {}
+  rpc GetUsers(google.protobuf.Empty) returns (GetUsersResponse) {}
+  rpc GetUser(GetUserRequest) returns (GetUserResponse) {}
   rpc CreateUser(CreateUserRequest) returns (CreateUserResponse) {}
   rpc UpdateUser(UpdateUserRequest) returns (UpdateUserResponse) {}
   rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse) {}
   rpc AssignUser(AssignUserRequest) returns (AssignUserResponse) {}
-
-  rpc GetServices(GetServicesRequest) returns (GetServicesResponse) {}
-  rpc CreateServicePermissions(CreateServicePermissionsRequest) returns (CreateServicePermissionsResponse) {}
-  rpc GetServicePermissions(GetServicePermissionsRequest) returns (GetServicePermissionsResponse) {}
   rpc GetUserPermissions(GetUserPermissionsRequest) returns (GetUserPermissionsResponse) {}
 
-  rpc GetRoles(GetRolesRequest) returns (GetRolesResponse) {}
+  rpc GetRoles(google.protobuf.Empty) returns (GetRolesResponse) {}
   rpc CreateRole(CreateRoleRequest) returns (CreateRoleResponse) {}
+
+  rpc GetServices(google.protobuf.Empty) returns (GetServicesResponse) {}
+  rpc GetServicePermissions(GetServicePermissionsRequest) returns (GetServicePermissionsResponse) {}
+  rpc CreateServicePermissions(CreateServicePermissionsRequest) returns (CreateServicePermissionsResponse) {}
 }
 
 message GetUserPermissionsRequest {

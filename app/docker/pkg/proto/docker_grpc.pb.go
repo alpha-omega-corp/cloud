@@ -19,6 +19,7 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
+	DockerService_GetUserMachines_FullMethodName   = "/docker.DockerService/GetUserMachines"
 	DockerService_CreateUserMachine_FullMethodName = "/docker.DockerService/CreateUserMachine"
 	DockerService_GetContainers_FullMethodName     = "/docker.DockerService/GetContainers"
 	DockerService_CreateContainer_FullMethodName   = "/docker.DockerService/CreateContainer"
@@ -35,6 +36,7 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type DockerServiceClient interface {
+	GetUserMachines(ctx context.Context, in *GetUserMachinesRequest, opts ...grpc.CallOption) (*GetUserMachinesResponse, error)
 	CreateUserMachine(ctx context.Context, in *CreateUserMachineRequest, opts ...grpc.CallOption) (*CreateUserMachineResponse, error)
 	GetContainers(ctx context.Context, in *GetContainersRequest, opts ...grpc.CallOption) (*GetContainersResponse, error)
 	CreateContainer(ctx context.Context, in *CreateContainerRequest, opts ...grpc.CallOption) (*CreateContainerResponse, error)
@@ -53,6 +55,16 @@ type dockerServiceClient struct {
 
 func NewDockerServiceClient(cc grpc.ClientConnInterface) DockerServiceClient {
 	return &dockerServiceClient{cc}
+}
+
+func (c *dockerServiceClient) GetUserMachines(ctx context.Context, in *GetUserMachinesRequest, opts ...grpc.CallOption) (*GetUserMachinesResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetUserMachinesResponse)
+	err := c.cc.Invoke(ctx, DockerService_GetUserMachines_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *dockerServiceClient) CreateUserMachine(ctx context.Context, in *CreateUserMachineRequest, opts ...grpc.CallOption) (*CreateUserMachineResponse, error) {
@@ -159,6 +171,7 @@ func (c *dockerServiceClient) BuildImage(ctx context.Context, in *BuildImageRequ
 // All implementations must embed UnimplementedDockerServiceServer
 // for forward compatibility.
 type DockerServiceServer interface {
+	GetUserMachines(context.Context, *GetUserMachinesRequest) (*GetUserMachinesResponse, error)
 	CreateUserMachine(context.Context, *CreateUserMachineRequest) (*CreateUserMachineResponse, error)
 	GetContainers(context.Context, *GetContainersRequest) (*GetContainersResponse, error)
 	CreateContainer(context.Context, *CreateContainerRequest) (*CreateContainerResponse, error)
@@ -179,6 +192,9 @@ type DockerServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedDockerServiceServer struct{}
 
+func (UnimplementedDockerServiceServer) GetUserMachines(context.Context, *GetUserMachinesRequest) (*GetUserMachinesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserMachines not implemented")
+}
 func (UnimplementedDockerServiceServer) CreateUserMachine(context.Context, *CreateUserMachineRequest) (*CreateUserMachineResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateUserMachine not implemented")
 }
@@ -228,6 +244,24 @@ func RegisterDockerServiceServer(s grpc.ServiceRegistrar, srv DockerServiceServe
 		t.testEmbeddedByValue()
 	}
 	s.RegisterService(&DockerService_ServiceDesc, srv)
+}
+
+func _DockerService_GetUserMachines_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserMachinesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DockerServiceServer).GetUserMachines(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: DockerService_GetUserMachines_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DockerServiceServer).GetUserMachines(ctx, req.(*GetUserMachinesRequest))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _DockerService_CreateUserMachine_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -417,6 +451,10 @@ var DockerService_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "docker.DockerService",
 	HandlerType: (*DockerServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "GetUserMachines",
+			Handler:    _DockerService_GetUserMachines_Handler,
+		},
 		{
 			MethodName: "CreateUserMachine",
 			Handler:    _DockerService_CreateUserMachine_Handler,

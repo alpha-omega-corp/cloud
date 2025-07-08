@@ -1,7 +1,7 @@
 package utils
 
 import (
-	"github.com/alpha-omega-corp/cloud/core/config"
+	"github.com/alpha-omega-corp/cloud/core"
 	"github.com/google/go-github/v71/github"
 	"io"
 	"net/http"
@@ -15,7 +15,7 @@ type GithubApi struct {
 	token   string
 }
 
-func NewGithubApiClient(c *config.Config) *GithubApi {
+func NewGithubApiClient(c *core.Config) *GithubApi {
 	return &GithubApi{
 		Default: github.NewClient(nil).WithAuthToken(c.Env.GetString("pat")),
 		Org:     c.Env.GetString("org"),

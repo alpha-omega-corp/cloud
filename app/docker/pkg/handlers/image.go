@@ -29,7 +29,7 @@ type imageService struct {
 	db       *bun.DB
 }
 
-func NewImageService(config *core.Config, client *client.Client, db *bun.DB) ImageService {
+func NewImageHandler(config *core.Config, client *client.Client, db *bun.DB) ImageService {
 	return &imageService{
 		db:       db,
 		client:   client,

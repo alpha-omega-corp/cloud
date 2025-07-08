@@ -1,4 +1,4 @@
-package database
+package core
 
 import (
 	"database/sql"
@@ -9,31 +9,20 @@ import (
 	"sync"
 )
 
-type Handler struct {
+type StorageHandler struct {
 	dbOnce sync.Once
 	db     *bun.DB
 
-	dsn    string
-	models []any
+	dsn string
 }
 
-func NewHandler(dsn string) *Handler {
-	return &Handler{
+func NewStorageHandler(dsn string) *StorageHandler {
+	return &StorageHandler{
 		dsn: dsn,
 	}
 }
 
-func (h *Handler) WithModels(models ...any) {
-	h.models = append(h.models, models...)
-
-	h.Database().RegisterModel(h.models...)
-}
-
-func (h *Handler) Models() []any {
-	return h.models
-}
-
-func (h *Handler) Database() *bun.DB {
+func (h *StorageHandler) Database() *bun.DB {
 	h.dbOnce.Do(func() {
 		driverOptions := pgdriver.NewConnector(
 			pgdriver.WithDSN(h.dsn),
